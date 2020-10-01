@@ -2,7 +2,7 @@ import { isPostRenderPlugin, Plugin, Renderer, RendererLike } from '../renderer'
 import { UnrecognizedTagError } from './errors';
 
 
-export class HTMLBaseRenderer extends Renderer<Node> {
+export class DOMRenderer extends Renderer<Node> {
   readonly document: HTMLDocument;
 
   constructor();

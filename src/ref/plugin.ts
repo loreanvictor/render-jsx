@@ -2,7 +2,7 @@ import { Plugin, PropPlugin  } from '../renderer';
 import { Ref } from './ref';
 
 
-export class RefPlugin<Node> 
+export class RefPlugin<Node>
   extends Plugin<Node>
   implements PropPlugin<Node> {
 

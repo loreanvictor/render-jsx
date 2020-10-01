@@ -1,18 +1,18 @@
-import { HTMLBaseRenderer, ref, RefPlugin } from '../src';
+import { LiveDOMRenderer } from '../src';
 
 
-const x = ref<Node>();
-const renderer = new HTMLBaseRenderer(new RefPlugin<Node>());
-renderer.render(
-  <div _ref={x}>
-    <>
-      Hellow World!
-    </>
-    <br/>
-    <>
-      And some other stuff
-    </>
-  </div>
-).on(document.body);
+const renderer = new LiveDOMRenderer();
+const x = <div>Hellow</div>;
 
-console.log(x.$);
+renderer.hook(x, {
+  bind() {
+    console.log('BOUND!');
+  },
+  clear() {
+    console.log('CLEARED!');
+  }
+});
+
+renderer.render(<>{x}</>).on(document.body);
+
+setTimeout(() => x.remove(), 10000);
