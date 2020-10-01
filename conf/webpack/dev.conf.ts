@@ -3,7 +3,7 @@ import config from './base.conf';
 import webpack from 'webpack';
 
 const HTMLWebpackPlugin =  require('html-webpack-plugin');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 
 
 export default merge(config, <webpack.Configuration>{

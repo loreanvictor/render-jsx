@@ -1,15 +1,33 @@
-import { isPostRenderPlugin, Renderer } from '../renderer';
+import { isPostRenderPlugin, Plugin, Renderer } from '../renderer';
 import { UnrecognizedTagError } from './errors';
 
 
 export class HTMLBaseRenderer extends Renderer<Node> {
+  readonly document: HTMLDocument;
+
+  constructor();
+  constructor(doc: HTMLDocument);
+  constructor(doc: HTMLDocument, ...plugins: Plugin<Node, HTMLBaseRenderer>[]);
+  constructor(...plugins: Plugin<Node, HTMLBaseRenderer>[]);
+  constructor(
+    doc: HTMLDocument | Plugin<Node, HTMLBaseRenderer> = document,
+    ...plugins: Plugin<Node, HTMLBaseRenderer>[]
+  ) {
+    super(...(doc instanceof HTMLDocument ? plugins : [doc, ...plugins]));
+    if (doc instanceof HTMLDocument) {
+      this.document = doc;
+    } else {
+      this.document = document;
+    }
+  }
+
   fallbackAppend(target: any, host: Node): void {
     if (target instanceof Node) {
       host.appendChild(target);
     } else if (Array.isArray(target)) {
       target.forEach(child => this.append(child, host));
     } else {
-      host.appendChild(document.createTextNode(`${target}`));
+      host.appendChild(this.document.createTextNode(`${target}`));
     }
   }
 
@@ -36,16 +54,20 @@ export class HTMLBaseRenderer extends Renderer<Node> {
   }
 
   fallbackFragment(): Node {
-    return document.createDocumentFragment();
+    return this.document.createDocumentFragment();
   }
 
   fallbackCreate(tag: any, props?: { [prop: string]: any; }, ...children: any[]): Node {
-    if (typeof tag === 'string') {
+    if (tag instanceof Node || typeof tag === 'string') {
       let el: Node;
-      if (props && props.xmlns) {
-        el = document.createElementNS(`${props.xmlns}`, tag);
+      if (tag instanceof Node) {
+        el = tag;
       } else {
-        el = document.createElement(tag);
+        if (props && props.xmlns) {
+          el = this.document.createElementNS(`${props.xmlns}`, tag);
+        } else {
+          el = this.document.createElement(tag);
+        }
       }
 
       if (props) {

@@ -41,7 +41,7 @@ export abstract class Renderer<Node> implements RendererLike<Node> {
     }
   }
 
-  fragment(): Node {
+  get fragment(): Node {
     const plugin = this.plugins.find(isFragmentPlugin);
     return plugin ? plugin.fragment() : this.fallbackFragment();
   }
