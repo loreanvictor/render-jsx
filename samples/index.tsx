@@ -1,14 +1,18 @@
-import { HTMLBaseRenderer } from '../src';
+import { HTMLBaseRenderer, ref, RefPlugin } from '../src';
 
-const renderer = new HTMLBaseRenderer();
+
+const x = ref<Node>();
+const renderer = new HTMLBaseRenderer(new RefPlugin<Node>());
 renderer.render(
-  <div>
-  <>
-    Hellow World!
-  </>
-  <br/>
-  <>
-    And some other stuff
-  </>
+  <div _ref={x}>
+    <>
+      Hellow World!
+    </>
+    <br/>
+    <>
+      And some other stuff
+    </>
   </div>
 ).on(document.body);
+
+console.log(x.$);

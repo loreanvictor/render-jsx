@@ -1,4 +1,4 @@
-import { isPostRenderPlugin, Plugin, Renderer } from '../renderer';
+import { isPostRenderPlugin, Plugin, Renderer, RendererLike } from '../renderer';
 import { UnrecognizedTagError } from './errors';
 
 
@@ -7,11 +7,11 @@ export class HTMLBaseRenderer extends Renderer<Node> {
 
   constructor();
   constructor(doc: HTMLDocument);
-  constructor(doc: HTMLDocument, ...plugins: Plugin<Node, HTMLBaseRenderer>[]);
-  constructor(...plugins: Plugin<Node, HTMLBaseRenderer>[]);
+  constructor(doc: HTMLDocument, ...plugins: Plugin<Node, RendererLike<Node>>[]);
+  constructor(...plugins: Plugin<Node, RendererLike<Node>>[]);
   constructor(
-    doc: HTMLDocument | Plugin<Node, HTMLBaseRenderer> = document,
-    ...plugins: Plugin<Node, HTMLBaseRenderer>[]
+    doc: HTMLDocument | Plugin<Node, RendererLike<Node>> = document,
+    ...plugins: Plugin<Node, RendererLike<Node>>[]
   ) {
     super(...(doc instanceof HTMLDocument ? plugins : [doc, ...plugins]));
     if (doc instanceof HTMLDocument) {

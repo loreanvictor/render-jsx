@@ -6,9 +6,9 @@ import { Plugin,
 
 
 export abstract class Renderer<Node> implements RendererLike<Node> {
-  readonly plugins: Plugin<Node, Renderer<Node>>[];
+  readonly plugins: Plugin<Node, RendererLike<Node>>[];
 
-  constructor(...plugins: Plugin<Node, Renderer<Node>>[]) {
+  constructor(...plugins: Plugin<Node, RendererLike<Node>>[]) {
     this.plugins = plugins.sort((a, b) => b.priority() - a.priority());
     this.plugins.forEach(p => p.plug(this));
   }
