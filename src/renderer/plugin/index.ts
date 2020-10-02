@@ -1,8 +1,9 @@
-export { Plugin } from './plugin';
-export { CreatePlugin, isCreatePlugin } from './create.plugin';
-export { FragmentPlugin, isFragmentPlugin } from './fragment.plugin';
-export { AppendPlugin, isAppendPlugin} from './append.plugin';
-export { PropPlugin, isPropPlugin } from './prop.plugin';
-export { ContentPlugin, isContentPlugin } from './content.plugin';
-export { PostCreatePlugin, isPostCreatePlugin } from './post-create.plugin';
-export { PostRenderPlugin, isPostRenderPlugin } from './post-render.plugin';
+export * from './plugin';
+export * from './create.plugin';
+export * from './fragment.plugin';
+export * from './leaf.plugin';
+export * from './append.plugin';
+export * from './prop.plugin';
+export * from './content.plugin';
+export * from './post-create.plugin';
+export * from './post-render.plugin';

@@ -57,6 +57,10 @@ export class DOMRenderer extends Renderer<Node> {
     return this.document.createDocumentFragment();
   }
 
+  fallbackLeaf(): Node {
+    return this.document.createTextNode('');
+  }
+
   fallbackCreate(tag: any, props?: { [prop: string]: any; }, ...children: any[]): Node {
     if (tag instanceof Node || typeof tag === 'string') {
       let el: Node;

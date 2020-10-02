@@ -1,7 +1,7 @@
 import { Renderer } from '../src';
 
 
-export class JSONRenderer extends Renderer<any> {
+export class DummyRenderer extends Renderer<any> {
   fallbackAppend(target: any, host: any): void {
     host?.children?.push(target);
   }
@@ -20,10 +20,11 @@ export class JSONRenderer extends Renderer<any> {
 
   fallbackSetContent(node: any,target: any): void {}
   fallbackFragment() { return {}; }
+  fallbackLeaf() { return {}; }
   renderOn(target: any, host: any): void {}
   renderAfter(target: any, ref: any): void {}
   renderBefore(target: any, ref: any): void {}
 }
 
-const renderer = new JSONRenderer();
+const renderer = new DummyRenderer();
 console.log(<div>Hellow <span>World!</span></div>);

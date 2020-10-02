@@ -12,6 +12,7 @@ export interface RendererLike<Node> {
   setContent(node: Node, target: any): void;
 
   fragment: Node;
+  leaf(): Node;
   create(tag: any, props?: {[prop: string]: any}, ...children: any[]): Node;
   render(target: Node | ((renderer: RendererLike<Node>) => Node)): ToBeRenderered<Node>;
 }

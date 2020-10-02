@@ -1,7 +1,7 @@
 import { RendererLike, ToBeRenderered } from './types';
 import { Plugin, 
   isAppendPlugin, isPropPlugin, isContentPlugin, isFragmentPlugin, 
-  isCreatePlugin, isPostCreatePlugin, isPostRenderPlugin
+  isCreatePlugin, isPostCreatePlugin, isPostRenderPlugin, isLeafPlugin
 } from './plugin';
 
 
@@ -17,6 +17,7 @@ export abstract class Renderer<Node> implements RendererLike<Node> {
   abstract fallbackSetProp(node: Node, prop: string, target: any): void;
   abstract fallbackSetContent(node: Node, target: any): void;
   abstract fallbackFragment(): Node;
+  abstract fallbackLeaf(): Node;
   abstract fallbackCreate(tag: any, props?: {[prop: string]: any}, ...children: any[]): Node;
 
   abstract renderOn(target: Node, host: Node): void;
@@ -44,6 +45,11 @@ export abstract class Renderer<Node> implements RendererLike<Node> {
   get fragment(): Node {
     const plugin = this.plugins.find(isFragmentPlugin);
     return plugin ? plugin.fragment() : this.fallbackFragment();
+  }
+
+  leaf(): Node {
+    const plugin = this.plugins.find(isLeafPlugin);
+    return plugin ? plugin.leaf() : this.fallbackLeaf();
   }
 
   create(tag: any, props?: { [prop: string]: any; } | undefined, ...children: any[]): Node {
