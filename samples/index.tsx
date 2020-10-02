@@ -1,16 +1,16 @@
-import { HTMLRenderer, ref } from '../src';
+import { HTMLRenderer } from '../src';
 
 
 const renderer = new HTMLRenderer();
-const x = ref<HTMLSelectElement>();
 
 renderer.render(
-  <select multiple={true} _ref={x} oninput={() => {
-    console.log(Array.from(x.$.selectedOptions).map(_ => _.label));
-  }}>
-    <option value='A'>AA</option>
-    <option value='B'>BB</option>
-    <option value='C'>CC</option>
-  </select>
+  <>
+    <form>
+      <input type='radio' name='X' value='Hola'/><label>Hola</label>
+      <input type='radio' name='X' value='Halo'/><label>Halo</label>
+    </form>
+    <input type='radio' name='X' value='Hola' _state={console.log}/><label>Hola</label>
+    <input type='radio' name='X' value='Halo'/><label>Halo</label>
+  </>
 ).on(document.body);
 

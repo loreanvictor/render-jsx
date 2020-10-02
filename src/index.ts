@@ -5,7 +5,7 @@ export * from './html';
 
 
 import { ContentPropPlugin, RefPlugin } from './common';
-import { EventHandlerPlugin, LiveDOMRenderer } from './html';
+import { EventHandlerPlugin, InputStatePlugin, LiveDOMRenderer, OptionObjectValuePlugin } from './html';
 
 
 export function htmlPlugins() {
@@ -13,6 +13,8 @@ export function htmlPlugins() {
     new RefPlugin<Node>(),
     new ContentPropPlugin<Node>(),
     new EventHandlerPlugin(),
+    new OptionObjectValuePlugin(),
+    new InputStatePlugin(),
   ];
 }
 

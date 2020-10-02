@@ -1,4 +1,4 @@
 export * from './renderer';
-export * from './life-cycle';
+export * from './util/life-cycle';
 export * from './live-renderer';
 export * from './plugins';

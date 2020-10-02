@@ -1,11 +1,11 @@
 import { LifeCycleHook, LiveRendererLike } from '../renderer';
 import { DOMRenderer } from './renderer';
-import { attach, bind } from './life-cycle';
+import { attachLifeCycleHook, lifeCycleBind } from './util/life-cycle';
 
 
 export class LiveDOMRenderer extends DOMRenderer implements LiveRendererLike<Node> {
   hook(node: Node, hook: LifeCycleHook): void {
-    attach(hook, node);
+    attachLifeCycleHook(hook, node);
   }
 
   postRender(target: Node) {
@@ -15,7 +15,7 @@ export class LiveDOMRenderer extends DOMRenderer implements LiveRendererLike<Nod
     } else {
       return () => {
         if (this.document.contains(target)) {
-          bind(target);
+          lifeCycleBind(target);
         }
   
         super.postRender(target)();

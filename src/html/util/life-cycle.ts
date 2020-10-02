@@ -1,4 +1,4 @@
-import { LifeCycleHook } from '../renderer';
+import { LifeCycleHook } from '../../renderer';
 
 
 export interface LifeCycleInfo {
@@ -44,7 +44,7 @@ export function getLifeCycleMarker(fragment: DocumentFragment) {
 }
 
 
-export function bind(node: Node) {
+export function lifeCycleBind(node: Node) {
   let lifecycle = lifeCycleInfo(node);
   if (lifecycle) {
     if (lifecycle.bound) return;
@@ -53,7 +53,7 @@ export function bind(node: Node) {
     lifecycle.hooks?.forEach(b => b.bind ? b.bind() : undefined);
   }
 
-  node.childNodes.forEach(bind);
+  node.childNodes.forEach(lifeCycleBind);
 
   if (node.parentNode && !(node.parentNode as any).childObserver) {
     let observer = new MutationObserver(changes => {
@@ -61,48 +61,37 @@ export function bind(node: Node) {
         if (change.removedNodes)
           change.removedNodes.forEach(node => setImmediate(() => {
             if (!document.contains(node))
-              clear(node);
+              lifeCycleClear(node);
           }));
       });
     });
 
     observer.observe(node.parentNode, { childList: true });
     (node.parentNode as any).childObserver = observer;
-    attach({
+    attachLifeCycleHook({
       clear() { observer.disconnect(); }
     }, node.parentNode);
   }
 }
 
 
-export function clear(node: Node) {
+export function lifeCycleClear(node: Node) {
   let lifecycle = lifeCycleInfo(node);
   if (lifecycle) lifecycle.hooks?.forEach(c => c.clear ? c.clear() : undefined);
 
-  node.childNodes.forEach(clear);
+  node.childNodes.forEach(lifeCycleClear);
 }
 
-export function attach(hook: LifeCycleHook, node: Node) {
+export function attachLifeCycleHook(hook: LifeCycleHook, node: Node) {
   const lifecycle = lifeCycleInfo(node, true);
   lifecycle.hooks = lifecycle.hooks || [];
   lifecycle.hooks.push(hook);
 }
 
 
-export function detach(hook: LifeCycleHook, node: Node) {
+export function detachLifeCycleHook(hook: LifeCycleHook, node: Node) {
   let lifecycle = lifeCycleInfo(node);
   if (lifecycle && lifecycle.hooks) {
     lifecycle.hooks = lifecycle.hooks.filter(h => h !== hook);
   }
-}
-
-
-export const LifeCycle = {
-  info: lifeCycleInfo,
-  getMarker: getLifeCycleMarker,
-  setMarker: setLifeCycleMarker,
-  bind,
-  clear,
-  attach,
-  detach
 }
