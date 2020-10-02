@@ -133,14 +133,18 @@ export class DummyRenderer extends Renderer<any> {
 Which can then be used like this:
 
 ```tsx
-import { JSONRenderer } from './renderer';
+import { ComponentPlugin } from 'render-jsx';
+import { DummyRenderer } from './renderer';
 
-const renderer = new JSONRenderer();
+const renderer = new DummyRenderer(new ComponentPlugin<any, any>());
+
+const MyComp = () => <b>Hellow</b>;
+
 console.log(
   <div>
-    <b>Hellow</b> World!
+    <MyComp/> World!
   </div>
-);
+)
 ```
 ```json
 {
