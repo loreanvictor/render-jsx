@@ -20,6 +20,8 @@ renderer.render(
 ```
 [► TRY IT!](https://stackblitz.com/edit/render-jsx-demo)
 
+<br><br>
+
 ## What is this?
 
 [JSX](https://reactjs.org/docs/introducing-jsx.html) is an extension of JavaScript syntax, 
