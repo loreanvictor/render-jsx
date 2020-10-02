@@ -20,7 +20,7 @@ renderer.render(
 
 <br><br>
 
-# What is this?
+# Overview
 
 [JSX](https://reactjs.org/docs/introducing-jsx.html) is an extension of JavaScript syntax, 
 allowing for XML-style layout description within JavaScript. Since it is an extension, you need transpilers
@@ -76,10 +76,10 @@ renderer.render(
 
 <br><br>
 
-# How to Use it?
+# Usage
 
 The main purpose of `render-jsx` is allowing you to define what some JSX code would mean. This _translation_ is done via `Renderer` classes, which define
-various operations involved in interpreting JSX code. For example, you can easily create a simple (and incomplete) JSON Renderer (which translates JSX to JSON objects) as follows:
+various operations involved in interpreting JSX code. For example, you can easily create a simple object Renderer (which translates JSX to arbitrary objects) as follows:
 
 ```ts
 // renderer.ts
@@ -130,7 +130,21 @@ export class DummyRenderer extends Renderer<any> {
 }
 ```
 
-Which can then be used like this:
+Now you can use this renderer like this:
+
+```tsx
+import { DummyRenderer } from './renderer';
+
+const renderer = new DummyRenderer();
+
+console.log(
+  <div>
+    <b>Hellow</b> World!
+  </div>
+)
+```
+
+Or you can augment its functionality by introducing functional components to it:
 
 ```tsx
 import { ComponentPlugin } from 'render-jsx';
