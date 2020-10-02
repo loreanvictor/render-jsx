@@ -1,7 +1,5 @@
 <img src="/render-jsx-logo.svg" width="300"/>
 
-# render-jsx
-
 Tools for building JSX-based libraries / frameworks, also a super-thin and fast pure DOM renderer.
 
 ```bash
@@ -22,7 +20,7 @@ renderer.render(
 
 <br><br>
 
-## What is this?
+# What is this?
 
 [JSX](https://reactjs.org/docs/introducing-jsx.html) is an extension of JavaScript syntax, 
 allowing for XML-style layout description within JavaScript. Since it is an extension, you need transpilers
@@ -78,7 +76,7 @@ renderer.render(
 
 <br><br>
 
-## Usage
+# How to Use it?
 
 The main purpose of `render-jsx` is allowing you to define what some JSX code would mean. This _translation_ is done via `Renderer` classes, which define
 various operations involved in interpreting JSX code. For example, you can easily create a simple (and incomplete) JSON Renderer (which translates JSX to JSON objects) as follows:
