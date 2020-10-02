@@ -92,3 +92,4 @@ console.log(
   ]
 }
 ```
+[► TRY IT!](https://stackblitz.com/edit/render-jsx-demo2)
