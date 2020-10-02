@@ -1,25 +1,29 @@
-import { HTMLRenderer, LiveDOMComponentThis, ref } from '../src';
+import { Renderer } from '../src';
 
 
-function Radios(this: LiveDOMComponentThis, _: {}, renderer: HTMLRenderer) {
-  this.onBind(() => {
-    console.log('HALO!');
-  });
+export class JSONRenderer extends Renderer<any> {
+  fallbackAppend(target: any, host: any): void {
+    host?.children?.push(target);
+  }
 
-  const l = ref();
-  this.setLifeCycleMarker(l);
+  fallbackSetProp(node: any,prop: string,target: any): void {
+    node[prop] = target;
+  }
 
-  return <>
-    <input type='radio' name='X' value='Hola' _state={console.log}/><label>Hola</label>
-    <input type='radio' name='X' value='Halo'/><label _ref={l}>Halo</label>
-  </>;
+  fallbackCreate(tag: any, props?: { [prop: string]: any; }, ...children: any[]) {
+    return {
+      tag,
+      props,
+      children
+    }
+  }
+
+  fallbackSetContent(node: any,target: any): void {}
+  fallbackFragment() { return {}; }
+  renderOn(target: any, host: any): void {}
+  renderAfter(target: any, ref: any): void {}
+  renderBefore(target: any, ref: any): void {}
 }
 
-const renderer = new HTMLRenderer();
-
-renderer.render(
-  <form>
-    <Radios/>
-  </form>
-).on(document.body);
-
+const renderer = new JSONRenderer();
+console.log(<div>Hellow <span>World!</span></div>);

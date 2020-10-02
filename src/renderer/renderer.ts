@@ -50,14 +50,14 @@ export abstract class Renderer<Node> implements RendererLike<Node> {
     let candidate: Node | undefined = undefined;
 
     for (const p of this.plugins.filter(isCreatePlugin)) {
-      candidate = p.create(tag, props, children);
+      candidate = p.create(tag, props, ...children);
       if (candidate) {
         break;
       }
     }
 
     if (!candidate) {
-      candidate = this.fallbackCreate(tag, props, children);
+      candidate = this.fallbackCreate(tag, props, ...children);
     }
 
     this.plugins.filter(isPostCreatePlugin).forEach(p => p.postCreate(candidate!!));
