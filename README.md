@@ -68,6 +68,7 @@ renderer.render(
   </>
 ).on(document.body);
 ```
+[► TRY IT!](https://stackblitz.com/edit/render-jsx-demo)
 
 > 👉 Note that the capabilities of this default DOM renderer are relatively limited, specifically if you want highly interactive
 > interfaces. This default DOM renderer is not intended as a full-blown UI rendering tool, but as a basis to build such a tool
