@@ -49,10 +49,8 @@ const input = ref<HTMLInputElement>();
 function Todo({title}) {
   const li = ref<HTMLElement>();
   return <li _ref={li}>
-    <div style="display: flex">
-      <div style="flex-grow: 1">{title}</div>
+      {title}
       <button onclick={() => li.$.remove()}>X</button>
-    </div>
   </li>
 }
 
@@ -60,13 +58,11 @@ renderer.render(
   <>
     <h1>Todos:</h1>
     <ol _ref={list}/>
-    <div style="display: flex">
-      <input type="text" _ref={input} style="flex-grow: 1"/>
-      <button onclick={() => {
-        renderer.render(<Todo title={input.$.value}/>).on(list.$);
-        input.$.value = '';
-      }}>Add</button>
-    </div>
+    <input type="text" _ref={input}/>
+    <button onclick={() => {
+      renderer.render(<Todo title={input.$.value}/>).on(list.$);
+      input.$.value = '';
+    }}>Add</button>
   </>
 ).on(document.body);
 ```
