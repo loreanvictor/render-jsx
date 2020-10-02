@@ -1,5 +1,7 @@
 <img src="/render-jsx-logo.svg" width="300"/>
 
+# `render-jsx`
+
 Tools for building JSX-based libraries / frameworks, also a super-thin and fast pure DOM renderer.
 
 ```bash
