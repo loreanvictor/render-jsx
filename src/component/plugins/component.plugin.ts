@@ -11,7 +11,7 @@ export class ComponentPlugin<Node, Renderer extends RendererLike<Node>>
 
   constructor(...processors: ComponentProcessor<Node, Renderer>[]) {
     super();
-    this.processors = processors.sort((a, b) => b.priority() - a.priority());
+    this.processors = processors.sort((a, b) => a.priority() - b.priority());
   }
 
   plug(renderer: Renderer) {
@@ -36,7 +36,7 @@ export class ComponentPlugin<Node, Renderer extends RendererLike<Node>>
 
       const $ = tag.apply(provision, [props, this.renderer(), children]);
 
-      post.forEach(p => p($));
+      post.reverse().forEach(p => p($));
       return $;
     } else {
       return undefined;

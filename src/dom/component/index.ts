@@ -1,13 +1,13 @@
-import { ComponentPlugin } from '../../component';
-import { LiveDOMRenderer } from '../live-renderer';
-import { LifeCylceComponentProcessor } from './lifecycle.component-processor';
+import { ComponentPlugin, LiveComponentProcessor } from '../../component';
+import { LiveRendererLike } from '../../renderer';
+import { FragmentLifeCycleMarkerComponentProcessor } from './fragment-lcmarker.processor';
 
-export * from './lifecycle.component-processor';
-export * from './types';
+export * from './fragment-lcmarker.processor';
 
 
-export function domComponentPlugins() {
-  return [
-    new ComponentPlugin<Node, LiveDOMRenderer>(new LifeCylceComponentProcessor())
-  ];
+export function liveDOMComponentPlugin() {
+  return new ComponentPlugin<Node, LiveRendererLike<Node>>(
+    new LiveComponentProcessor<Node>(),
+    new FragmentLifeCycleMarkerComponentProcessor(),
+  );
 }
