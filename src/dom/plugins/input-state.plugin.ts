@@ -36,6 +36,8 @@ export class InputStatePlugin
       } else {
         node.addEventListener('input', () => target(getInputValue(node)));
       }
+
+      target(getInputValue(node));
       return true;
     }
 
