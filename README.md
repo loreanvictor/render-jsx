@@ -6,15 +6,20 @@
 npm i render-jsx
 ```
 
-_JSX is NOT React, and its time to democratize it._
-
 [JSX](https://reactjs.org/docs/introducing-jsx.html) is an extension of JavaScript syntax, 
-allowing for XML-style layout description within JavaScript. To use it, you need to tell your transpiler (babel / typescript)
-what the JSX should mean. `render-jsx` provides tools and abstractions to make that process easy and standardized, so that you
-can easily build JSX-based tools / libraries / frameworks based on it.
+allowing for XML-style layout description within JavaScript. Since it is an extension, you need transpilers
+(such as [TypeScript](https://www.typescriptlang.org) or [Babel](https://babeljs.io)) to transpile it to JavaScript.
+Transpilers in turn require a semantic specification, i.e. they need to know what should the meaning of the JSX syntax be.
 
-`render-jsx` also comes with a super-thin and fast DOM renderer. This means you can use it to create simple web interfaces
-without any extra dependency (`render-jsx` itself is 2.7kB):
+`render-jsx` provides abstractions for creating such semantic specifications in a highly extensible and domain agnostic
+fashion. This in turn enables re-use of logic for common patterns such as components, lifecycle, handling of custom
+data types, etc., across different domains. For example, you can use same component management logic where 
+JSX is directly translated to DOM, where it is translated to input format of a PDF generator, where it is
+translated into native UI components, or where it is translated to some intermediary object representation 
+(as in [React](https://reactjs.org)).
+
+`render-jsx` also comes with a super-thin and fast DOM renderer (as a common case semantic specification). 
+This means you can use it to create simple web interfaces without any extra dependency (`render-jsx` itself is 2.7kB):
 
 ```tsx
 import { HTMLRenderer } from 'render-jsx';
@@ -27,6 +32,8 @@ renderer.render(
 ).on(document.body);
 ```
 [► TRY IT!](https://stackblitz.com/edit/render-jsx-demo)
+
+
 
 > 👉 Note that the capabilities of this default DOM renderer are relatively limited, specifically if you want highly interactive
 > interfaces. This default DOM renderer is not intended as a full-blown UI rendering tool, but as a basis to build such a tool
@@ -41,22 +48,50 @@ various operations involved in interpreting JSX code. For example, you can easil
 
 ```ts
 // renderer.ts
-
 import { Renderer } from 'render-jsx';
 
 
-export class JSONRenderer extends Renderer<any> {
-  fallbackCreate(tag: any,props?: { [prop: string]: any; },...children: any[]) {
-    return { tag, props, children }
+export class DummyRenderer extends Renderer<any> {
+  fallbackCreate(tag: any, props?: { [prop: string]: any; }, ...children: any[]) {
+    const res = { tag, props: {}, children: [] };
+    if (props) {
+      Object.entries(props).forEach(([prop, target]) => this.setProp(res, prop, target));
+    }
+    if (children) {
+      children.forEach(child => this.append(child, res));
+    }
+    return res;
   }
 
-  fallbackAppend(target: any, host: any): void {}
-  fallbackSetProp(node: any,prop: string,target: any): void {}
-  fallbackSetContent(node: any,target: any): void {}
-  fallbackFragment() { return {}; }
-  renderOn(target: any, host: any): void {}
-  renderAfter(target: any, ref: any): void {}
-  renderBefore(target: any, ref: any): void {}
+  fallbackAppend(target: any, host: any) {
+    if (target.tag === 'FRAGMENT') {
+      target.children.forEach(child => this.append(child, host));
+    } else {
+      host.children.push(target);
+    }
+  }
+
+  fallbackSetProp(node: any, prop: string, target: any) {
+    node.props[prop] = target;
+  }
+
+  fallbackSetContent(node: any, target: any) {
+    if (node.tag === 'LEAF') {
+      node.content = target;
+    }
+  }
+
+  fallbackFragment() { return 'FRAGMENT'; }
+
+  fallbackLeaf() {
+    return {
+      tag: 'LEAF',
+    }
+  }
+
+  renderOn(target: any, host: any): void { throw Error('NOT SUPPORTED!'); }
+  renderAfter(target: any, ref: any): void { throw Error('NOT SUPPORTED!'); }
+  renderBefore(target: any, ref: any): void { throw Error('NOT SUPPORTED!'); }
 }
 ```
 
