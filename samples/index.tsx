@@ -1,18 +1,16 @@
-import { LiveDOMRenderer } from '../src';
+import { HTMLRenderer, ref } from '../src';
 
 
-const renderer = new LiveDOMRenderer();
-const x = <div>Hellow</div>;
+const renderer = new HTMLRenderer();
+const x = ref<HTMLSelectElement>();
 
-renderer.hook(x, {
-  bind() {
-    console.log('BOUND!');
-  },
-  clear() {
-    console.log('CLEARED!');
-  }
-});
+renderer.render(
+  <select multiple={true} _ref={x} oninput={() => {
+    console.log(Array.from(x.$.selectedOptions).map(_ => _.label));
+  }}>
+    <option value='A'>AA</option>
+    <option value='B'>BB</option>
+    <option value='C'>CC</option>
+  </select>
+).on(document.body);
 
-renderer.render(<>{x}</>).on(document.body);
-
-setTimeout(() => x.remove(), 10000);

@@ -1,5 +1,5 @@
-import { Plugin, PropPlugin  } from '../renderer';
-import { Ref } from './ref';
+import { Plugin, PropPlugin  } from '../../renderer';
+import { Ref } from '../ref';
 
 
 export class RefPlugin<Node>
