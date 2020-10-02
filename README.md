@@ -2,9 +2,25 @@
 
 # render-jsx
 
+Tools for building JSX-based libraries / frameworks, also a super-thin and fast pure DOM renderer.
+
 ```bash
 npm i render-jsx
 ```
+
+```tsx
+import { HTMLRenderer } from 'render-jsx';
+
+const renderer = new HTMLRenderer();
+renderer.render(
+  <div>
+    <b>Hellow</b> World!
+  </div>
+).on(document.body);
+```
+[► TRY IT!](https://stackblitz.com/edit/render-jsx-demo)
+
+## What is this?
 
 [JSX](https://reactjs.org/docs/introducing-jsx.html) is an extension of JavaScript syntax, 
 allowing for XML-style layout description within JavaScript. Since it is an extension, you need transpilers
@@ -22,18 +38,36 @@ translated into native UI components, or where it is translated to some intermed
 This means you can use it to create simple web interfaces without any extra dependency (`render-jsx` itself is 2.7kB):
 
 ```tsx
-import { HTMLRenderer } from 'render-jsx';
+import { HTMLRenderer, ref } from 'render-jsx';
 
 const renderer = new HTMLRenderer();
+const list = ref();
+const input = ref<HTMLInputElement>();
+
+function Todo({title}) {
+  const li = ref<HTMLElement>();
+  return <li _ref={li}>
+    <div style="display: flex">
+      <div style="flex-grow: 1">{title}</div>
+      <button onclick={() => li.$.remove()}>X</button>
+    </div>
+  </li>
+}
+
 renderer.render(
-  <div>
-    <b>Hellow</b> World!
-  </div>
+  <>
+    <h1>Todos:</h1>
+    <ol _ref={list}/>
+    <div style="display: flex">
+      <input type="text" _ref={input} style="flex-grow: 1"/>
+      <button onclick={() => {
+        renderer.render(<Todo title={input.$.value}/>).on(list.$);
+        input.$.value = '';
+      }}>Add</button>
+    </div>
+  </>
 ).on(document.body);
 ```
-[► TRY IT!](https://stackblitz.com/edit/render-jsx-demo)
-
-
 
 > 👉 Note that the capabilities of this default DOM renderer are relatively limited, specifically if you want highly interactive
 > interfaces. This default DOM renderer is not intended as a full-blown UI rendering tool, but as a basis to build such a tool
