@@ -74,11 +74,6 @@ export class DOMRenderer extends Renderer<Node> {
         }
       }
 
-      if (props) {
-        Object.entries(props).forEach(([prop, target]) => this.setProp(el, prop, target));
-      }
-
-      children.forEach(child => this.append(child, el));
       return el;
     } else {
       throw new UnrecognizedTagError(tag);

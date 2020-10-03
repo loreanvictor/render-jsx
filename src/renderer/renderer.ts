@@ -18,7 +18,7 @@ export abstract class Renderer<Node> implements RendererLike<Node> {
   abstract fallbackSetContent(node: Node, target: any): void;
   abstract fallbackFragment(): Node;
   abstract fallbackLeaf(): Node;
-  abstract fallbackCreate(tag: any, props?: {[prop: string]: any}, ...children: any[]): Node;
+  abstract fallbackCreate(tag: any, props?: {[prop: string]: any}): Node;
 
   abstract renderOn(target: Node, host: Node): void;
   abstract renderAfter(target: Node, ref: Node): void;
@@ -63,7 +63,12 @@ export abstract class Renderer<Node> implements RendererLike<Node> {
     }
 
     if (!candidate) {
-      candidate = this.fallbackCreate(tag, props, ...children);
+      candidate = this.fallbackCreate(tag, props);
+      if (props) {
+        Object.entries(props).forEach(([prop, target]) => this.setProp(candidate!!, prop, target));
+      }
+
+      children.forEach(child => this.append(child, candidate!!));
     }
 
     this.plugins.filter(isPostCreatePlugin).forEach(p => p.postCreate(candidate!!));

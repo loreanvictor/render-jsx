@@ -1,30 +1,29 @@
-import { Renderer } from '../src';
+import { HTMLRenderer, ref } from '../src';
 
+const renderer = new HTMLRenderer();
+const list = ref();
+const input = ref<HTMLInputElement>();
 
-export class DummyRenderer extends Renderer<any> {
-  fallbackAppend(target: any, host: any): void {
-    host?.children?.push(target);
-  }
-
-  fallbackSetProp(node: any,prop: string,target: any): void {
-    node[prop] = target;
-  }
-
-  fallbackCreate(tag: any, props?: { [prop: string]: any; }, ...children: any[]) {
-    return {
-      tag,
-      props,
-      children
-    }
-  }
-
-  fallbackSetContent(node: any,target: any): void {}
-  fallbackFragment() { return {}; }
-  fallbackLeaf() { return {}; }
-  renderOn(target: any, host: any): void {}
-  renderAfter(target: any, ref: any): void {}
-  renderBefore(target: any, ref: any): void {}
+function Todo({title}: {title: string}) {
+  const li = ref<HTMLElement>();
+  return <li _ref={li}>
+    <div style='display: flex'>
+      <div style='flex-grow: 1'>{title}</div>
+      <button onclick={() => li.$.remove()}>X</button>
+    </div>
+  </li>
 }
 
-const renderer = new DummyRenderer();
-console.log(<div>Hellow <span>World!</span></div>);
+renderer.render(
+  <div>
+    <h1>Todos:</h1>
+    <ol _ref={list}/>
+    <div style='display: flex'>
+      <input type='text' _ref={input} style='flex-grow: 1'/>
+      <button onclick={() => {
+        renderer.render(<Todo title={input.$.value}/>).on(list.$);
+        input.$.value = '';
+      }}>Add</button>
+    </div>
+  </div>
+).on(document.body);
