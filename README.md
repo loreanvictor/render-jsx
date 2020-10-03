@@ -85,9 +85,8 @@ import { Renderer } from 'render-jsx';
 
 
 export class DummyRenderer extends Renderer<any> {
-  fallbackCreate(tag: any, props?: { [prop: string]: any; }) {
-    const res = { tag, props: {}, children: [] };
-    return res;
+  fallbackCreate(tag: any) {
+    return { tag, props: {}, children: [] };
   }
 
   fallbackAppend(target: any, host: any) {
