@@ -9,5 +9,5 @@ export interface CreatePlugin<Node, Renderer extends RendererLike<Node> = Render
 
 export function isCreatePlugin<Node, Renderer extends RendererLike<Node>>(plugin: Plugin<Node, Renderer>)
 : plugin is CreatePlugin<Node, Renderer> {
-  return (plugin as any).create && typeof (plugin as any).create === 'function';
+  return !!(plugin as any).create && typeof (plugin as any).create === 'function';
 }

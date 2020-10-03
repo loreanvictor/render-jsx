@@ -9,6 +9,6 @@ export interface ContentPlugin<Node, Renderer extends RendererLike<Node> = Rende
 
 export function isContentPlugin<Node, Renderer extends RendererLike<Node>>(plugin: Plugin<Node, Renderer>) 
 : plugin is ContentPlugin<Node, Renderer> {
-  return (plugin as any).setContent && typeof (plugin as any).setContent === 'function';
+  return !!(plugin as any).setContent && typeof (plugin as any).setContent === 'function';
 }
 

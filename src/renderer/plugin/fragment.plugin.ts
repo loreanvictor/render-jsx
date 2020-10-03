@@ -9,5 +9,5 @@ export interface FragmentPlugin<Node, Renderer extends RendererLike<Node> = Rend
 
 export function isFragmentPlugin<Node, Renderer extends RendererLike<Node>>(plugin: Plugin<Node, Renderer>)
 : plugin is FragmentPlugin<Node, Renderer> {
-  return (plugin as any).fragment && typeof (plugin as any).fragment === 'function';
+  return !!(plugin as any).fragment && typeof (plugin as any).fragment === 'function';
 }

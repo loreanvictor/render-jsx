@@ -9,6 +9,6 @@ export interface PostCreatePlugin<Node, Renderer extends RendererLike<Node> = Re
 
 export function isPostCreatePlugin<Node, Renderer extends RendererLike<Node>>(plugin: Plugin<Node, Renderer>)
 : plugin is PostCreatePlugin<Node, Renderer> {
-  return (plugin as any).postCreate && typeof (plugin as any).postCreate === 'function';
+  return !!(plugin as any).postCreate && typeof (plugin as any).postCreate === 'function';
 }
 

@@ -8,5 +8,6 @@
 // a constant so that it is not ommited by any optmizer), which ensures Typescript
 // also reading and utilizing other type definitions in this folder.
 //
+/*istanbul ignore next*/
 const TYPINGS_IMPORTED = true;
 export { TYPINGS_IMPORTED };

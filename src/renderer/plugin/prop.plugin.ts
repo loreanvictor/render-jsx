@@ -9,5 +9,5 @@ export interface PropPlugin<Node, Renderer extends RendererLike<Node> = Renderer
 
 export function isPropPlugin<Node, Renderer extends RendererLike<Node>>(plugin: Plugin<Node, Renderer>)
 : plugin is PropPlugin<Node, Renderer> {
-  return (plugin as any).setProp && typeof (plugin as any).setProp === 'function';
+  return !!(plugin as any).setProp && typeof (plugin as any).setProp === 'function';
 }
