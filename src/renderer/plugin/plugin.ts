@@ -1,4 +1,4 @@
-import { ref } from '../../common';
+import { ref } from '../../common/ref';
 import { RendererLike } from '../types';
 
 

@@ -11,7 +11,10 @@
     "test": "ts-node --files --project conf/typescript/test.json test.ts",
     "build-es5": "tsc -p conf/typescript/es5.json && cp -rf ./src/typings dist/es5 && rm -fr dist/es5/typings/index.ts",
     "build-es6": "tsc -p conf/typescript/es6.json && cp -rf ./src/typings dist/es6 && rm -fr dist/es6/typings/index.ts",
-    "build": "npm run build-es5 && npm run build-es6"
+    "build": "npm run build-es5 && npm run build-es6",
+    "cov:view": "nyc npm run test && npm run cov:clean",
+    "cov:travis": "nyc npm run test && npx codecov",
+    "cov:clean": "rm -fr ./.nyc_output && rm -fr ./coverage"
   },
   "repository": {
     "type": "git",
