@@ -25,7 +25,7 @@ renderer.render(
 # Overview
 
 [JSX](https://reactjs.org/docs/introducing-jsx.html) is an extension of JavaScript syntax, 
-allowing for XML-style layout description within JavaScript. Since it is an extension, you need transpilers
+allowing for XML-style representations within JavaScript. Since it is an extension, you need transpilers
 (such as [TypeScript](https://www.typescriptlang.org) or [Babel](https://babeljs.io)) to transpile it to JavaScript.
 Transpilers in turn require a semantic specification, i.e. they need to know what should the meaning of the JSX syntax be.
 
