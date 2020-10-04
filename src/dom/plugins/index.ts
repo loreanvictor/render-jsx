@@ -13,5 +13,5 @@ export function domPlugins() {
     new EventHandlerPlugin(),
     new OptionObjectValuePlugin(),
     new InputStatePlugin(),
-  ]
+  ];
 }

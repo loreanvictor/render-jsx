@@ -2,7 +2,7 @@ import { Plugin } from './plugin';
 import { RendererLike } from '../types';
 
 
-export interface AppendPlugin<Node, Renderer extends RendererLike<Node> = RendererLike<Node>> 
+export interface AppendPlugin<Node, Renderer extends RendererLike<Node> = RendererLike<Node>>
   extends Plugin<Node, Renderer> {
   append(target: any, host: Node): boolean;
 }

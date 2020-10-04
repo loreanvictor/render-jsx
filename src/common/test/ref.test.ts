@@ -1,3 +1,6 @@
+/* tslint:disable: no-magic-numbers */
+/* tslint:disable: no-unused-expression */
+
 import { should, expect } from 'chai';import { RefAlreadyResolvedError, UnresolvedRefError } from '../errors';
  should();
 import { Ref } from '../ref';

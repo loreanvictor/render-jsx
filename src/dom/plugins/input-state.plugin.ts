@@ -3,7 +3,7 @@ import { LiveDOMRenderer } from '../live-renderer';
 import { getInputValue } from '../util';
 
 
-export class InputStatePlugin 
+export class InputStatePlugin
   extends Plugin<Node, LiveDOMRenderer>
   implements PropPlugin<Node> {
 
@@ -28,7 +28,7 @@ export class InputStatePlugin
             .querySelectorAll(`input[name="${node.name}"]`)
             .forEach(input => {
               if ((input as HTMLInputElement).form === node.form) {
-                input.addEventListener('input', () => target(getInputValue(node)))
+                input.addEventListener('input', () => target(getInputValue(node)));
               }
             });
           }
@@ -38,6 +38,7 @@ export class InputStatePlugin
       }
 
       target(getInputValue(node));
+
       return true;
     }
 

@@ -1,3 +1,6 @@
+/* tslint:disable: no-magic-numbers */
+/* tslint:disable: no-unused-expression */
+
 import { should, expect } from 'chai'; should();
 import { PostRenderPlugin, isPostRenderPlugin } from '../post-render.plugin';
 import { Plugin } from '../plugin';

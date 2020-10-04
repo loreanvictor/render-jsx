@@ -11,15 +11,16 @@ export class LiveDOMRenderer extends DOMRenderer implements LiveRendererLike<Nod
   postRender(target: Node) {
     if (target instanceof DocumentFragment) {
       const children = Array.from(target.childNodes);
+
       return () => children.forEach(child => { this.postRender(child)(); });
     } else {
       return () => {
         if (this.document.contains(target)) {
           lifeCycleBind(target);
         }
-  
+
         super.postRender(target)();
-      }
+      };
     }
   }
 }

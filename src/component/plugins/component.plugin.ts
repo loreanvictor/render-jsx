@@ -35,8 +35,8 @@ export class ComponentPlugin<Node, Renderer extends RendererLike<Node>>
       ));
 
       const $ = tag.apply(provision, [props, this.renderer(), children]);
-
       post.reverse().forEach(p => p($));
+
       return $;
     } else {
       return undefined;

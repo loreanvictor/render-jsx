@@ -6,7 +6,7 @@ export abstract class Plugin<Node, Renderer extends RendererLike<Node> = Rendere
   public static PriorityMax = 1;
   public static PriorityFallback = 0;
 
-  private _renderer = ref<Renderer>();
+  private readonly _renderer = ref<Renderer>();
 
   plug(renderer: Renderer) {
     this._renderer.resolve(renderer);

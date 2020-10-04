@@ -2,7 +2,7 @@ import { Plugin } from './plugin';
 import { RendererLike } from '../types';
 
 
-export interface CreatePlugin<Node, Renderer extends RendererLike<Node> = RendererLike<Node>> 
+export interface CreatePlugin<Node, Renderer extends RendererLike<Node> = RendererLike<Node>>
   extends Plugin<Node, Renderer> {
   create(tag: any, props?: {[prop: string]: any}, ...children: any[]): Node | undefined;
 }

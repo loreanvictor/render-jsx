@@ -1,6 +1,6 @@
 import { RendererLike, ToBeRenderered } from './types';
-import { Plugin, 
-  isAppendPlugin, isPropPlugin, isContentPlugin, isFragmentPlugin, 
+import { Plugin,
+  isAppendPlugin, isPropPlugin, isContentPlugin, isFragmentPlugin,
   isCreatePlugin, isPostCreatePlugin, isPostRenderPlugin, isLeafPlugin
 } from './plugin';
 
@@ -44,11 +44,13 @@ export abstract class Renderer<Node> implements RendererLike<Node> {
 
   get fragment(): Node {
     const plugin = this.plugins.find(isFragmentPlugin);
+
     return plugin ? plugin.fragment() : this.fallbackFragment();
   }
 
   leaf(): Node {
     const plugin = this.plugins.find(isLeafPlugin);
+
     return plugin ? plugin.leaf() : this.fallbackLeaf();
   }
 
@@ -72,6 +74,7 @@ export abstract class Renderer<Node> implements RendererLike<Node> {
     }
 
     this.plugins.filter(isPostCreatePlugin).forEach(p => p.postCreate(candidate!!));
+
     return candidate;
   }
 

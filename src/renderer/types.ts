@@ -7,7 +7,7 @@ export interface ToBeRenderered<Node> {
 
 
 export interface RendererLike<Node> {
-  append(target: Node | Node[], host: Node): void;
+  append(target: any | any[], host: Node): void;
   setProp(node: Node, prop: string, target: any): void;
   setContent(node: Node, target: any): void;
 

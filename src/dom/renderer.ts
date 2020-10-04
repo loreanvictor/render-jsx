@@ -5,9 +5,7 @@ import { UnrecognizedTagError } from './errors';
 export class DOMRenderer extends Renderer<Node> {
   readonly document: HTMLDocument;
 
-  constructor();
-  constructor(doc: HTMLDocument);
-  constructor(doc: HTMLDocument, ...plugins: Plugin<Node, RendererLike<Node>>[]);
+  constructor(doc?: HTMLDocument, ...plugins: Plugin<Node, RendererLike<Node>>[]);
   constructor(...plugins: Plugin<Node, RendererLike<Node>>[]);
   constructor(
     doc: HTMLDocument | Plugin<Node, RendererLike<Node>> = document,
@@ -61,22 +59,17 @@ export class DOMRenderer extends Renderer<Node> {
     return this.document.createTextNode('');
   }
 
-  fallbackCreate(tag: any, props?: { [prop: string]: any; }, ...children: any[]): Node {
-    if (tag instanceof Node || typeof tag === 'string') {
-      let el: Node;
-      if (tag instanceof Node) {
-        el = tag;
-      } else {
-        if (props && props.xmlns) {
-          el = this.document.createElementNS(`${props.xmlns}`, tag);
-        } else {
-          el = this.document.createElement(tag);
-        }
-      }
-
-      return el;
-    } else {
+  fallbackCreate(tag: any, props?: { [prop: string]: any; }): Node {
+    if (!(tag instanceof Node || typeof tag === 'string')) {
       throw new UnrecognizedTagError(tag);
+    }
+
+    if (tag instanceof Node) {
+      return tag;
+    } else if (props && props.xmlns) {
+      return this.document.createElementNS(`${props.xmlns}`, tag);
+    } else {
+      return this.document.createElement(tag);
     }
   }
 
@@ -100,6 +93,7 @@ export class DOMRenderer extends Renderer<Node> {
     const post = this.plugins.filter(isPostRenderPlugin);
     if (target instanceof DocumentFragment) {
       const children = Array.from(target.childNodes);
+
       return () => children.forEach(child => post.forEach(p => p.postRender(child)));
     } else {
       return () => post.forEach(p => p.postRender(target));

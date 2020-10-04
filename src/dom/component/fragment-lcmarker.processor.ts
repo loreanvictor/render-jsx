@@ -34,6 +34,7 @@ export class FragmentLifeCycleMarkerComponentProcessor
   }
 
   priority(): number {
-    return ComponentProcessor.PriorityFallback + 0.001;
+    return ComponentProcessor.PriorityFallback +
+      (ComponentProcessor.PriorityMax - ComponentProcessor.PriorityFallback) / 100;
   }
 }

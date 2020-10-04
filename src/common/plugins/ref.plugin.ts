@@ -9,6 +9,7 @@ export class RefPlugin<Node>
   setProp(node: Node, prop: string, target: any): boolean {
     if (prop === '_ref' && target instanceof Ref) {
       target.resolve(node);
+
       return true;
     }
 

@@ -1,7 +1,7 @@
 export interface ComponentData {
-  tag: any,
-  props: { [prop: string]: any },
-  children: any[],
+  tag: any;
+  props: { [prop: string]: any };
+  children: any[];
 }
 
 export type ComponentPostProcessor<Node> = (node: Node) => void;

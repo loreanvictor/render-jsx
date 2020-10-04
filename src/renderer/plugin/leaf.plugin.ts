@@ -2,7 +2,7 @@ import { Plugin } from './plugin';
 import { RendererLike } from '../types';
 
 
-export interface LeafPlugin<Node, Renderer extends RendererLike<Node> = RendererLike<Node>> 
+export interface LeafPlugin<Node, Renderer extends RendererLike<Node> = RendererLike<Node>>
   extends Plugin<Node, Renderer> {
   leaf(): Node;
 }

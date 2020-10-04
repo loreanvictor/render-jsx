@@ -1,3 +1,5 @@
+/*global RefLike*/
+
 import { UnresolvedRefError, RefAlreadyResolvedError } from './errors';
 
 

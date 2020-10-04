@@ -1,3 +1,6 @@
+/* tslint:disable: no-magic-numbers */
+/* tslint:disable: no-unused-expression */
+
 import { should, expect } from 'chai'; should();
 import { CreatePlugin, isCreatePlugin } from '../create.plugin';
 import { Plugin } from '../plugin';

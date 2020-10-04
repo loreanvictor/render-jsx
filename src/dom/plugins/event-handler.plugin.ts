@@ -1,8 +1,8 @@
 import { Plugin, PropPlugin } from '../../renderer';
 
 
-export class EventHandlerPlugin 
-  extends Plugin<Node> 
+export class EventHandlerPlugin
+  extends Plugin<Node>
   implements PropPlugin<Node> {
 
   priority(): number {
@@ -13,9 +13,10 @@ export class EventHandlerPlugin
     if (prop.startsWith('on') && typeof target === 'function') {
       const event = prop.substr(2).toLowerCase();
       node.addEventListener(event, target as EventListener);
+
       return true;
     }
 
     return false;
-  }  
+  }
 }

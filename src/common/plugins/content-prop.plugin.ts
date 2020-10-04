@@ -8,6 +8,7 @@ export class ContentPropPlugin<Node>
   setProp(node: Node, prop: string, target: any): boolean {
     if (prop === '_content' && typeof target === 'string') {
       this.renderer().setContent(node, target);
+
       return true;
     }
 
