@@ -9,7 +9,7 @@
     "semicolon": [true, "always"],
     "quotemark": [true, "single"],
     "no-shadowed-variable": true,
-    "no-unused-variable": [true, {"ignore-pattern": "^_"}],
+    "no-unused-variable": [true, "check-parameters", {"ignore-pattern": "^_"}],
     "no-unused-expression": true,
     "prefer-object-spread": true,
     "triple-equals": true,
