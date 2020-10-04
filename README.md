@@ -85,15 +85,8 @@ import { Renderer } from 'render-jsx';
 
 
 export class DummyRenderer extends Renderer<any> {
-  fallbackCreate(tag: any, props?: { [prop: string]: any; }, ...children: any[]) {
-    const res = { tag, props: {}, children: [] };
-    if (props) {
-      Object.entries(props).forEach(([prop, target]) => this.setProp(res, prop, target));
-    }
-    if (children) {
-      children.forEach(child => this.append(child, res));
-    }
-    return res;
+  fallbackCreate(tag: any) {
+    return { tag, props: {}, children: [] };
   }
 
   fallbackAppend(target: any, host: any) {
