@@ -1,3 +1,6 @@
+/* tslint:disable: no-default-import */
+/* tslint:disable: no-default-export */
+
 import path from 'path';
 import config from './base.conf';
 import webpack from 'webpack';
