@@ -20,149 +20,39 @@ renderer.render(
 ```
 [► TRY IT!](https://stackblitz.com/edit/render-jsx-demo)
 
+👉 [Read the Docs](https://loreanvictor.github.io/render-jsx/).
+
 <br><br>
 
 # Overview
 
-[JSX](https://reactjs.org/docs/introducing-jsx.html) is an extension of JavaScript syntax, 
-allowing for XML-style representations within JavaScript. Since it is an extension, you need transpilers
-(such as [TypeScript](https://www.typescriptlang.org) or [Babel](https://babeljs.io)) to transpile it to JavaScript.
-Transpilers in turn require a semantic specification, i.e. they need to know what should the meaning of the JSX syntax be.
+[JSX](https://facebook.github.io/jsx/) is an syntax extension of JavaScript, 
+allowing for XML-style representations within JavaScript. JSX needs to be transpiled (since it is an extension),
+with transpilers such as [TypeScript](https://www.typescriptlang.org) or [Babel](https://babeljs.io).
+Transpilers in turn need to know what JSX should mean.
 
-`render-jsx` provides abstractions for creating such semantic specifications in a highly extensible and domain agnostic
-fashion. This in turn enables re-use of logic for common patterns such as components, lifecycle, handling of custom
-data types, etc., across different domains. For example, you can use same component management logic where 
-JSX is directly translated to DOM, where it is translated to input format of a PDF generator, where it is
-translated into native UI components, or where it is translated to some intermediary object representation 
-(as in [React](https://reactjs.org)).
+`render-jsx` provides abstraction for specifying that _meaning_ in a highly extensible way, allowing re-use
+of components and common JSX patterns across different domains.
+For example, you can re-use your components or your custom class-based component system while rendering to DOM (client-side),
+to HTML string (server side), to native UI libraries, to custom input format of a PDF generator, etc.
 
-`render-jsx` also comes with a super-thin and fast DOM renderer (as a common case semantic specification). 
-This means you can use it to create simple web interfaces without any extra dependency (`render-jsx` itself is 2.7kB):
+`render-jsx` also comes with a super-thin and fast DOM renderer (which is mostly meant as a basis of more involved UI renderers). 
+This means you can use it to create simple web interfaces without any extra dependency (`render-jsx` itself is 2.7kB).
 
-```tsx
-import { HTMLRenderer, ref } from 'render-jsx';
-
-const renderer = new HTMLRenderer();
-const list = ref();
-const input = ref<HTMLInputElement>();
-
-function Todo({title}) {
-  const li = ref<HTMLElement>();
-  return <li _ref={li}>
-      {title}
-      <button onclick={() => li.$.remove()}>X</button>
-  </li>
-}
-
-renderer.render(
-  <>
-    <h1>Todos:</h1>
-    <ol _ref={list}/>
-    <input type="text" _ref={input}/>
-    <button onclick={() => {
-      renderer.render(<Todo title={input.$.value}/>).on(list.$);
-      input.$.value = '';
-    }}>Add</button>
-  </>
-).on(document.body);
-```
-[► TRY IT!](https://stackblitz.com/edit/render-jsx-demo3)
-
-> 👉 Note that the capabilities of this default DOM renderer are relatively limited, specifically if you want highly interactive
-> interfaces. This default DOM renderer is not intended as a full-blown UI rendering tool, but as a basis to build such a tool
-> by combining it with proper reactive state management logic to provide interactivity.
+👉 [Read the Docs](https://loreanvictor.github.io/render-jsx/docs/overview)
 
 <br><br>
 
-# Usage
+# Installation
 
-The main purpose of `render-jsx` is allowing you to define what some JSX code would mean. This _translation_ is done via `Renderer` classes, which define
-various operations involved in interpreting JSX code. For example, you can easily create a simple object Renderer (which translates JSX to arbitrary objects) as follows:
-
-```ts
-// renderer.ts
-import { Renderer } from 'render-jsx';
-
-
-export class DummyRenderer extends Renderer<any> {
-  fallbackCreate(tag: any) {
-    return { tag, props: {}, children: [] };
-  }
-
-  fallbackAppend(target: any, host: any) {
-    if (target.tag === 'FRAGMENT') {
-      target.children.forEach(child => this.append(child, host));
-    } else {
-      host.children.push(target);
-    }
-  }
-
-  fallbackSetProp(node: any, prop: string, target: any) {
-    node.props[prop] = target;
-  }
-
-  fallbackSetContent(node: any, target: any) {
-    if (node.tag === 'LEAF') {
-      node.content = target;
-    }
-  }
-
-  fallbackFragment() { return 'FRAGMENT'; }
-
-  fallbackLeaf() {
-    return {
-      tag: 'LEAF',
-    }
-  }
-
-  renderOn(target: any, host: any): void { throw Error('NOT SUPPORTED!'); }
-  renderAfter(target: any, ref: any): void { throw Error('NOT SUPPORTED!'); }
-  renderBefore(target: any, ref: any): void { throw Error('NOT SUPPORTED!'); }
-}
+Get the package:
 ```
-
-Now you can use this renderer like this:
-
-```tsx
-import { DummyRenderer } from './renderer';
-
-const renderer = new DummyRenderer();
-
-console.log(
-  <div>
-    <b>Hellow</b> World!
-  </div>
-)
+npm i render-jsx
 ```
-
-Or you can augment its functionality by introducing functional components to it:
-
-```tsx
-import { ComponentPlugin } from 'render-jsx';
-import { DummyRenderer } from './renderer';
-
-const renderer = new DummyRenderer(new ComponentPlugin<any, any>());
-
-const MyComp = () => <b>Hellow</b>;
-
-console.log(
-  <div>
-    <MyComp/> World!
-  </div>
-)
+Use the following pragmas in your `.jsx`/`.tsx` files:
 ```
-```json
-{
-  "type": "div",
-  "children": [
-      {
-        "type": "b",
-        "children": [
-          "Hellow"
-        ]
-      },
-      "World!"
-  ]
-}
+/** @jsx renderer.create */
+/** @jsxFrag renderer.fragment */
 ```
-[► TRY IT!](https://stackblitz.com/edit/render-jsx-demo2)
+👉 [Read the Docs](https://loreanvictor.github.io/render-jsx/docs/installation)
+
