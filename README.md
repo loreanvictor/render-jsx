@@ -33,7 +33,7 @@ Transpilers in turn need to know what JSX should mean.
 
 `render-jsx` provides abstraction for specifying that _meaning_ in a highly extensible way, allowing re-use
 of components and common JSX patterns across different domains.
-For example, you can re-use your components or your custom class-based component system while rendering to DOM (client-side),
+For example, you can re-use your components (or your custom class-based component system) while rendering to DOM (client-side),
 to HTML string (server side), to native UI libraries, to custom input format of a PDF generator, etc.
 
 `render-jsx` also comes with a super-thin and fast DOM renderer (which is mostly meant as a basis of more involved UI renderers). 
