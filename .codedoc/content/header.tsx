@@ -7,6 +7,7 @@ export function Header(config: CodedocConfig, renderer: any) {
     <_Header>{config.misc?.github ?
       <fragment>
         <a class='github-button' href='https://github.com/sponsors/loreanvictor' data-color-scheme='no-preference: light; light: light; dark: dark;' data-icon='octicon-heart' aria-label='Sponsor @loreanvictor on GitHub'>Sponsor</a>
+        <br></br>
         <GithubButton action={config.misc.github.action || 'Star'}
           repo={config.misc.github.repo}
           user={config.misc.github.user}
