@@ -45,14 +45,18 @@ This means you can use it to create simple web interfaces without any extra depe
 
 # Installation
 
-Get the package:
+Use starter templates:
+- [JavaScript Starter Template](https://github.com/loreanvictor/render-jsx-starter-js)
+- [TypeScript Starter Template](https://github.com/loreanvictor/render-jsx-starter-ts)
+
+Or get the package:
 ```
 npm i render-jsx
 ```
-Use the following pragmas in your `.jsx`/`.tsx` files:
+And use the following pragmas in your `.jsx`/`.tsx` files:
 ```
 /** @jsx renderer.create */
 /** @jsxFrag renderer.fragment */
 ```
-👉 [Read the Docs](https://loreanvictor.github.io/render-jsx/docs/installation)
+👉 [Read the Docs](https://loreanvictor.github.io/render-jsx/docs/install)
 
