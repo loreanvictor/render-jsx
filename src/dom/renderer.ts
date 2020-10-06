@@ -1,15 +1,15 @@
-import { isPostRenderPlugin, Plugin, Renderer, RendererLike } from '../renderer';
+import { isPostRenderPlugin, Plugin, PluginFactory, Renderer, RendererLike } from '../renderer';
 import { UnrecognizedTagError } from './errors';
 
 
-export class DOMRenderer extends Renderer<Node> {
+export class DOMRenderer extends Renderer<Node, DOMRenderer> {
   readonly document: HTMLDocument;
 
-  constructor(doc?: HTMLDocument, ...plugins: Plugin<Node, RendererLike<Node>>[]);
-  constructor(...plugins: Plugin<Node, RendererLike<Node>>[]);
+  constructor(doc?: HTMLDocument, ...plugins: PluginFactory<Node, RendererLike<Node>>[]);
+  constructor(...plugins: PluginFactory<Node, RendererLike<Node>>[]);
   constructor(
-    doc: HTMLDocument | Plugin<Node, RendererLike<Node>> = document,
-    ...plugins: Plugin<Node, RendererLike<Node>>[]
+    doc: HTMLDocument | PluginFactory<Node, RendererLike<Node>> = document,
+    ...plugins: PluginFactory<Node, RendererLike<Node>>[]
   ) {
     super(...(doc instanceof HTMLDocument ? plugins : [doc, ...plugins]));
     if (doc instanceof HTMLDocument) {
@@ -98,5 +98,9 @@ export class DOMRenderer extends Renderer<Node> {
     } else {
       return () => post.forEach(p => p.postRender(target));
     }
+  }
+
+  clone(...plugins: PluginFactory<Node, RendererLike<Node>>[]) {
+    return new DOMRenderer(this.document, ...plugins);
   }
 }

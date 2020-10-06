@@ -6,7 +6,7 @@ export * from './fragment-lcmarker.processor';
 
 
 export function liveDOMComponentPlugin() {
-  return new ComponentPlugin<Node, LiveRendererLike<Node>>(
+  return () => new ComponentPlugin<Node, LiveRendererLike<Node>>(
     new LiveComponentProcessor<Node>(),
     new FragmentLifeCycleMarkerComponentProcessor(),
   );

@@ -1,11 +1,11 @@
 import { should, expect } from 'chai'; should();
-import { LeafPlugin, Plugin } from '../../plugin';
+import { LeafPlugin, Plugin, PluginFactory } from '../../plugin';
 import { RendererLike } from '../../types';
 
 
 export function testLeafExtensibility
   <N, R extends RendererLike<N>>(
-  factory: (...plugins: Plugin<N, R>[]) => R
+  factory: (...plugins: PluginFactory<N, R>[]) => R
 ) {
   it('should utilize provided leaf plugins for creating leaf nodes.', done => {
     class P extends Plugin<N, R> implements LeafPlugin<N, R> {
@@ -16,7 +16,7 @@ export function testLeafExtensibility
         return undefined as any;
       }
     }
-    const r = factory(new P());
+    const r = factory(() => new P());
     r.leaf();
   });
 
@@ -34,7 +34,7 @@ export function testLeafExtensibility
       priority() { return (Plugin.PriorityFallback + Plugin.PriorityMax) / 2; }
       leaf() { return res.push('C') as any; }
     }
-    const r = factory(new P1(), new P2(), new P3());
+    const r = factory(() => new P1(), () => new P2(), () => new P3());
     r.leaf();
     res.should.eql(['B']);
   });

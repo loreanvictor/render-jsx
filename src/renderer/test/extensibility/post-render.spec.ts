@@ -1,13 +1,13 @@
 /* tslint:disable: no-magic-numbers */
 
 import { should, expect } from 'chai'; should();
-import { PostRenderPlugin, Plugin } from '../../plugin';
+import { PostRenderPlugin, Plugin, PluginFactory } from '../../plugin';
 import { RendererLike } from '../../types';
 
 
 export function testPostRenderOnExtensibility
   <N, R extends RendererLike<N>>(
-  factory: (...plugins: Plugin<N, R>[]) => R
+  factory: (...plugins: PluginFactory<N, R>[]) => R
 ) {
   it('should invoke provided post-render plugins after a node is rendered on another node.', () => {
     const res: N[] = [];
@@ -15,7 +15,7 @@ export function testPostRenderOnExtensibility
       priority() { return Plugin.PriorityFallback; }
       postRender(node: N) { res.push(node); }
     }
-    const r = factory(new P());
+    const r = factory(() => new P());
     const h = r.create(r.fragment);
     const x1 = r.leaf();
     const x2 = r.leaf();
@@ -40,7 +40,7 @@ export function testPostRenderOnExtensibility
       priority() { return (Plugin.PriorityFallback + Plugin.PriorityMax) / 2; }
       postRender() { res.push('C'); }
     }
-    const r = factory(new P1(), new P2(), new P3());
+    const r = factory(() => new P1(), () => new P2(), () => new P3());
     const h = r.create(r.fragment);
     const x = r.leaf();
     r.render(x).on(h);
@@ -50,7 +50,7 @@ export function testPostRenderOnExtensibility
 
 export function testPostRenderBeforeExtensibility
   <N, R extends RendererLike<N>>(
-  factory: (...plugins: Plugin<N, R>[]) => R
+  factory: (...plugins: PluginFactory<N, R>[]) => R
 ) {
   it('should invoke provided post-render plugins after a node is rendered before another node.', () => {
     const res: N[] = [];
@@ -58,7 +58,7 @@ export function testPostRenderBeforeExtensibility
       priority() { return Plugin.PriorityFallback; }
       postRender(node: N) { res.push(node); }
     }
-    const r = factory(new P());
+    const r = factory(() => new P());
     const h = r.create(r.fragment);
     const x = r.leaf();
     const x1 = r.leaf();
@@ -85,7 +85,7 @@ export function testPostRenderBeforeExtensibility
       priority() { return (Plugin.PriorityFallback + Plugin.PriorityMax) / 2; }
       postRender() { res.push('C'); }
     }
-    const r = factory(new P1(), new P2(), new P3());
+    const r = factory(() => new P1(), () => new P2(), () => new P3());
     const h = r.create(r.fragment);
     const x = r.leaf();
     const y = r.leaf();
@@ -97,7 +97,7 @@ export function testPostRenderBeforeExtensibility
 
 export function testPostRenderAfterExtensibility
   <N, R extends RendererLike<N>>(
-  factory: (...plugins: Plugin<N, R>[]) => R
+  factory: (...plugins: PluginFactory<N, R>[]) => R
 ) {
   it('should invoke provided post-render plugins after a node is rendered after another node.', () => {
     const res: N[] = [];
@@ -105,7 +105,7 @@ export function testPostRenderAfterExtensibility
       priority() { return Plugin.PriorityFallback; }
       postRender(node: N) { res.push(node); }
     }
-    const r = factory(new P());
+    const r = factory(() => new P());
     const h = r.create(r.fragment);
     const x = r.leaf();
     const x1 = r.leaf();
@@ -132,7 +132,7 @@ export function testPostRenderAfterExtensibility
       priority() { return (Plugin.PriorityFallback + Plugin.PriorityMax) / 2; }
       postRender() { res.push('C'); }
     }
-    const r = factory(new P1(), new P2(), new P3());
+    const r = factory(() => new P1(), () => new P2(), () => new P3());
     const h = r.create(r.fragment);
     const x = r.leaf();
     const y = r.leaf();

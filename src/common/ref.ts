@@ -4,7 +4,7 @@ import { UnresolvedRefError, RefAlreadyResolvedError } from './errors';
 
 
 export class Ref<T> implements RefLike<T> {
-  _resolved: boolean = false;
+  _resolved = false;
   _$: T;
 
   public get resolved() {

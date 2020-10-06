@@ -1,11 +1,11 @@
 import { should, expect } from 'chai'; should();
-import { ContentPlugin, Plugin } from '../../plugin';
+import { ContentPlugin, Plugin, PluginFactory } from '../../plugin';
 import { RendererLike } from '../../types';
 
 
 export function testContentExtensibility
   <N, R extends RendererLike<N>>(
-  factory: (...plugins: Plugin<N, R>[]) => R
+  factory: (...plugins: PluginFactory<N, R>[]) => R
 ) {
   it('should utilize provided content plugins for setting content.', done => {
     const _t = {}; const _n = {} as N;
@@ -19,7 +19,7 @@ export function testContentExtensibility
         return false;
       }
     }
-    const r = factory(new P());
+    const r = factory(() => new P());
     r.setContent(_n, _t);
   });
 
@@ -37,7 +37,7 @@ export function testContentExtensibility
       priority() { return (Plugin.PriorityFallback + Plugin.PriorityMax) / 2; }
       setContent() { return !!res.push('C') || true; }
     }
-    const r = factory(new P1(), new P2(), new P3());
+    const r = factory(() => new P1(), () => new P2(), () => new P3());
     r.setContent(undefined as any, undefined);
     res.should.eql(['B', 'C']);
   });

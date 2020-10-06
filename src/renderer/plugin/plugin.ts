@@ -18,3 +18,7 @@ export abstract class Plugin<Node, Renderer extends RendererLike<Node> = Rendere
 
   abstract priority(): number;
 }
+
+
+export type PluginFactory<Node, Renderer extends RendererLike<Node> = RendererLike<Node>>
+   = () => Plugin<Node, Renderer>;

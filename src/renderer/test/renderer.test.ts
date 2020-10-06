@@ -3,7 +3,7 @@
 /* tslint:disable: newline-before-return */
 
 import { should, expect } from 'chai';
-import { AppendPlugin, ContentPlugin, CreatePlugin, Plugin, PropPlugin } from '../plugin';
+import { AppendPlugin, ContentPlugin, CreatePlugin, Plugin, PluginFactory, PropPlugin } from '../plugin';
  should();
 
 import { Renderer } from '../renderer';
@@ -20,7 +20,7 @@ import { testPostRenderBeforeExtensibility,
 
 
 describe('Renderer', () => {
-  class R extends Renderer<any> {
+  class R extends Renderer<any, R> {
     fallbackAppend(_target: any, _host: any): void {}
     fallbackSetProp(_node: any, _prop: string, _target: any): void {}
     fallbackSetContent(_node: any, _target: any): void {}
@@ -30,9 +30,10 @@ describe('Renderer', () => {
     renderOn(_target: any, _host: any): void {}
     renderAfter(_target: any, _ref: any): void {}
     renderBefore(_target: any, _ref: any): void {}
+    clone() { return new R(); }
   }
 
-  const factory = (...p: Plugin<any, any>[]) => new R(...p);
+  const factory = (...p: PluginFactory<any, any>[]) => new R(...p);
 
   describe('.append()', () => {
     testAppendExtensibility(factory);
@@ -42,7 +43,6 @@ describe('Renderer', () => {
         priority() { return Plugin.PriorityFallback; }
         append() { return false; }
       }
-
       const _t = {}; const _h = {};
       class CR extends R {
         fallbackAppend(target: any, host: any) {
@@ -51,8 +51,7 @@ describe('Renderer', () => {
           done();
         }
       }
-
-      new CR(new P()).append(_t, _h);
+      new CR(() => new P()).append(_t, _h);
     });
   });
 
@@ -64,7 +63,6 @@ describe('Renderer', () => {
         setProp() { return false; }
         priority() { return Plugin.PriorityMax; }
       }
-
       const _n = {}; const _p = 'ASDJASNDszjxalSx9283aids'; const _t = {};
       class CR extends R {
         fallbackSetProp(node: any, prop: string, target: any) {
@@ -74,8 +72,7 @@ describe('Renderer', () => {
           done();
         }
       }
-
-      new CR(new P()).setProp(_n, _p, _t);
+      new CR(() => new P()).setProp(_n, _p, _t);
     });
   });
 
@@ -87,7 +84,6 @@ describe('Renderer', () => {
         priority() { return Plugin.PriorityMax; }
         setContent() { return false; }
       }
-
       const _n = {}; const _t = {};
       class CR extends R {
         fallbackSetContent(node: any, target: any) {
@@ -96,8 +92,7 @@ describe('Renderer', () => {
           done();
         }
       }
-
-      new CR(new P()).setContent(_n, _t);
+      new CR(() => new P()).setContent(_n, _t);
     });
   });
 
@@ -108,7 +103,6 @@ describe('Renderer', () => {
       class CR extends R {
         fallbackFragment() { done(); }
       }
-
       new CR().fragment;
     });
   });
@@ -120,7 +114,6 @@ describe('Renderer', () => {
       class CR extends R {
         fallbackLeaf() { done(); }
       }
-
       new CR().leaf();
     });
   });
@@ -134,7 +127,6 @@ describe('Renderer', () => {
         priority() { return Plugin.PriorityFallback; }
         create() { return undefined; }
       }
-
       const _t = {}; const _p = {};
       class CR extends R {
         fallbackCreate(tag: any, props: any) {
@@ -143,8 +135,7 @@ describe('Renderer', () => {
           done(); return {};
         }
       }
-
-      new CR(new P()).create(_t, _p, 42, 43, 44);
+      new CR(() => new P()).create(_t, _p, 42, 43, 44);
     });
 
     it('should invoke `.setProp()` for provided properties when using fallback.', () => {
@@ -155,7 +146,6 @@ describe('Renderer', () => {
           node.should.equal(_n);
           res.push([prop, target]);
         }
-
         fallbackCreate() { return _n; }
       }
 
@@ -174,10 +164,8 @@ describe('Renderer', () => {
           host.should.equal(_n);
           res.push(target);
         }
-
         fallbackCreate() { return _n; }
       }
-
       new CR().create(42, {}, 'I know', 'the pieces fit', 'cuz I watched them', 'fall away');
       res.join(' ').should.equal('I know the pieces fit cuz I watched them fall away');
     });
@@ -239,7 +227,6 @@ describe('Renderer', () => {
         renderBefore(target: any) { res.push({ before: target }); }
         renderAfter(target: any) { res.push({ after: target }); }
       }
-
       const r = new CR();
       const f = (_r: R) => { _r.should.equal(r); return "New Year's Eve"; };
       r.render(f).on(42); r.render(f).before(42); r.render(f).after(42);
@@ -250,5 +237,19 @@ describe('Renderer', () => {
       ]);
     });
   });
-});
 
+  describe('.plug()', () => {
+    it('should invoke `.clone()` with current plugins and given plugins.', done => {
+      class A extends Plugin<any> { priority() { return 0; } }
+      class B extends Plugin<any> { priority() { return 1; } }
+      class CR extends R {
+        clone(...plugs: PluginFactory<any>[]) {
+          plugs.map(_ => _())[0].should.be.instanceOf(A);
+          plugs.map(_ => _())[1].should.be.instanceOf(B);
+          done(); return super.clone();
+        }
+      }
+      new CR(() => new A()).plug(() => new B());
+    });
+  });
+});

@@ -1,4 +1,5 @@
 export {
+  Plugin,
   AppendPlugin, isAppendPlugin,
   ContentPlugin, isContentPlugin,
   CreatePlugin, isCreatePlugin,

@@ -1,11 +1,11 @@
 import { should, expect } from 'chai'; should();
-import { AppendPlugin, Plugin } from '../../plugin';
+import { AppendPlugin, Plugin, PluginFactory } from '../../plugin';
 import { RendererLike } from '../../types';
 
 
 export function testAppendExtensibility
   <N, R extends RendererLike<N>>(
-  factory: (...plugins: Plugin<N, R>[]) => R
+  factory: (...plugins: PluginFactory<N, R>[]) => R
 ) {
   it('should utilize provided append plugins for appending.', done => {
     const _t = {}; const _h = {} as N;
@@ -19,7 +19,7 @@ export function testAppendExtensibility
         return false;
       }
     }
-    const r = factory(new P());
+    const r = factory(() => new P());
     r.append(_t, _h);
   });
 
@@ -37,7 +37,7 @@ export function testAppendExtensibility
       priority() { return (Plugin.PriorityFallback + Plugin.PriorityMax) / 2; }
       append() { return !!res.push('C') || true; }
     }
-    const r = factory(new P1(), new P2(), new P3());
+    const r = factory(() => new P1(), () => new P2(), () => new P3());
     r.append(undefined, undefined as any);
     res.should.eql(['B', 'C']);
   });

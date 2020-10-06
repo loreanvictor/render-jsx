@@ -1,11 +1,11 @@
 import { should, expect } from 'chai'; should();
-import { PropPlugin, Plugin } from '../../plugin';
+import { PropPlugin, Plugin, PluginFactory } from '../../plugin';
 import { RendererLike } from '../../types';
 
 
 export function testPropExtensibility
   <N, R extends RendererLike<N>>(
-  factory: (...plugins: Plugin<N, R>[]) => R
+  factory: (...plugins: PluginFactory<N, R>[]) => R
 ) {
   it('should utilize provided prop plugins for setting properties.', done => {
     const _t = {}; const _n = {} as N; const _p = 'all-work-and-no-play';
@@ -20,7 +20,7 @@ export function testPropExtensibility
         return false;
       }
     }
-    const r = factory(new P());
+    const r = factory(() => new P());
     r.setProp(_n, _p, _t);
   });
 
@@ -38,7 +38,7 @@ export function testPropExtensibility
       priority() { return (Plugin.PriorityFallback + Plugin.PriorityMax) / 2; }
       setProp() { return !!res.push('C') || true; }
     }
-    const r = factory(new P1(), new P2(), new P3());
+    const r = factory(() => new P1(), () => new P2(), () => new P3());
     r.setProp(undefined as any, '', undefined);
     res.should.eql(['B', 'C']);
   });

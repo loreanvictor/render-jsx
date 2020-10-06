@@ -1,1 +1,1 @@
-export { Renderer, RendererLike, LiveRendererLike, Plugin, ToBeRenderered, LifeCycleHook } from './renderer';
+export { Renderer, RendererLike, LiveRendererLike, ToBeRenderered, LifeCycleHook } from './renderer';

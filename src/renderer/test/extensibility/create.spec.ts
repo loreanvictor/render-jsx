@@ -2,13 +2,13 @@
 /* tslint:disable: no-magic-numbers */
 
 import { should, expect } from 'chai'; should();
-import { CreatePlugin, Plugin } from '../../plugin';
+import { CreatePlugin, Plugin, PluginFactory } from '../../plugin';
 import { RendererLike } from '../../types';
 
 
 export function testCreateExtensibility
   <N, R extends RendererLike<N>>(
-  factory: (...plugins: Plugin<N, R>[]) => R
+  factory: (...plugins: PluginFactory<N, R>[]) => R
 ) {
   it('should utilize provided create plugins for creating nodes.', done => {
     const _t = {}; const _p = {}; const _c1 = {}; const _c2 = {};
@@ -25,7 +25,7 @@ export function testCreateExtensibility
         return undefined;
       }
     }
-    const r = factory(new P());
+    const r = factory(() => new P());
     r.create(_t, _p, _c1, _c2);
   });
 
@@ -43,7 +43,7 @@ export function testCreateExtensibility
       priority() { return (Plugin.PriorityFallback + Plugin.PriorityMax) / 2; }
       create() { res.push('C'); return 42 as any; }
     }
-    const r = factory(new P1(), new P2(), new P3());
+    const r = factory(() => new P1(), () => new P2(), () => new P3());
     r.create(undefined);
     res.should.eql(['B', 'C']);
   });

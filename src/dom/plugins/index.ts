@@ -10,8 +10,8 @@ export * from './input-state.plugin';
 
 export function domPlugins() {
   return [
-    new EventHandlerPlugin(),
-    new OptionObjectValuePlugin(),
-    new InputStatePlugin(),
+    () => new EventHandlerPlugin(),
+    () => new OptionObjectValuePlugin(),
+    () => new InputStatePlugin(),
   ];
 }

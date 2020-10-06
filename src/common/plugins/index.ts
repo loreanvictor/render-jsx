@@ -8,7 +8,7 @@ export * from './content-prop.plugin';
 
 export function commonPlugins<Node>() {
   return [
-    new RefPlugin<Node>(),
-    new ContentPropPlugin<Node>(),
+    () => new RefPlugin<Node>(),
+    () => new ContentPropPlugin<Node>(),
   ];
 }

@@ -1,4 +1,4 @@
-import { LifeCycleHook, LiveRendererLike } from '../renderer';
+import { LifeCycleHook, LiveRendererLike, PluginFactory, RendererLike } from '../renderer';
 import { DOMRenderer } from './renderer';
 import { attachLifeCycleHook, lifeCycleBind } from './util/life-cycle';
 
@@ -22,5 +22,9 @@ export class LiveDOMRenderer extends DOMRenderer implements LiveRendererLike<Nod
         super.postRender(target)();
       };
     }
+  }
+
+  clone(...plugins: PluginFactory<Node, RendererLike<Node>>[]) {
+    return new LiveDOMRenderer(this.document, ...plugins);
   }
 }

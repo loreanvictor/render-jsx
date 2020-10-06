@@ -1,13 +1,13 @@
 /* tslint:disable: newline-before-return */
 
 import { should, expect } from 'chai'; should();
-import { PostCreatePlugin, Plugin } from '../../plugin';
+import { PostCreatePlugin, Plugin, PluginFactory } from '../../plugin';
 import { RendererLike } from '../../types';
 
 
 export function testPostCreateExtensibility
   <N, R extends RendererLike<N>>(
-  factory: (...plugins: Plugin<N, R>[]) => R
+  factory: (...plugins: PluginFactory<N, R>[]) => R
 ) {
   it('should invoke provided post-create plugins after a node is created.', () => {
     const res: N[] = [];
@@ -15,7 +15,7 @@ export function testPostCreateExtensibility
       priority() { return Plugin.PriorityFallback; }
       postCreate(node: N) { res.push(node); }
     }
-    const r = factory(new P());
+    const r = factory(() => new P());
     const x1 = r.create(r.fragment);
     const x2 = r.create(r.fragment);
     expect(res[0]).to.equal(x1);
@@ -37,7 +37,7 @@ export function testPostCreateExtensibility
       priority() { return (Plugin.PriorityFallback + Plugin.PriorityMax) / 2; }
       postCreate() { res.push('C'); }
     }
-    const r = factory(new P1(), new P2(), new P3());
+    const r = factory(() => new P1(), () => new P2(), () => new P3());
     r.create(r.fragment);
     res.should.eql(['B', 'C', 'A']);
   });

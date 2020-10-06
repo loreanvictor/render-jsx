@@ -1,16 +1,29 @@
 import { RendererLike, ToBeRenderered } from './types';
-import { Plugin,
+import { Plugin, PluginFactory,
   isAppendPlugin, isPropPlugin, isContentPlugin, isFragmentPlugin,
   isCreatePlugin, isPostCreatePlugin, isPostRenderPlugin, isLeafPlugin
 } from './plugin';
 
 
-export abstract class Renderer<Node> implements RendererLike<Node> {
-  readonly plugins: Plugin<Node, RendererLike<Node>>[];
+export abstract class Renderer<Node, R extends Renderer<Node, R>> implements RendererLike<Node> {
+  readonly _factories: PluginFactory<Node, RendererLike<Node>>[];
+  private _plugins: Plugin<Node, RendererLike<Node>>[];
 
-  constructor(...plugins: Plugin<Node, RendererLike<Node>>[]) {
-    this.plugins = plugins.sort((a, b) => b.priority() - a.priority());
-    this.plugins.forEach(p => p.plug(this));
+  constructor(...plugins: PluginFactory<Node, RendererLike<Node>>[]) {
+    this._factories = plugins;
+  }
+
+  get plugins() {
+    if (!this._plugins) {
+      this._plugins = this._factories.map(f => f()).sort((a, b) => b.priority() - a.priority());
+      this._plugins.forEach(p => p.plug(this));
+    }
+
+    return this._plugins;
+  }
+
+  plug(...plugins: PluginFactory<Node, RendererLike<Node>>[]) {
+    return this.clone(...this._factories, ...plugins);
   }
 
   abstract fallbackAppend(target: any, host: Node): void;
@@ -23,6 +36,8 @@ export abstract class Renderer<Node> implements RendererLike<Node> {
   abstract renderOn(target: Node, host: Node): void;
   abstract renderAfter(target: Node, ref: Node): void;
   abstract renderBefore(target: Node, ref: Node): void;
+
+  abstract clone(...plugins: PluginFactory<Node, RendererLike<Node>>[]): R;
 
   append(target: any, host: Node): void {
     if (!this.plugins.filter(isAppendPlugin).some(p => p.append(target, host))) {
