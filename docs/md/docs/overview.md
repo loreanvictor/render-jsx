@@ -59,7 +59,7 @@ to a DOM renderer and a PDF renderer, or the exact same plugins for rendering
 using an HTML renderer or a native UI renderer.
 
 > :Buttons
-> > :Button label=Learn More
+> > :Button label=Learn More, url=/docs/usage/custom-renderers/core-concepts
 
 ---
 
@@ -101,6 +101,6 @@ renderer.render(
 > :Buttons
 > > :Button label=Try It!, url=https://stackblitz.com/edit/render-jsx-demo3
 >
-> > :Button label=Learn More
+> > :Button label=Learn More, url=/docs/usage/dom/overview
 
 > :ToCPrevNext

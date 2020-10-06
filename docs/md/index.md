@@ -9,6 +9,8 @@
 
 <br><br>
 
+# Render-JSX
+
 Tools and abstractions for building JSX-based libraries and frameworks,
 and a super thin (~2.7kB) and super-fast JSX-based pure DOM renderer (no
 layers between code and DOM, so no VirtualDOM, dirty model checking, etc.).
@@ -31,5 +33,14 @@ renderer.render(
 ```
 > :Buttons
 > > :Button label=Try It!, url=https://stackblitz.com/edit/render-jsx-demo
+
+---
+
+## Quick Access
+
+- [Overview](/docs/overview)
+- [Installation](/docs/install)
+- [DOM Renderer](/docs/usage/dom/overview)
+- [Custom Renderers](/docs/usage/custom-renderers/core-concepts)
 
 > :ToCPrevNext

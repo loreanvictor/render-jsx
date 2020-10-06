@@ -9,7 +9,9 @@
 
 <br><br>
 
-# Prerequisites
+# Installation
+
+## Prerequisites
 
 **Render-JSX** is all about transpiling [JSX](https://facebook.github.io/jsx/), which needs to happen on the server-side
 (before you ship transpiled JavaScript to the client-side, for example). This means you
@@ -18,7 +20,7 @@ need [Node.js](https://nodejs.org/en/) and some Node.js package manager (such as
 
 ---
 
-# Installation
+## Installation
 
 Setting up **Render-JSX** is pretty simple: you need to install the package `render-jsx` and then configure
 your transpiler properly. Easiest way to do that is to use one of the following starter projects:
@@ -39,7 +41,7 @@ npm i render-jsx
 
 ---
 
-# Configuration
+## Configuration
 
 For configuration, you can include these pragmas at the beginning of your `.jsx`/`.tsx` files.
 Most common transpilers understand these pragmas:
