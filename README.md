@@ -11,9 +11,9 @@ npm i render-jsx
 ```tsx
 /** @jsx renderer.create */
 
-import { HTMLRenderer } from 'render-jsx';
+import { CommonDOMRenderer } from 'render-jsx/dom';
 
-const renderer = new HTMLRenderer();
+const renderer = new CommonDOMRenderer();
 renderer.render(
   <div>
     <b>Hellow</b> World!
