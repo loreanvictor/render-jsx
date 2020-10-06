@@ -70,9 +70,10 @@ is ~2.7kB), and can be used to write simple applications or as a basis for
 more involved rendering/UI frameworks/tools.
 
 ```tsx | --no-wmbar
-import { HTMLRenderer, ref } from 'render-jsx';
+import { CommonDOMRenderer } from 'render-jsx/dom';
+import { ref } from 'render-jsx/common';
 
-const renderer = new HTMLRenderer();
+const renderer = new CommonDOMRenderer();
 const list = ref();
 const input = ref<HTMLInputElement>();
 
