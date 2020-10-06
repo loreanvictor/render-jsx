@@ -83,6 +83,11 @@
       "hash": "jdlFnpAeF5DvgUPc6saHWw=="
     },
     {
+      "name": "CollapseControl",
+      "filename": "/home/runner/work/render-jsx/render-jsx/.codedoc/node_modules/@codedoc/core/dist/es6/components/collapse/collapse-control.js",
+      "hash": "qnvWR5TP5YS/zNjF+3Gi6w=="
+    },
+    {
       "name": "GithubSearch",
       "filename": "/home/runner/work/render-jsx/render-jsx/.codedoc/node_modules/@codedoc/core/dist/es6/components/misc/github/search.js",
       "hash": "oSJFcju5hbQH+/JH44drnA=="

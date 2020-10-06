@@ -15,6 +15,7 @@ import { postNavSearch } from '/home/runner/work/render-jsx/render-jsx/.codedoc/
 import { copyLineLinks } from '/home/runner/work/render-jsx/render-jsx/.codedoc/node_modules/@codedoc/core/dist/es6/components/code/line-links/copy-line-link.js';copyLineLinks();
 import { gatherFootnotes } from '/home/runner/work/render-jsx/render-jsx/.codedoc/node_modules/@codedoc/core/dist/es6/components/footnote/gather-footnotes.js';gatherFootnotes();
 import { ToCPrevNext } from '/home/runner/work/render-jsx/render-jsx/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/prevnext/index.js';
+import { CollapseControl } from '/home/runner/work/render-jsx/render-jsx/.codedoc/node_modules/@codedoc/core/dist/es6/components/collapse/collapse-control.js';
 import { GithubSearch } from '/home/runner/work/render-jsx/render-jsx/.codedoc/node_modules/@codedoc/core/dist/es6/components/misc/github/search.js';
 import { ToCToggle } from '/home/runner/work/render-jsx/render-jsx/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/toggle/index.js';
 import { DarkModeSwitch } from '/home/runner/work/render-jsx/render-jsx/.codedoc/node_modules/@codedoc/core/dist/es6/components/darkmode/index.js';
@@ -23,6 +24,7 @@ import { TabSelector } from '/home/runner/work/render-jsx/render-jsx/.codedoc/no
 
 const components = {
   'jdlFnpAeF5DvgUPc6saHWw==': ToCPrevNext,
+  'qnvWR5TP5YS/zNjF+3Gi6w==': CollapseControl,
   'oSJFcju5hbQH+/JH44drnA==': GithubSearch,
   'P7GO0uk71MZxJKObVFd63w==': ToCToggle,
   'jhh5mvfjzkKWQ3/9LVgS/Q==': DarkModeSwitch,
