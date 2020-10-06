@@ -18,6 +18,8 @@ npm i render-jsx
 ```
 
 ```tsx | --no-wmbar
+/** @jsx renderer.create */
+
 import { HTMLRenderer } from 'render-jsx';
 
 const renderer = new HTMLRenderer();
