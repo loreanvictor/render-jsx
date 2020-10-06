@@ -1,0 +1,5 @@
+{
+  "main": "../../dist/es5/common/errors/index.js",
+  "module": "../../dist/es6/common/errors/index.js",
+  "types": "dist/es6/common/errors/index.d.ts"
+}

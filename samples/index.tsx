@@ -1,17 +1,19 @@
-import { HTMLRenderer, ref } from '../src';
+import { ref } from '../common';
+import { CommonDOMRenderer } from '../dom';
 
-const renderer = new HTMLRenderer();
+const renderer = new CommonDOMRenderer();
 const list = ref();
 const input = ref<HTMLInputElement>();
 
 function Todo({title}: {title: string}) {
   const li = ref<HTMLElement>();
+
   return <li _ref={li}>
     <div style='display: flex'>
       <div style='flex-grow: 1'>{title}</div>
       <button onclick={() => li.$.remove()}>X</button>
     </div>
-  </li>
+  </li>;
 }
 
 renderer.render(
