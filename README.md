@@ -22,7 +22,7 @@ renderer.render(
 ```
 [► TRY IT!](https://stackblitz.com/edit/render-jsx-demo)
 
-👉 [Read the Docs](https://loreanvictor.github.io/render-jsx/).
+👉 [Read the Docs](https://loreanvictor.github.io/render-jsx/)
 
 <br><br>
 
