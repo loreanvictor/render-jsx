@@ -9,6 +9,8 @@ npm i render-jsx
 ```
 
 ```tsx
+/** @jsx renderer.create */
+
 import { HTMLRenderer } from 'render-jsx';
 
 const renderer = new HTMLRenderer();
