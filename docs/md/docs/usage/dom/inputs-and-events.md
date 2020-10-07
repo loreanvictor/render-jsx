@@ -55,6 +55,47 @@ renderer.render(
 
 ## Inputs
 
-You can capture 
+You can capture input values using `_state` property:
+
+```tsx | --no-wmbar
+import { CommonDOMRenderer } from 'render-jsx/dom';
+import { ref } from 'render-jsx/common';
+
+const renderer = new CommonDOMRenderer();
+let text = '';
+const small = ref();
+
+renderer.render(<div>
+/*!*/  <input _state={t => text = small.$.textContent = t} type='text'/>
+  <button onclick={() => alert(text)}>REPEAT!</button>
+  <br/>
+  <small _ref={small}/>
+</div>).on(document.body);
+```
+> :Buttons
+> > :Button label=Try It!, url=https://stackblitz.com/edit/render-jsx-demo9?file=index.tsx
+
+You can also use `_value` property on `<option>`s (in `<select>`) to attach
+JavaScript values to each option, which is fetched via `_state` property on the
+corresponding `<select>`:
+
+```tsx | --no-wmbar
+import { CommonDOMRenderer } from 'render-jsx/dom';
+import { ref } from 'render-jsx/common';
+
+const renderer = new CommonDOMRenderer();
+const display = ref();
+
+renderer.render(<div>
+  <div _ref={display}/>
+  <select _state={p => display.$.textContent = p.name}>
+/*!*/    <option _value={{name: 'Eugene'}}>First Guy</option>
+/*!*/    <option _value={{name: 'Tim'}}>Second Guy</option>
+  </select>
+</div>).on(document.body);
+```
+> :Buttons
+> > :Button label=Try It!, url=https://stackblitz.com/edit/render-jsx-demo10?file=index.tsx
+
 
 > :ToCPrevNext
