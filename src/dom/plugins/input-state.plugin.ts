@@ -20,8 +20,8 @@ export class InputStatePlugin
       )
       && typeof target === 'function'
     ) {
+      const renderer = this.renderer();
       if (node instanceof HTMLInputElement && node.type === 'radio' && node.name) {
-        const renderer = this.renderer();
         renderer.hook(node, {
           bind() {
             (node.form || renderer.document)
@@ -31,13 +31,18 @@ export class InputStatePlugin
                 input.addEventListener('input', () => target(getInputValue(node)));
               }
             });
+
+            target(getInputValue(node));
           }
         });
       } else {
         node.addEventListener('input', () => target(getInputValue(node)));
+        renderer.hook(node, {
+          bind() {
+            target(getInputValue(node));
+          }
+        });
       }
-
-      target(getInputValue(node));
 
       return true;
     }

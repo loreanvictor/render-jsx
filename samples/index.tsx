@@ -1,31 +1,13 @@
-import { ref } from '../common';
-import { CommonDOMRenderer } from '../dom';
+import { CommonDOMRenderer } from '../src/dom';
+import { ref } from '../src/common';
 
 const renderer = new CommonDOMRenderer();
-const list = ref();
-const input = ref<HTMLInputElement>();
+let text = '';
+const small = ref();
 
-function Todo({title}: {title: string}) {
-  const li = ref<HTMLElement>();
-
-  return <li _ref={li}>
-    <div style='display: flex'>
-      <div style='flex-grow: 1'>{title}</div>
-      <button onclick={() => li.$.remove()}>X</button>
-    </div>
-  </li>;
-}
-
-renderer.render(
-  <div>
-    <h1>Todos:</h1>
-    <ol _ref={list}/>
-    <div style='display: flex'>
-      <input type='text' _ref={input} style='flex-grow: 1'/>
-      <button onclick={() => {
-        renderer.render(<Todo title={input.$.value}/>).on(list.$);
-        input.$.value = '';
-      }}>Add</button>
-    </div>
-  </div>
-).on(document.body);
+renderer.render(<div>
+  <input _state={(t: any) => text = small.$.textContent = t} type='text'/>
+  <button onclick={() => alert(text)}>REPEAT!</button>
+  <br/>
+  <small _ref={small}/>
+</div>).on(document.body);

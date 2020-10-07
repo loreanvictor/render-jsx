@@ -9,10 +9,12 @@
 >
 > > :Collapse label=DOM Rendering
 > >
-> > [DOM Rendering Overview](/docs/usage/dom/overview)
+> > [DOM Renderer](/docs/usage/dom/overview)
+> > [Refs](/docs/usage/dom/ref)
 > > [Inputs & Events](/docs/usage/dom/inputs-and-events)
 > > [Components](/docs/usage/dom/components)
 > > [Component Life Cycle](/docs/usage/dom/component-life-cycle)
+> > [DOM Renderer Extensibility](/docs/usage/dom/extensibility)
 >
 > > :Collapse label=Custom Renderers
 > >
