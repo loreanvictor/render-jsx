@@ -1,6 +1,6 @@
 {
   "name": "render-jsx",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "render pure dom using JSX",
   "main": "dist/es5/index.js",
   "module": "dist/es6/index.js",
@@ -17,6 +17,7 @@
     "cov:travis": "nyc npm run test && npx codecov",
     "cov:clean": "rm -fr ./.nyc_output && rm -fr ./coverage"
   },
+  "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/loreanvictor/render-jsx.git"
