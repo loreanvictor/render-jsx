@@ -62,3 +62,33 @@ And use the following pragmas in your `.jsx`/`.tsx` files:
 ```
 👉 [Read the Docs](https://loreanvictor.github.io/render-jsx/docs/install)
 
+<br><br>
+
+# Contribution
+
+There are no contribution guidelines or issue templates currently, so just be nice (and also note that this is REALLY early stage).
+Useful commands for development / testing:
+```bash
+git clone https://github.com/loreanvictor/render-jsx.git
+```
+```bash
+npm i                   # --> installs all dependencies, including dev
+```
+```bash
+npm start               # --> runs `samples/index.tsx` on `localhost:3000`
+```
+```bash
+npm test                # --> runs all tests
+```
+```bash
+npm run cov:view        # --> run tests and display the code coverage report
+```
+```bash
+npm i -g @codedoc/cli   # --> install CODEDOC cli (for working on docs)
+```
+```bash
+codedoc i               # --> install CODEDOC dependencies (for working on docs)
+```
+```bash
+codedoc s               # --> serve docs on `localhost:3000/render-jsx` (from `docs/md/`)
+```
