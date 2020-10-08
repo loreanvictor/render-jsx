@@ -4,7 +4,7 @@
 [![NPM Version](https://badgen.net/npm/v/render-jsx)](https://www.npmjs.com/package/render-jsx)
 [![Build Status](https://travis-ci.org/loreanvictor/render-jsx.svg?branch=master)](https://travis-ci.org/loreanvictor/render-jsx)
 [![Code Coverage](https://app.codacy.com/project/badge/Coverage/32af4af651f345fca094a0d1ea2084fe)](https://www.codacy.com/gh/loreanvictor/render-jsx/dashboard?utm_source=github.com&utm_medium=referral&utm_content=loreanvictor/render-jsx&utm_campaign=Badge_Coverage)
-[![Bundle Size](https://badgen.net/bundlephobia/minzip/render-jsx)](https://bundlephobia.com/result?p=render-jsx@0.0.9)
+[![Bundle Size](https://badgen.net/bundlephobia/minzip/render-jsx)](https://bundlephobia.com/result?p=render-jsx@latest)
 [![Codacy Quality](https://app.codacy.com/project/badge/Grade/32af4af651f345fca094a0d1ea2084fe)](https://www.codacy.com/gh/loreanvictor/render-jsx/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=loreanvictor/render-jsx&amp;utm_campaign=Badge_Grade)
 
 Tools for building JSX-based libraries / frameworks, also a super-thin and fast pure DOM renderer.
