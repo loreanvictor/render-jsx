@@ -66,8 +66,8 @@ export function testPostRenderBeforeExtensibility
     r.render(x).on(h);
     r.render(x1).before(x);
     r.render(x2).before(x);
-    expect(res[0]).to.equal(x1);
-    expect(res[1]).to.equal(x2);
+    expect(res[1]).to.equal(x1);
+    expect(res[2]).to.equal(x2);
     expect(res.length).to.equal(3);
   });
 
@@ -113,8 +113,8 @@ export function testPostRenderAfterExtensibility
     r.render(x).on(h);
     r.render(x1).after(x);
     r.render(x2).after(x);
-    expect(res[0]).to.equal(x1);
-    expect(res[1]).to.equal(x2);
+    expect(res[1]).to.equal(x1);
+    expect(res[2]).to.equal(x2);
     expect(res.length).to.equal(3);
   });
 

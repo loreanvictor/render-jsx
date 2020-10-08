@@ -12,8 +12,8 @@ export function lifeCycleInfo(node: Node, createIfNonExistent?: boolean): LifeCy
 export function lifeCycleInfo(node: Node, createIfNonExistent = false): LifeCycleInfo | undefined {
   const _node = node as any;
 
-  if (node instanceof DocumentFragment) {
-    return fragmentLifeCycleInfo(node, createIfNonExistent);
+  if (node.nodeType === node.DOCUMENT_FRAGMENT_NODE) {
+    return fragmentLifeCycleInfo(node as DocumentFragment, createIfNonExistent);
   }
   else {
     if (_node.lifecycle) {
@@ -30,10 +30,11 @@ export function lifeCycleInfo(node: Node, createIfNonExistent = false): LifeCycl
 
 export function fragmentLifeCycleInfo(fragment: DocumentFragment, createIfNonExistent: boolean) {
   let marker = getLifeCycleMarker(fragment);
+  /*istanbul ignore if*/
   if (marker) {
     return lifeCycleInfo(marker, createIfNonExistent);
   } else if (createIfNonExistent) {
-    marker = document.createElement('i');
+    marker = fragment.ownerDocument?.createElement('i');
     marker.setAttribute('hidden', '');
     setLifeCycleMarker(fragment, marker);
 
@@ -67,6 +68,7 @@ export function lifeCycleClear(node: Node) {
 export function lifeCycleBind(node: Node) {
   const lifecycle = lifeCycleInfo(node);
   if (lifecycle) {
+    /*istanbul ignore next*/
     if (lifecycle.bound) {
       return;
     }
@@ -82,7 +84,7 @@ export function lifeCycleBind(node: Node) {
       changes.forEach(change => {
         if (change.removedNodes) {
           change.removedNodes.forEach(_node => setImmediate(() => {
-            if (!document.contains(_node)) {
+            if (node.ownerDocument && !node.ownerDocument.contains(_node)) {
               lifeCycleClear(_node);
             }
           }));
@@ -105,7 +107,7 @@ export function attachLifeCycleHook(hook: LifeCycleHook, node: Node) {
   lifecycle.hooks.push(hook);
 }
 
-
+/*istanbul ignore next*/
 export function detachLifeCycleHook(hook: LifeCycleHook, node: Node) {
   const lifecycle = lifeCycleInfo(node);
   if (lifecycle && lifecycle.hooks) {

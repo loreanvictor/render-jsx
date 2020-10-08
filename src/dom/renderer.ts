@@ -1,26 +1,29 @@
+import { DOMWindow } from 'jsdom';
 import { isPostRenderPlugin, Plugin, PluginFactory, Renderer, RendererLike } from '../renderer';
 import { UnrecognizedTagError } from './errors';
 
 
 export class DOMRenderer extends Renderer<Node, DOMRenderer> {
-  readonly document: HTMLDocument;
+  readonly dom: DOMWindow;
 
-  constructor(doc?: HTMLDocument, ...plugins: PluginFactory<Node, RendererLike<Node>>[]);
+  constructor(dom?: DOMWindow, ...plugins: PluginFactory<Node, RendererLike<Node>>[]);
   constructor(...plugins: PluginFactory<Node, RendererLike<Node>>[]);
   constructor(
-    doc: HTMLDocument | PluginFactory<Node, RendererLike<Node>> = document,
+    dom: DOMWindow | PluginFactory<Node, RendererLike<Node>> = window as any,
     ...plugins: PluginFactory<Node, RendererLike<Node>>[]
   ) {
-    super(...(doc instanceof HTMLDocument ? plugins : [doc, ...plugins]));
-    if (doc instanceof HTMLDocument) {
-      this.document = doc;
+    super(...(typeof dom === 'function' ? [dom, ...plugins] : plugins));
+    if (!dom || typeof dom === 'function') {
+      this.dom = window as any;
     } else {
-      this.document = document;
+      this.dom = dom;
     }
   }
 
+  get document() { return this.dom.document; }
+
   fallbackAppend(target: any, host: Node): void {
-    if (target instanceof Node) {
+    if (target instanceof this.dom.Node) {
       host.appendChild(target);
     } else if (Array.isArray(target)) {
       target.forEach(child => this.append(child, host));
@@ -30,7 +33,7 @@ export class DOMRenderer extends Renderer<Node, DOMRenderer> {
   }
 
   fallbackSetProp(node: Node, prop: string, target: any): void {
-    if (node instanceof HTMLElement) {
+    if (node instanceof this.dom.HTMLElement) {
       if (typeof target === 'boolean') {
         if (target) {
           node.setAttribute(prop, '');
@@ -44,7 +47,7 @@ export class DOMRenderer extends Renderer<Node, DOMRenderer> {
   }
 
   fallbackSetContent(node: Node, target: any): void {
-    if (node instanceof HTMLElement) {
+    if (node instanceof this.dom.HTMLElement) {
       node.innerHTML = `${target}`;
     } else {
       node.textContent = `${target}`;
@@ -60,11 +63,11 @@ export class DOMRenderer extends Renderer<Node, DOMRenderer> {
   }
 
   fallbackCreate(tag: any, props?: { [prop: string]: any; }): Node {
-    if (!(tag instanceof Node || typeof tag === 'string')) {
+    if (!(tag instanceof this.dom.Node || typeof tag === 'string')) {
       throw new UnrecognizedTagError(tag);
     }
 
-    if (tag instanceof Node) {
+    if (tag instanceof this.dom.Node) {
       return tag;
     } else if (props && props.xmlns) {
       return this.document.createElementNS(`${props.xmlns}`, tag);
@@ -91,24 +94,20 @@ export class DOMRenderer extends Renderer<Node, DOMRenderer> {
 
   postRender(target: Node) {
     const post = this.plugins.filter(isPostRenderPlugin);
-    if (target instanceof DocumentFragment) {
+    if (target instanceof this.dom.DocumentFragment) {
       const children = Array.from(target.childNodes);
 
-      return () => children.forEach(child => post.forEach(p => p.postRender(child)));
+      return () => children.forEach(child => { this.postRender(child)(); });
     } else {
       return () => post.forEach(p => p.postRender(target));
     }
   }
 
   remove(node: Node) {
-    if (node instanceof Element) {
-      node.remove();
-    } else {
-      node.parentNode?.removeChild(node);
-    }
+    node.parentNode?.removeChild(node);
   }
 
   clone(...plugins: PluginFactory<Node, RendererLike<Node>>[]) {
-    return new DOMRenderer(this.document, ...plugins);
+    return new DOMRenderer(this.dom, ...plugins);
   }
 }

@@ -1,17 +1,18 @@
 import { CommonDOMRenderer } from '../src/dom';
 import { ref } from '../src/common';
-import { LiveComponentThis } from '../src/component';
+import { LiveDOMComponentThis } from '../src/dom';
 
 const renderer = new CommonDOMRenderer();
-function MyComp(this: LiveComponentThis, _: any) {
-  const container = ref();
+function MyComp(this: LiveDOMComponentThis, _: any) {
+  const b = ref();
 
   this.onBind(() => console.log('Bound!'));
   this.onClear(() => console.log('Cleared!'));
+  this.setLifeCycleMarker(b);
 
-  return <div _ref={container}>
-    <button onclick={() => renderer.remove(container.$)}>Remove ME!</button>
-  </div>;
+  return <>
+    <button _ref={b} onclick={() => renderer.remove(b.$)}>Remove ME!</button>
+  </>;
 }
 
 const comp = <MyComp/>;

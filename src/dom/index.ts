@@ -1,3 +1,4 @@
+import { DOMWindow } from 'jsdom';
 import { commonPlugins } from '../common';
 import { liveDOMComponentPlugin } from './component';
 import { LiveDOMRenderer } from './live-renderer';
@@ -12,8 +13,8 @@ export * from './component';
 
 
 export class CommonDOMRenderer extends LiveDOMRenderer {
-  constructor(doc: HTMLDocument = document) {
-    super(doc,
+  constructor(dom: DOMWindow = window as any) {
+    super(dom,
       liveDOMComponentPlugin(),
       ...commonPlugins<Node>(),
       ...domPlugins(),

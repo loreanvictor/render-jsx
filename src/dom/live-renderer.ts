@@ -9,10 +9,8 @@ export class LiveDOMRenderer extends DOMRenderer implements LiveRendererLike<Nod
   }
 
   postRender(target: Node) {
-    if (target instanceof DocumentFragment) {
-      const children = Array.from(target.childNodes);
-
-      return () => children.forEach(child => { this.postRender(child)(); });
+    if (target instanceof this.dom.DocumentFragment) {
+      return super.postRender(target);
     } else {
       return () => {
         if (this.document.contains(target)) {
@@ -25,6 +23,6 @@ export class LiveDOMRenderer extends DOMRenderer implements LiveRendererLike<Nod
   }
 
   clone(...plugins: PluginFactory<Node, RendererLike<Node>>[]) {
-    return new LiveDOMRenderer(this.document, ...plugins);
+    return new LiveDOMRenderer(this.dom, ...plugins);
   }
 }
