@@ -169,6 +169,6 @@ For this situation, you can use fragments (`<>...</>`):
 > > ```
 
 > :Buttons
-> > :Button label=Try It!, url=https://stackblitz.com/edit/render-jsx-demo12
+> > :Button label=Try It!, url=https://stackblitz.com/edit/render-jsx-demo13
 
 > :ToCPrevNext
