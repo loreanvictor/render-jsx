@@ -66,7 +66,7 @@ using an HTML renderer or a native UI renderer.
 Using JSX for DOM rendering is the most common use case.
 As a result, **Render-JSX** comes with a simple and low-level DOM renderer.
 This renderer sits directly on top of DOM APIs and is pretty thin (whole package
-is ~2.7kB), and can be used either to write simple applications or as a basis for
+is under 1kB), and can be used either to write simple applications or as a basis for
 more involved rendering/UI frameworks/tools.
 
 ```tsx | --no-wmbar
