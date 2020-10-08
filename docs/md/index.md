@@ -40,6 +40,7 @@ renderer.render(
 
 - [Overview](/docs/overview)
 - [Installation](/docs/install)
+- [Usage](/docs/usage/overview)
 - [DOM Renderer](/docs/usage/dom/overview)
 - [Custom Renderers](/docs/usage/custom-renderers/core-concepts)
 

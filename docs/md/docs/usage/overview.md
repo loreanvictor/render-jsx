@@ -43,6 +43,15 @@ setInterval(() => { s++; span.$.textContent = `${s}`; }, 1000);
 >
 > > :Button label=Learn More, url=/docs/usage/dom/overview
 
+### Quick Access
+
+- [DOM Renderer](/docs/usage/dom/overview)
+- [Refs](/docs/usage/dom/ref)
+- [Inputs & Events](/docs/usage/dom/inputs-and-events)
+- [Components](/docs/usage/dom/components)
+- [Component Life Cycle](/docs/usage/dom/component-life-cycle)
+- [Extensibility](/docs/usage/dom/extensibility)
+
 ---
 
 ## Custom Plugins and Renderers
@@ -107,5 +116,12 @@ renderer
 > > :Button label=Try It!, url=https://stackblitz.com/edit/render-jsx-demo5?file=index.tsx
 >
 > > :Button label=Learn More, url=/docs/usage/custom-renderers/core-concepts
+
+### Quick Access
+
+- [Core Concepts](/docs/usage/custom-renderers/core-concepts)
+- [Plugins](/docs/usage/custom-renderers/plugins)
+- [Custom Plugins](/docs/usage/custom-renderers/custom-plugins)
+- [Custom Renderers](/docs/usage/custom-renderers/custom-renderers)
 
 > :ToCPrevNext

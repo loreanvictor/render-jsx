@@ -20,5 +20,5 @@
 > >
 > > [Customization Core Concepts](/docs/usage/custom-renderers/core-concepts)
 > > [Plugins](/docs/usage/custom-renderers/plugins)
-> > [Custom Renderers](/docs/usage/custom-renderers/custom-renderers)
 > > [Custom Plugins](/docs/usage/custom-renderers/custom-plugins)
+> > [Custom Renderers](/docs/usage/custom-renderers/custom-renderers)
