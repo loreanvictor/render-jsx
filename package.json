@@ -41,7 +41,7 @@
   "bugs": {
     "url": "https://github.com/loreanvictor/render-jsx/issues"
   },
-  "homepage": "https://github.com/loreanvictor/render-jsx#readme",
+  "homepage": "https://loreanvictor.github.io/render-jsx/",
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.11.5",
