@@ -1,7 +1,6 @@
 /* tslint:disable: no-magic-numbers */
 /* tslint:disable: no-unused-expression */
 /* tslint:disable: newline-before-return */
-
 import { should, expect } from 'chai';
 import { AppendPlugin, ContentPlugin, CreatePlugin, Plugin, PluginFactory, PropPlugin } from '../plugin';
  should();
@@ -30,6 +29,7 @@ describe('Renderer', () => {
     renderOn(_target: any, _host: any): void {}
     renderAfter(_target: any, _ref: any): void {}
     renderBefore(_target: any, _ref: any): void {}
+    remove(_target: any) {}
     clone() { return new R(); }
   }
 

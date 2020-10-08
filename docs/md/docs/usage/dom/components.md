@@ -49,23 +49,25 @@
 > :Buttons
 > > :Button label=Try It!, url=https://stackblitz.com/edit/render-jsx-demo11
 
-> [info](:Icon (align=-6px)) **NOTE**
+> [info](:Icon (align=-6px)) **IMPORTANT**
 >
 > For most JSX transpilers, component names **MUST** start with uppercase letters,
 > as otherwise the tag will be interpreted by the transpiler as a string tag.
 >
 > So this is wrong:
-> ```tsx
+> ```tsx | --no-wmbar
 > function component(_, renderer) { ... }
 > /*~*/<component/>/*~*/
 > ```
 > But this is correct:
-> ```tsx
+> ```tsx | --no-wmbar
 > function Component(_, renderer) { ... }
 > <Component/>
 > ```
 
-> [info](:Icon (align=-6px)) **NOTE**
+<br>
+
+> [info](:Icon (align=-6px)) **IMPORTANT**
 >
 > Note that your component functions **MUST** always have a second argument
 > named `renderer`, as otherwise the JSX in your component scope cannot be transpiled.

@@ -9,7 +9,7 @@ export interface LifeCycleInfo {
 
 export function lifeCycleInfo(node: Node, createIfNonExistent: true): LifeCycleInfo;
 export function lifeCycleInfo(node: Node, createIfNonExistent?: boolean): LifeCycleInfo | undefined;
-export function lifeCycleInfo(node: Node, createIfNonExistent: boolean = false): LifeCycleInfo | undefined {
+export function lifeCycleInfo(node: Node, createIfNonExistent = false): LifeCycleInfo | undefined {
   const _node = node as any;
 
   if (node instanceof DocumentFragment) {

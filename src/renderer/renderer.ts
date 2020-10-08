@@ -36,6 +36,7 @@ export abstract class Renderer<Node, R extends Renderer<Node, R>> implements Ren
   abstract renderOn(target: Node, host: Node): void;
   abstract renderAfter(target: Node, ref: Node): void;
   abstract renderBefore(target: Node, ref: Node): void;
+  abstract remove(target: Node): void;
 
   abstract clone(...plugins: PluginFactory<Node, RendererLike<Node>>[]): R;
 

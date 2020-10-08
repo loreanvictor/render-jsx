@@ -100,6 +100,14 @@ export class DOMRenderer extends Renderer<Node, DOMRenderer> {
     }
   }
 
+  remove(node: Node) {
+    if (node instanceof Element) {
+      node.remove();
+    } else {
+      node.parentNode?.removeChild(node);
+    }
+  }
+
   clone(...plugins: PluginFactory<Node, RendererLike<Node>>[]) {
     return new DOMRenderer(this.document, ...plugins);
   }

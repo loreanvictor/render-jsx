@@ -15,6 +15,7 @@ export interface RendererLike<Node> {
   leaf(): Node;
   create(tag: any, props?: {[prop: string]: any}, ...children: any[]): Node;
   render(target: Node | ((renderer: RendererLike<Node>) => Node)): ToBeRenderered<Node>;
+  remove(target: Node): void;
 }
 
 

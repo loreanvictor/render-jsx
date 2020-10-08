@@ -29,7 +29,7 @@ renderer.render(
 `CommonDOMRenderer` creates DOM elements and renders them directly to the document (or wherever you target them)
 without any layers in-between, making it as fast as browser's own DOM APIs.
 
-> [info](:Icon (align=-6px)) **NOTE**
+> [info](:Icon (align=-6px)) **IMPORTANT**
 >
 > Even when you are not using `.render()` function, you need a renderer object (named `renderer`)
 > in the context for creation of DOM elements.
