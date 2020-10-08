@@ -44,7 +44,7 @@ For example, you can re-use your components (or your custom class-based componen
 to HTML string (server side), to native UI libraries, to custom input format of a PDF generator, etc.
 
 **Render-JSX** also comes with a super-thin and fast DOM renderer (which is mostly meant as a basis of more involved UI renderers). 
-This means you can use it to create simple web interfaces without any extra dependency (`render-jsx` itself is <1kB).
+This means you can use it to create simple web interfaces without any extra dependency (< 1kB).
 
 👉 [Read the Docs](https://loreanvictor.github.io/render-jsx/docs/overview)
 
