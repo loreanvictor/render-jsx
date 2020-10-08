@@ -34,6 +34,17 @@ export function content(_content: HTMLElement, toc: HTMLElement, renderer: Rende
       <style>{`
         p { line-height: 1.7rem }
         h1 img, h2 img, h3 img, h4 img { width: 2rem; vertical-align: bottom; }
+        #-codedoc-toc a { color: ${config.theme.light.text}; }
+        #-codedoc-toc a:hover, #-codedoc-toc a.current { color: ${config.theme.light.primary}; }
+        body.dark #-codedoc-toc a { color: ${config.theme.dark.text}; }
+        body.dark #-codedoc-toc a:hover,
+        body.dark #-codedoc-toc a.current { color: ${config.theme.dark.primary}; }
+        @media (prefers-color-scheme: dark) {
+          body:not(.dark-mode-animate) #-codedoc-toc a { color: ${config.theme.dark.text}; }
+          body:not(.dark-mode-animate) #-codedoc-toc a:hover,
+          body:not(.dark-mode-animate) #-codedoc-toc a.current { color: ${config.theme.dark.primary}; }
+        }
+        body.dark-mode-animate #-codedoc-toc a { transition: color .3s, background .3s, border-color .3s; }
       `}</style>
       {_content}
       <ContentNav content={_content}/>
