@@ -77,13 +77,13 @@ Useful commands for development / testing:
 git clone https://github.com/loreanvictor/render-jsx.git
 ```
 ```bash
-npm i                   # --> installs all dependencies, including dev
+npm i                   # --> install dependencies
 ```
 ```bash
-npm start               # --> runs `samples/index.tsx` on `localhost:3000`
+npm start               # --> run `samples/index.tsx` on `localhost:3000`
 ```
 ```bash
-npm test                # --> runs all tests
+npm test                # --> run all tests
 ```
 ```bash
 npm run cov:view        # --> run tests and display the code coverage report
