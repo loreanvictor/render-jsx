@@ -1,10 +1,10 @@
 <img src="/render-jsx-logo.svg" width="300"/>
 
 # Render-JSX
-[![NPM Version](https://badgen.net/npm/v/render-jsx)](https://www.npmjs.com/package/render-jsx)
+[![NPM Version](https://badgen.net/npm/v/render-jsx?cache=600)](https://www.npmjs.com/package/render-jsx)
 [![Build Status](https://travis-ci.org/loreanvictor/render-jsx.svg?branch=master)](https://travis-ci.org/loreanvictor/render-jsx)
 [![Code Coverage](https://app.codacy.com/project/badge/Coverage/32af4af651f345fca094a0d1ea2084fe)](https://www.codacy.com/gh/loreanvictor/render-jsx/dashboard?utm_source=github.com&utm_medium=referral&utm_content=loreanvictor/render-jsx&utm_campaign=Badge_Coverage)
-[![Bundle Size](https://badgen.net/bundlephobia/minzip/render-jsx)](https://bundlephobia.com/result?p=render-jsx@0.0.9)
+[![Bundle Size](https://badgen.net/bundlephobia/minzip/render-jsx?cache=300)](https://bundlephobia.com/result?p=render-jsx@latest)
 [![Codacy Quality](https://app.codacy.com/project/badge/Grade/32af4af651f345fca094a0d1ea2084fe)](https://www.codacy.com/gh/loreanvictor/render-jsx/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=loreanvictor/render-jsx&amp;utm_campaign=Badge_Grade)
 
 Tools for building JSX-based libraries / frameworks, also a super-thin and fast pure DOM renderer.
@@ -44,7 +44,7 @@ For example, you can re-use your components (or your custom class-based componen
 to HTML string (server side), to native UI libraries, to custom input format of a PDF generator, etc.
 
 **Render-JSX** also comes with a super-thin and fast DOM renderer (which is mostly meant as a basis of more involved UI renderers). 
-This means you can use it to create simple web interfaces without any extra dependency (`render-jsx` itself is <1kB).
+This means you can use it to create simple web interfaces without any extra dependency (< 1kB).
 
 👉 [Read the Docs](https://loreanvictor.github.io/render-jsx/docs/overview)
 
