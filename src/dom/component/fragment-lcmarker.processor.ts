@@ -23,11 +23,11 @@ export class FragmentLifeCycleMarkerComponentProcessor
     });
 
     post(node => {
-      if (node instanceof DocumentFragment && marker) {
+      if (node.nodeType === node.DOCUMENT_FRAGMENT_NODE && marker) {
         if (marker instanceof Ref) {
-          setLifeCycleMarker(node, marker.$);
+          setLifeCycleMarker(node as DocumentFragment, marker.$);
         } else {
-          setLifeCycleMarker(node, marker);
+          setLifeCycleMarker(node as DocumentFragment, marker);
         }
       }
     });

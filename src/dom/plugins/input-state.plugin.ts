@@ -14,32 +14,35 @@ export class InputStatePlugin
   setProp(node: Node, prop: string, target: any): boolean {
     if (prop === '_state'
       && (
-        node instanceof HTMLInputElement
-        || node instanceof HTMLTextAreaElement
-        || node instanceof HTMLSelectElement
+        node.nodeName === 'INPUT'
+        || node.nodeName === 'TEXTAREA'
+        || node.nodeName === 'SELECT'
       )
       && typeof target === 'function'
     ) {
       const renderer = this.renderer();
-      if (node instanceof HTMLInputElement && node.type === 'radio' && node.name) {
+      if (node.nodeName === 'INPUT' && (node as HTMLInputElement).type === 'radio' && (node as HTMLInputElement).name) {
+        const i = node as HTMLInputElement;
         renderer.hook(node, {
           bind() {
-            (node.form || renderer.document)
-            .querySelectorAll(`input[name="${node.name}"]`)
+            // TODO: write in a more performant manner.
+            // TODO: this will not pick up input from radio buttons added later, fix that maybe?
+            (i.form || renderer.document)
+            .querySelectorAll(`input[name="${i.name}"]`)
             .forEach(input => {
-              if ((input as HTMLInputElement).form === node.form) {
-                input.addEventListener('input', () => target(getInputValue(node)));
+              if ((input as HTMLInputElement).form === i.form) {
+                input.addEventListener('input', () => target(getInputValue(i)));
               }
             });
 
-            target(getInputValue(node));
+            target(getInputValue(i));
           }
         });
       } else {
-        node.addEventListener('input', () => target(getInputValue(node)));
+        node.addEventListener('input', () => target(getInputValue(node as any)));
         renderer.hook(node, {
           bind() {
-            target(getInputValue(node));
+            target(getInputValue(node as any));
           }
         });
       }

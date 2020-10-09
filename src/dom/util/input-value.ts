@@ -8,22 +8,23 @@ export function getOptionObjectValue($: HTMLOptionElement) {
 }
 
 export function getInputValue($: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement) {
-  if ($ instanceof HTMLInputElement) {
+  if ($.nodeName === 'INPUT') {
     if ($.type === 'number'){
       return parseFloat($.value);
     } else if ($.type === 'checkbox' || $.type === 'radio') {
-      return $.checked;
+      return ($ as HTMLInputElement).checked;
     } else {
       return $.value;
     }
-  } else if ($ instanceof HTMLSelectElement) {
-    const selected = Array.from($.selectedOptions).map(option =>
+  } else if ($.nodeName === 'SELECT') {
+    const s = $ as HTMLSelectElement;
+    const selected = Array.from(s.selectedOptions).map(option =>
       getOptionObjectValue(option)
       || option.value
       || option.text
     );
 
-    return $.multiple ? selected : selected[0];
+    return s.multiple ? selected : selected[0];
   } else {
     return $.value;
   }
@@ -31,16 +32,17 @@ export function getInputValue($: HTMLInputElement | HTMLTextAreaElement | HTMLSe
 
 
 export function setInputValue($: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, value: any) {
-  if ($ instanceof HTMLInputElement) {
+  if ($.nodeName === 'INPUT') {
     if ($.type === 'checkbox' || $.type === 'radio') {
-      $.checked = !!value;
+      ($ as HTMLInputElement).checked = !!value;
     } else {
       $.value = value;
     }
-  } else if ($ instanceof HTMLSelectElement) {
+  } else if ($.nodeName === 'SELECT') {
+    const s = $ as HTMLSelectElement;
     const selected = Array.isArray(value) ? value : [value];
 
-    Array.from($.options).forEach(option => {
+    Array.from(s.options).forEach(option => {
       option.selected = (
         (getOptionObjectValue(option) && selected.includes(getOptionObjectValue(option)))
         || (option.value && selected.includes(option.value))

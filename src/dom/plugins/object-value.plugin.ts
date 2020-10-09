@@ -11,8 +11,8 @@ export class OptionObjectValuePlugin
   }
 
   setProp(node: Node, prop: string, target: any): boolean {
-    if (prop === '_value' && node instanceof HTMLOptionElement) {
-      setOptionObjectValue(node, target);
+    if (prop === '_value' && node.nodeName === 'OPTION') {
+      setOptionObjectValue(node as HTMLOptionElement, target);
 
       return true;
     }
