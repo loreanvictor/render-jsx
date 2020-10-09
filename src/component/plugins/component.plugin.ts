@@ -1,4 +1,4 @@
-import { CreatePlugin, Plugin, RendererLike } from '../../renderer';
+import { CreatePlugin, isRendererWithPlugins, Plugin, RendererLike } from '../../renderer';
 import { ComponentProcessor } from '../processor';
 import { ComponentPostProcessor, ComponentProvision } from '../types';
 
@@ -7,16 +7,26 @@ export class ComponentPlugin<Node, Renderer extends RendererLike<Node>>
   extends Plugin<Node, Renderer>
   implements CreatePlugin<Node, Renderer> {
 
-  readonly processors: ComponentProcessor<Node, Renderer>[];
+  processors: ComponentProcessor<Node, Renderer>[];
 
   constructor(...processors: ComponentProcessor<Node, Renderer>[]) {
     super();
-    this.processors = processors.sort((a, b) => a.priority() - b.priority());
+    this.processors = processors;
   }
 
   plug(renderer: Renderer) {
     super.plug(renderer);
     this.processors.forEach(p => p.plug(this.renderer()));
+
+    if (isRendererWithPlugins(renderer)) {
+      renderer.plugins.forEach(p => {
+        if (p instanceof ComponentProcessor) {
+          this.processors.push(p);
+        }
+      });
+    }
+
+    this.processors = this.processors.sort((a, b) => a.priority() - b.priority());
   }
 
   create(tag: any, props?: { [prop: string]: any; }, ...children: any[]): Node | undefined {

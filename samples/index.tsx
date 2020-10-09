@@ -1,27 +1,22 @@
-import { CommonDOMRenderer } from '../src/dom';
-import { ref } from '../src/common';
-import { LiveDOMComponentThis } from '../src/dom';
+import { ref, RefPlugin } from '../src/common';
+import { ComponentPlugin, LiveComponentProcessor, LiveComponentThis } from '../src/component';
+import { EventHandlerPlugin, LiveDOMRenderer } from '../src/dom';
 
-const renderer = new CommonDOMRenderer();
-function MyComp(this: LiveDOMComponentThis, _: any) {
-  const b = ref();
+const renderer = new LiveDOMRenderer().plug(
+  () => new RefPlugin(),
+  () => new EventHandlerPlugin(),
+  () => new ComponentPlugin<Node, LiveDOMRenderer>(),
+  () => new LiveComponentProcessor(),
+);
 
+
+function MyComp(this: LiveComponentThis) {
   this.onBind(() => console.log('Bound!'));
   this.onClear(() => console.log('Cleared!'));
-  this.setLifeCycleMarker(b);
 
-  return <>
-    <button _ref={b} onclick={() => renderer.remove(b.$)}>Remove ME!</button>
-  </>;
+  const container = ref();
+
+  return <div _ref={container} onclick={() => renderer.remove(container.$)}>Hellow!</div>;
 }
 
-const comp = <MyComp/>;
-const btn = ref();
-
-renderer.render(
-  <button _ref={btn} onclick={() => {
-    // tslint:disable-next-line: no-magic-numbers
-    setTimeout(() => renderer.render(comp).on(document.body), 1000);
-    renderer.remove(btn.$);
-  }}>Add Comp</button>
-).on(document.body);
+renderer.render(<button onclick={() => renderer.render(<MyComp/>).on(document.body)}>Add</button>).on(document.body);

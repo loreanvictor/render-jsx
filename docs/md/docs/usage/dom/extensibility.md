@@ -11,4 +11,10 @@
 
 # DOM Renderer Extensibility
 
+`CommonDOMRenderer` class is built using a host of plugins and base DOM renderer classes:
+
+```tsx | --no-wmbar
+
+```
+
 > :ToCPrevNext

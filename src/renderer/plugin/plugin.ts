@@ -1,3 +1,4 @@
+import { isArray } from 'util';
 import { ref } from '../../common/ref';
 import { RendererLike } from '../types';
 
@@ -22,3 +23,13 @@ export abstract class Plugin<Node, Renderer extends RendererLike<Node> = Rendere
 
 export type PluginFactory<Node, Renderer extends RendererLike<Node> = RendererLike<Node>>
    = () => Plugin<Node, Renderer>;
+
+
+export interface RendererWithPlugins<Node> extends RendererLike<Node> {
+  plugins: Plugin<Node, RendererLike<Node>>[];
+}
+
+export function isRendererWithPlugins<Node>(renderer: RendererLike<Node>):
+  renderer is RendererWithPlugins<Node> {
+  return !!(renderer as any).plugins && Array.isArray((renderer as any).plugins);
+}

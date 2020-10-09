@@ -1,11 +1,11 @@
 import { RendererLike, ToBeRenderered } from './types';
 import { Plugin, PluginFactory,
   isAppendPlugin, isPropPlugin, isContentPlugin, isFragmentPlugin,
-  isCreatePlugin, isPostCreatePlugin, isPostRenderPlugin, isLeafPlugin
+  isCreatePlugin, isPostCreatePlugin, isPostRenderPlugin, isLeafPlugin, RendererWithPlugins
 } from './plugin';
 
 
-export abstract class Renderer<Node, R extends Renderer<Node, R>> implements RendererLike<Node> {
+export abstract class Renderer<Node, R extends Renderer<Node, R>> implements RendererWithPlugins<Node> {
   readonly _factories: PluginFactory<Node, RendererLike<Node>>[];
   private _plugins: Plugin<Node, RendererLike<Node>>[];
 
