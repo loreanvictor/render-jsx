@@ -51,14 +51,97 @@
         body.dark-mode-animate #-codedoc-toc a { transition: color .3s, background .3s, border-color .3s; }
       </style><div class="darklight-0-0-1"><div class="dark"><marker><img src="/render-jsx/docs/assets/render-jsx-logo-dark.svg" width="156px">
 </marker></div><div class="light"><marker><img src="/render-jsx/docs/assets/render-jsx-logo.svg" width="156px">
-</marker></div></div><p><br><br></p><h1 id="core-concepts" class="heading-0-0-2"><span class="anchor-0-0-3" data-ignore-text=""><span class="icon-font" data-ignore-text="" style="vertical-align: sub">link</span></span>Core Concepts</h1><script id="KUEEgVZirP">(function(){function load(){if (window.__sdh_transport){window.__sdh_transport("KUEEgVZirP", "jdlFnpAeF5DvgUPc6saHWw==", {});} }; if (document.readyState == 'complete') load(); else window.addEventListener('load', load); })()</script><div class="contentnav-0-0-16" data-no-search=""><a href="#core-concepts" class="h1" data-content-highlight="core-concepts">Core Concepts</a></div></div><div id="-codedoc-toc" class="toc-0-0-13"><div class="content-0-0-14"><p><a href="/render-jsx/">Home</a>
+</marker></div></div><p><br><br></p><h1 id="core-concepts" class="heading-0-0-2"><span class="anchor-0-0-3" data-ignore-text=""><span class="icon-font" data-ignore-text="" style="vertical-align: sub">link</span></span>Core Concepts</h1><ul><li><p>A <em>Renderer</em> provides baseline translation of JSX into a particular environment / context. For example you would
+have one renderer for rendering into DOM, one for iOS native UI, one for rendering into the shell, etc.</p></li><li><p>A <em>Plugin</em> provides additional functionality to a renderer. For example you can have a plugin that allows rendering
+<code>Observable</code>s, or one that injects specific configs for all components, etc.</p></li><li><p>Renderers are immutable. Their behavior is customized by plugging plugins into some <em>Base Renderer</em>.</p></li></ul><hr><h2 id="jsx-translation" class="heading-0-0-2"><span class="anchor-0-0-3" data-ignore-text=""><span class="icon-font" data-ignore-text="" style="vertical-align: sub">link</span></span>JSX Translation</h2><p>In <strong>Render-JSX</strong>, JSX is translated into <code>renderer.create()</code>. Assuming <code>renderer</code> in scope is an instance of
+a child class of <code>Renderer</code>, then for various operations (creating tagged nodes, leaf nodes, fragments, setting
+properties, appending nodes together, etc.) it will first go over its provided plugins, and default to some
+fallback behavior specified in the child class.</p><div style="text-align: right"><a class="button-0-0-8" href="/render-jsx/docs/usage/custom-renderers/custom-renderers">Learn More</a></div><hr><h2 id="renderer--plugin-reusability" class="heading-0-0-2"><span class="anchor-0-0-3" data-ignore-text=""><span class="icon-font" data-ignore-text="" style="vertical-align: sub">link</span></span>Renderer / Plugin Reusability</h2><p>A renderer masks the API of its context / environment, allowing the application code,
+components and the plugins to be context / environment agnostic. For example, <a href="/render-jsx/docs/usage/overview#custom-plugins-and-renderers">a plugin
+for rendering callbags</a> can be fully environment agnostic (except for example that the
+environment has a concept of life-cycle), meaning it would be usable
+both for DOM rendering or for rendering native UI.</p><p><br><br></p><marker><style>
+  @font-face {
+    font-family: KreativeSquare;
+    src: url(/render-jsx/docs/assets/KreativeSquare.ttf);
+  }
+</style>
+</marker><marker><pre style="width: 614px; margin: 0 auto; max-width: 100%; overflow: auto; font-family: KreativeSquare; font-size: 10px">      ╭────────────────────╮     ╭────────────────────╮         
+      │                    │     │                    │         
+      │                    │     │                    │         
+      │                    │     │                    │         
+      │        App         │────▶│     Components     │╶╶╶╶╶╮
+      │                    │╶╮   │                    │     ╷
+      │                    │ ╷   │                    │     ╷
+      │                    │ ╷   │                    │     ╷
+      ╰────────────────────╯ ╷   ╰────────────────────╯     ╷
+                  │          ╷             ‌‌‌ │               ╷
+                  │          ╷             ‌‌‌ │               ╷
+                  │          ╷             ‌‌‌ │               ╷
+                  ╰────╮     ╰╶╶╶╶╶╶╶╶╶╶╶╶╶╶│╶╶╶╶╶╶╶╶╶╶╶╶╶╮ ╷
+                       │                    │             ╷ ╷
+                       │                    │             ╷ ╷
+                       │                    │             ╷ ╷
+         ╭──────────╮  │                    │             ╷ ╷
+         │          │  ▼                    ▼             ╷ ╷
+      ╭──│ Renderer │─────────────────────────────────╮   ╷ ╷
+      │  │          │                                 │   ╷ ╷
+      │  ╰──────────╯                                 │   ╷ ╷
+      │                                               │   ╷ ╷
+      │      ╭─────────────────────────────────╮      │   ╷ ╷
+      │      │                                 │      │   ╷ ╷
+      │      │                                 │      │   ╷ ╷
+      │      │                                 │      │   ╷ ╷
+      │      │             Plugins             │╶╶╶╶╶╶╶╶╮ ╷ ╷
+      │      │                                 │      │ ╷ ╷ ╷
+      │      │                                 │      │ ╷ ╷ ╷
+      │      │                                 │      │ ╷ ╷ ╷
+      │      ╰─────────────────────────────────╯      │ ╷ ╷ ╷
+      │                       │                       │ ╷ ╷ ╷
+      │                       │                       │ ╷ ╷ ╷
+      │                       │                       │ ╷ ╷ ╷
+      │                       ▼                       │ ╷ ╷ ╷
+      │      ╭─────────────────────────────────╮      │ ╷ ╷ ╷
+      │      │                                 │      │ ╷ ╷ ╷
+      │      │                                 │      │ ╷ ╷ ╷
+      │      │                                 │      │ ╷ ╷ ╷
+      │      │          Base Renderer          │      │ ╷ ╷ ╷
+      │      │                                 │      │ ╷ ╷ ╷
+      │      │                                 │      │ ╷ ╷ ╷
+      │      │                                 │      │ ╷ ╷ ╷
+      │      ╰─────────────────────────────────╯      │ ╷ ╷ ╷
+      │                       │                       │ ╷ ╷ ╷
+      │                       │                       │ ╷ ╷ ╷
+      ╰───────────────────────│───────────────────────╯ ╷ ╷ ╷
+                              │                         ╷ ╷ ╷
+                              │                         ╷ ╷ ╷
+                              │                         ╷ ╷ ╷
+                              │                         ╷ ╷ ╷
+                              │                         ╷ ╷ ╷
+                              ▼                         ▽ ▽ ▽
+╭─╮ ╭─╮ ╭─╮ ╭─╮ ╭─╮ ╭─╮ ╭─╮ ╭─╮ ╭─╮ ╭─╮ ╭─╮ ╭─╮ ╭─╮ ╭─╮ ╭─╮
+  ╰─╯ ╰─╯ ╰─╯ ╰─╯ ╰─╯ ╰─╯ ╰─╯ ╰─╯ ╰─╯ ╰─╯ ╰─╯ ╰─╯ ╰─╯ ╰─╯ ╰─╯
+
+
+
+
+                   Environement / Context
+
+
+
+</pre>
+
+</marker><p><br><br></p><blockquote><p><span class="icon-font" data-ignore-text="" style="vertical-align: -6px">info</span> <strong>NOTE</strong></p><p>The application code, components and the plugins <em>can</em> directly utilize
+APIs of the environment (like DOM APIs), if they so choose to. In fact, in some
+situations, there is no other way. However this would mean that particular
+code would be aware of the environment / context and not usable in another one.</p></blockquote><script id="zxraYnmRfF">(function(){function load(){if (window.__sdh_transport){window.__sdh_transport("zxraYnmRfF", "jdlFnpAeF5DvgUPc6saHWw==", {});} }; if (document.readyState == 'complete') load(); else window.addEventListener('load', load); })()</script><div class="contentnav-0-0-16" data-no-search=""><a href="#core-concepts" class="h1" data-content-highlight="core-concepts">Core Concepts</a><a href="#jsx-translation" class="h2" data-content-highlight="jsx-translation">JSX Translation</a><a href="#renderer--plugin-reusability" class="h2" data-content-highlight="renderer--plugin-reusability">Renderer / Plugin Reusability</a></div></div><div id="-codedoc-toc" class="toc-0-0-13"><div class="content-0-0-14"><p><a href="/render-jsx/">Home</a>
 <a href="/render-jsx/docs/overview">Overview</a>
-<a href="/render-jsx/docs/install">Installation</a></p><div class="collapse-0-0-9 "><script id="BnFsLBHZhO">(function(){function load(){if (window.__sdh_transport){window.__sdh_transport("BnFsLBHZhO", "qnvWR5TP5YS/zNjF+3Gi6w==", {});} }; if (document.readyState == 'complete') load(); else window.addEventListener('load', load); })()</script><div class="label" onclick="this.parentElement.classList.toggle('open')"><span class="text">Usage</span><span class="icon-font closed">chevron_right</span></div><div class="content"><p><a href="/render-jsx/docs/usage/overview">Usage Overview</a></p><div class="collapse-0-0-9 "><script id="OVqUKyvrpo">(function(){function load(){if (window.__sdh_transport){window.__sdh_transport("OVqUKyvrpo", "qnvWR5TP5YS/zNjF+3Gi6w==", {});} }; if (document.readyState == 'complete') load(); else window.addEventListener('load', load); })()</script><div class="label" onclick="this.parentElement.classList.toggle('open')"><span class="text">DOM Rendering</span><span class="icon-font closed">chevron_right</span></div><div class="content"><p><a href="/render-jsx/docs/usage/dom/overview">DOM Renderer</a>
+<a href="/render-jsx/docs/install">Installation</a></p><div class="collapse-0-0-9 "><script id="BYiRanBLSc">(function(){function load(){if (window.__sdh_transport){window.__sdh_transport("BYiRanBLSc", "qnvWR5TP5YS/zNjF+3Gi6w==", {});} }; if (document.readyState == 'complete') load(); else window.addEventListener('load', load); })()</script><div class="label" onclick="this.parentElement.classList.toggle('open')"><span class="text">Usage</span><span class="icon-font closed">chevron_right</span></div><div class="content"><p><a href="/render-jsx/docs/usage/overview">Usage Overview</a></p><div class="collapse-0-0-9 "><script id="vyZIveVXbT">(function(){function load(){if (window.__sdh_transport){window.__sdh_transport("vyZIveVXbT", "qnvWR5TP5YS/zNjF+3Gi6w==", {});} }; if (document.readyState == 'complete') load(); else window.addEventListener('load', load); })()</script><div class="label" onclick="this.parentElement.classList.toggle('open')"><span class="text">DOM Rendering</span><span class="icon-font closed">chevron_right</span></div><div class="content"><p><a href="/render-jsx/docs/usage/dom/overview">DOM Renderer</a>
 <a href="/render-jsx/docs/usage/dom/ref">Refs</a>
 <a href="/render-jsx/docs/usage/dom/inputs-and-events">Inputs &amp; Events</a>
 <a href="/render-jsx/docs/usage/dom/components">Components</a>
 <a href="/render-jsx/docs/usage/dom/component-life-cycle">Component Life Cycle</a>
-<a href="/render-jsx/docs/usage/dom/extensibility">DOM Renderer Extensibility</a></p></div></div><div class="collapse-0-0-9 "><script id="tRNHggnBBC">(function(){function load(){if (window.__sdh_transport){window.__sdh_transport("tRNHggnBBC", "qnvWR5TP5YS/zNjF+3Gi6w==", {});} }; if (document.readyState == 'complete') load(); else window.addEventListener('load', load); })()</script><div class="label" onclick="this.parentElement.classList.toggle('open')"><span class="text">Custom Renderers</span><span class="icon-font closed">chevron_right</span></div><div class="content"><p><a href="/render-jsx/docs/usage/custom-renderers/core-concepts">Customization Core Concepts</a>
+<a href="/render-jsx/docs/usage/dom/extensibility">DOM Renderer Extensibility</a></p></div></div><div class="collapse-0-0-9 "><script id="MBHQtrBuzV">(function(){function load(){if (window.__sdh_transport){window.__sdh_transport("MBHQtrBuzV", "qnvWR5TP5YS/zNjF+3Gi6w==", {});} }; if (document.readyState == 'complete') load(); else window.addEventListener('load', load); })()</script><div class="label" onclick="this.parentElement.classList.toggle('open')"><span class="text">Custom Renderers</span><span class="icon-font closed">chevron_right</span></div><div class="content"><p><a href="/render-jsx/docs/usage/custom-renderers/core-concepts">Customization Core Concepts</a>
 <a href="/render-jsx/docs/usage/custom-renderers/plugins">Plugins</a>
 <a href="/render-jsx/docs/usage/custom-renderers/custom-plugins">Custom Plugins</a>
-<a href="/render-jsx/docs/usage/custom-renderers/custom-renderers">Custom Renderers</a></p></div></div></div></div></div><div class="search-0-0-15"><script id="JpSAkiUfKp">(function(){function load(){if (window.__sdh_transport){window.__sdh_transport("JpSAkiUfKp", "oSJFcju5hbQH+/JH44drnA==", {"repo":"render-jsx","user":"loreanvictor","root":"docs/md","pick":"\\.md$","drop":"(^_)|(\\/_)"});} }; if (document.readyState == 'complete') load(); else window.addEventListener('load', load); })()</script></div></div><div class="footer-0-0-12"><div class="left"><script id="KjsbaowJwR">(function(){function load(){if (window.__sdh_transport){window.__sdh_transport("KjsbaowJwR", "P7GO0uk71MZxJKObVFd63w==", {});} }; if (document.readyState == 'complete') load(); else window.addEventListener('load', load); })()</script></div><div class="main"><div class="inside"><a href="https://github.com/loreanvictor/render-jsx/" target="_blank">GitHub</a></div></div><div class="right"><script id="iLspGolsgE">(function(){function load(){if (window.__sdh_transport){window.__sdh_transport("iLspGolsgE", "jhh5mvfjzkKWQ3/9LVgS/Q==", {});} }; if (document.readyState == 'complete') load(); else window.addEventListener('load', load); })()</script></div></div><script id="hHXSOmONzI">(function(){function load(){if (window.__sdh_transport){window.__sdh_transport("hHXSOmONzI", "yOcImuLT00QVlyCpcHXcng==", {"namespace":"/render-jsx"});} }; if (document.readyState == 'complete') load(); else window.addEventListener('load', load); })()</script></body></html>
+<a href="/render-jsx/docs/usage/custom-renderers/custom-renderers">Custom Renderers</a></p></div></div></div></div></div><div class="search-0-0-15"><script id="rGnuaJHPvS">(function(){function load(){if (window.__sdh_transport){window.__sdh_transport("rGnuaJHPvS", "oSJFcju5hbQH+/JH44drnA==", {"repo":"render-jsx","user":"loreanvictor","root":"docs/md","pick":"\\.md$","drop":"(^_)|(\\/_)"});} }; if (document.readyState == 'complete') load(); else window.addEventListener('load', load); })()</script></div></div><div class="footer-0-0-12"><div class="left"><script id="lErXkXfPZY">(function(){function load(){if (window.__sdh_transport){window.__sdh_transport("lErXkXfPZY", "P7GO0uk71MZxJKObVFd63w==", {});} }; if (document.readyState == 'complete') load(); else window.addEventListener('load', load); })()</script></div><div class="main"><div class="inside"><a href="https://github.com/loreanvictor/render-jsx/" target="_blank">GitHub</a></div></div><div class="right"><script id="TLTdcrdYae">(function(){function load(){if (window.__sdh_transport){window.__sdh_transport("TLTdcrdYae", "jhh5mvfjzkKWQ3/9LVgS/Q==", {});} }; if (document.readyState == 'complete') load(); else window.addEventListener('load', load); })()</script></div></div><script id="xVpWDumIhY">(function(){function load(){if (window.__sdh_transport){window.__sdh_transport("xVpWDumIhY", "yOcImuLT00QVlyCpcHXcng==", {"namespace":"/render-jsx"});} }; if (document.readyState == 'complete') load(); else window.addEventListener('load', load); })()</script></body></html>
