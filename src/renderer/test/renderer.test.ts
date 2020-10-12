@@ -6,16 +6,16 @@ import { AppendPlugin, ContentPlugin, CreatePlugin, Plugin, PluginFactory, PropP
  should();
 
 import { Renderer } from '../renderer';
-import { testAppendExtensibility } from './extensibility/append.spec';
-import { testContentExtensibility } from './extensibility/content.spec';
-import { testPropExtensibility } from './extensibility/prop.spec';
-import { testFragmentExtensibility } from './extensibility/fragment.spec';
-import { testLeafExtensibility } from './extensibility/leaf.spec';
-import { testCreateExtensibility } from './extensibility/create.spec';
-import { testPostCreateExtensibility } from './extensibility/post-create.spec';
+import { testAppendExtensibility } from './spec/append.spec';
+import { testContentExtensibility } from './spec/content.spec';
+import { testPropExtensibility } from './spec/prop.spec';
+import { testFragmentExtensibility } from './spec/fragment.spec';
+import { testLeafExtensibility } from './spec/leaf.spec';
+import { testCreateExtensibility } from './spec/create.spec';
+import { testPostCreateExtensibility } from './spec/post-create.spec';
 import { testPostRenderBeforeExtensibility,
         testPostRenderOnExtensibility,
-        testPostRenderAfterExtensibility } from './extensibility/post-render.spec';
+        testPostRenderAfterExtensibility } from './spec/post-render.spec';
 
 
 describe('Renderer', () => {

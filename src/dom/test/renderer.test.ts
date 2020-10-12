@@ -6,13 +6,13 @@ import { JSDOM } from 'jsdom';
 
 import { DOMRenderer } from '../renderer';
 import { Plugin, PluginFactory, PostRenderPlugin } from '../../renderer';
-import { testAppendExtensibility } from '../../renderer/test/extensibility/append.spec';
-import { testPropExtensibility } from '../../renderer/test/extensibility/prop.spec';
-import { testContentExtensibility } from '../../renderer/test/extensibility/content.spec';
-import { testFragmentExtensibility } from '../../renderer/test/extensibility/fragment.spec';
-import { testLeafExtensibility } from '../../renderer/test/extensibility/leaf.spec';
-import { testCreateExtensibility } from '../../renderer/test/extensibility/create.spec';
-import { testPostRenderAfterExtensibility, testPostRenderBeforeExtensibility, testPostRenderOnExtensibility } from '../../renderer/test/extensibility/post-render.spec';
+import { testAppendExtensibility } from '../../renderer/test/spec/append.spec';
+import { testPropExtensibility } from '../../renderer/test/spec/prop.spec';
+import { testContentExtensibility } from '../../renderer/test/spec/content.spec';
+import { testFragmentExtensibility } from '../../renderer/test/spec/fragment.spec';
+import { testLeafExtensibility } from '../../renderer/test/spec/leaf.spec';
+import { testCreateExtensibility } from '../../renderer/test/spec/create.spec';
+import { testPostRenderAfterExtensibility, testPostRenderBeforeExtensibility, testPostRenderOnExtensibility } from '../../renderer/test/spec/post-render.spec';
 
 
 describe('DOMRenderer', () => {

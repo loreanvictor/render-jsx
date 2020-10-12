@@ -11,4 +11,6 @@
 
 # Plugins
 
+Plugins are the easiest way for customizing renderer behavior. Any renderer object (instance of a `Renderer`)
+
 > :ToCPrevNext
