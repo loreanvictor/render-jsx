@@ -122,6 +122,7 @@ renderer
 - [Core Concepts](/docs/usage/custom-renderers/core-concepts)
 - [Plugins](/docs/usage/custom-renderers/plugins)
 - [Custom Plugins](/docs/usage/custom-renderers/custom-plugins)
+- [Custom Component Processors](/docs/usage/custom-renderers/custom-component-processors)
 - [Custom Renderers](/docs/usage/custom-renderers/custom-renderers)
 
 > :ToCPrevNext
