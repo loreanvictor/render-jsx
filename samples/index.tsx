@@ -1,11 +1,11 @@
 import { ref, RefPlugin } from '../src/common';
-import { ComponentPlugin, LiveComponentProcessor, LiveComponentThis } from '../src/component';
+import { FunctionalComponentPlugin, LiveComponentProcessor, LiveComponentThis } from '../src/component';
 import { EventHandlerPlugin, LiveDOMRenderer } from '../src/dom';
 
 const renderer = new LiveDOMRenderer().plug(
   () => new RefPlugin(),
   () => new EventHandlerPlugin(),
-  () => new ComponentPlugin<Node, LiveDOMRenderer>(),
+  () => new FunctionalComponentPlugin<Node, LiveDOMRenderer>(),
   () => new LiveComponentProcessor(),
 );
 

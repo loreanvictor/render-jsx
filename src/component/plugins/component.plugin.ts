@@ -1,9 +1,9 @@
 import { CreatePlugin, isRendererWithPlugins, Plugin, RendererLike } from '../../renderer';
 import { ComponentProcessor } from '../processor';
-import { ComponentPostProcessor, ComponentProvision } from '../types';
+import { ComponentData, ComponentPostProcessor, ComponentProvision } from '../types';
 
 
-export class ComponentPlugin<Node, Renderer extends RendererLike<Node>>
+export abstract class ComponentPlugin<Node, Renderer extends RendererLike<Node>>
   extends Plugin<Node, Renderer>
   implements CreatePlugin<Node, Renderer> {
 
@@ -30,21 +30,19 @@ export class ComponentPlugin<Node, Renderer extends RendererLike<Node>>
   }
 
   create(tag: any, props?: { [prop: string]: any; }, ...children: any[]): Node | undefined {
-    if (typeof tag === 'function') {
+    const data = { tag, props: props || {}, children };
+
+    if (this.match(data)) {
       let provision: ComponentProvision = {};
       const post: ComponentPostProcessor<Node>[] = [];
 
       this.processors.forEach(p => p.process(
         _provision => provision = { ...provision, ..._provision },
         _post => post.push(_post),
-        {
-          tag,
-          props: props || {},
-          children,
-        }
+        data
       ));
 
-      const $ = tag.apply(provision, [props, this.renderer(), children]);
+      const $ = this.createComponent(data, provision);
       post.reverse().forEach(p => p($));
 
       return $;
@@ -53,7 +51,6 @@ export class ComponentPlugin<Node, Renderer extends RendererLike<Node>>
     }
   }
 
-  priority(): number {
-    return Plugin.PriorityFallback;
-  }
+  abstract createComponent(component: ComponentData, provision: ComponentProvision): Node;
+  abstract match(component: ComponentData): boolean;
 }
