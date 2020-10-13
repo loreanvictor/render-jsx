@@ -127,8 +127,8 @@ npm run cov:view        # --> run tests and display the code coverage report
 npm i -g @codedoc/cli   # --> install CODEDOC cli (for working on docs)
 ```
 ```bash
-codedoc i               # --> install CODEDOC dependencies (for working on docs)
+codedoc install         # --> install CODEDOC dependencies (for working on docs)
 ```
 ```bash
-codedoc s               # --> serve docs on `localhost:3000/render-jsx` (from `docs/md/`)
+codedoc serve           # --> serve docs on `localhost:3000/render-jsx` (from `docs/md/`)
 ```
