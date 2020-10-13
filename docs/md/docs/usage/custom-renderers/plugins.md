@@ -112,12 +112,12 @@ import { OptionObjectValuePlugin } from 'render-jsx/dom/plugins';
 > :Buttons
 > > :Button label=Learn More, url=/docs/usage/dom/inputs-and-events#inputs
 
-### Component Plugin
+### Functional Component Plugin
 
 Allows use of functional components. Can be plugged into any renderer.
 
 ```tsx
-import { ComponentPlugin } from 'render-jsx/component/plugins';
+import { FunctionalComponentPlugin } from 'render-jsx/component/plugins';
 ```
 > :Buttons
 > > :Button label=Learn More, url=/docs/usage/dom/components

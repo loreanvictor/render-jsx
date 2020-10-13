@@ -34,14 +34,4 @@ describe('ContentPropPlugin', () => {
     const r = new R().plug(() => new ContentPropPlugin(), () => new P());
     r.create('ladida', {content: 'Halo'});
   });
-
-  it('should ignore when given prop is not a string.', done => {
-    class P extends Plugin<any> implements PropPlugin<any> {
-      priority() { return Plugin.PriorityFallback; }
-      setProp() { done(); return false; }
-    }
-
-    const r = new R().plug(() => new ContentPropPlugin(), () => new P());
-    r.create('ladida', {_content: 42});
-  });
 });

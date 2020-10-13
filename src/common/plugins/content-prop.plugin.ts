@@ -6,7 +6,7 @@ export class ContentPropPlugin<Node>
   implements PropPlugin<Node> {
 
   setProp(node: Node, prop: string, target: any): boolean {
-    if (prop === '_content' && typeof target === 'string') {
+    if (prop === '_content') {
       this.renderer().setContent(node, target);
 
       return true;

@@ -66,7 +66,7 @@ for when something is appended to another node.
 > >```
 >
 > > :Tab title=Usage
-> > ```tsx | --no-wmbar
+> > ```tsx | index.tsx
 > > import { CommonDOMRenderer } from 'render-jsx/dom';
 > > import interval from 'callbag-interval';
 > > 
@@ -143,7 +143,7 @@ Plugins implementing `PropPlugin` interface can affect how properties of nodes a
 > > ```
 >
 > > :Tab title=Usage
-> > ```tsx | --no-wmbar
+> > ```tsx | index.tsx
 > > import { CommonDOMRenderer } from 'render-jsx/dom';
 > > import interval from 'callbag-interval';
 > > import pipe from 'callbag-pipe';
@@ -179,64 +179,67 @@ Plugins implementing `PropPlugin` interface can affect how properties of nodes a
 
 ---
 
-## Create Plugin
+## Content Plugin
 
-Plugins implementing `CreatePlugin` can add functionality to node creation process.
-For example, the following plugin enables simple class-based components:
+Plugins implementing `ContentPlugin` can add functionality for setting the
+_content_ of a node. The meaning of _content_ of a node is context-dependent,
+for example in DOM it is the same thing as inner HTML for elements and text content
+of text nodes.
 
 > :Tabs
 > > :Tab title=Plugin
-> > ```ts | class-comp.plugin.ts
-> > /*!*/import { Plugin, CreatePlugin } from 'render-jsx/plugin';
-> > import { RendererLike } from 'render-jsx';
+> > ```ts | callbag-content.plugin.ts
+> >/*!*/ import { ContentPlugin, Plugin } from 'render-jsx/plugin';
+> > import { LiveRendererLike } from 'render-jsx';
+> > 
+> > import pipe from 'callbag-pipe';
+> > import subscribe from 'callbag-subscribe';
 > > 
 > > 
-> > export abstract class Component<Node, Renderer=RendererLike<Node>> {  // --> a base class for our class-based components
-> >   static __COMP_CLASS_BASE__ = true;                                  // --> this allows checking if given function is constructor of this base class
+> > export class CallbagContentPlugin<Node>                   // --> is generic towards node type
+> >   extends Plugin<Node, LiveRendererLike<Node>>            // --> but needs a `LiveRendererLike` (life-cylce concept)
+> >   implements ContentPlugin<Node> {                        // --> and is a `ContentPlugin`
 > > 
-> >   constructor(protected props, protected children) {}                 // --> collect props and children
-> >   abstract render(renderer: Renderer);                                // --> this will be called to render the component
-> > }
+> >   priority() { return Plugin.PriorityFallback; }          // --> allows for other plugins to supercede this plugin
 > > 
+> >   setContent(node: Node, target: any) {                   // --> set `node`'s content to `target`
+> >     if (typeof target === 'function') {                   // --> if `target` is a function (i.e. a callbag)
+> >       const renderer = this.renderer();
 > > 
-> > export class ClassComponentPlugin<Node>                               // --> our plugin is generic towards node type
-> >   extends Plugin<Node, RendererLike<Node>>                            // --> and can work on any renderer
-> >   implements CreatePlugin<Node> {                                     // --> and is a `CreatePlugin`
+> >       renderer.hook(node, {                               // --> bind to `node`'s lifecycle
+> >         bind: () => pipe(
+> >           target,
+> >           subscribe(v => renderer.setContent(node, v?.toString()))
+> >         )
+> >       });
 > > 
-> >   priority() { return Plugin.PriorityMax; }                           // --> it has really high priority
-> > 
-> >   create(tag, props, children) {
-> >     if (typeof tag === 'function' && tag.__COMP_CLASS_BASE__) {       // --> if `tag` is a class inheriting our `Component` class
-> >       return new tag(props, children).render(this.renderer());        // --> create a new object from it and call its `.render()`
+> >       return true;                                        // --> indicates this plugin set the content
 > >     }
 > > 
-> >     return undefined;                                                 // --> this indicates this plugin couldn't create requested nodes
+> >     return false;                                         // --> indicates this plugin could not set the content
 > >   }
 > > }
 > > ```
 >
-> > :Tab title=Usage (Component)
-> > ```tsx | my-comp.tsx
-> > import { Component } from './class-comp.plugin';
-> > 
-> > export class MyComp extends Component<Node> {
-> >   render(renderer) {
-> >     return <div>Hellow {this.props.name}!</div>
-> >   }
-> > }
-> > ```
->
-> > :Tab title=Usage (Renderer)
-> > ```tsx | --no-wmbar
+> > :Tab title=Usage
+> > ```tsx | index.tsx
 > > import { CommonDOMRenderer } from 'render-jsx/dom';
-> > import { ClassComponentPlugin } from './class-comp.plugin';
-> > import { MyComp } from './my-comp';
+> > import interval from 'callbag-interval';
+> > import pipe from 'callbag-pipe';
+> > import map from 'callbag-map';
+> > 
+> > import { CallbagContentPlugin } from './callbag-content.plugin';
 > > 
 > > const renderer = new CommonDOMRenderer()
-> >                      .plug(() => new ClassComponentPlugin<Node>());
+> >       .plug(() => new CallbagContentPlugin<Node>());
 > > 
-> > renderer.render
-> >   (<MyComp name='World'/>
+> > const content = pipe(
+> >   interval(1000),
+> >   map(v => `You have been here for ${v} seconds.`)
+> > );
+> > 
+> > renderer.render(
+> >   <div _content={content}/>
 > > ).on(document.body);
 > > ```
 
@@ -247,8 +250,67 @@ For example, the following plugin enables simple class-based components:
 
 > [info](:Icon (align=-6px)) **IMPORTANT**
 >
-> Create plugins **MUST** either return the node they have created, in which case
-> the renderer will not iterate through rest of the plugins, or return `undefined`,
-> which causes the renderer to also try other plugins.
+> Content plugins **MUST** return a `boolean` from their `.setContent()` method.
+> Returning `true` means the plugin set the content, and `false` means it couldn't
+> and the renderer should try other plugins.
+
+---
+
+## Other Plugin Types
+
+Plugins implementing `CreatePlugin` can modify how nodes are created. Returning `undefined`
+means the plugin could not create the node and the renderer should try other plugins.
+
+```ts | --no-wmbar
+interface CreatePlugin<Node, Renderer> extends Plugin<Node, Renderer> {
+  create(tag: any, props?: {[prop: string]: any}, ...children: any[]): Node | undefined;
+}
+```
+
+<br>
+
+Plugins implementing `LeafPlugin` can determine how leaf nodes are made. Only the highest
+priority `LeafPlugin` will be used by the renderer, its fallback mechanism will also be discarded.
+
+```ts | --no-wmbar
+interface LeafPlugin<Node, Renderer> extends Plugin<Node, Renderer> {
+  leaf(): Node;
+}
+```
+
+<br>
+
+Plugins implementing `FragmentPlugin` can determine how fragments are created.
+The result of this plugin will be passed to renderer's `.create()` method as the tag.
+Only the highest priority `FragmentPlugin` will be used by the renderer, its fallback mechanism
+will also be discarded.
+
+```ts | --no-wmbar
+interface FragmentPlugin<Node, Renderer> extends Plugin<Node, Renderer> {
+  fragment(): Node;
+}
+```
+
+<br>
+
+Plugins implementing`PostCreatePlugin` can run some post-processing on nodes after they
+are created.
+
+```ts | --no-wmbar
+interface PostCreatePlugin<Node, Renderer> extends Plugin<Node, Renderer> {
+  postCreate(node: Node): void;
+}
+```
+
+<br>
+
+Plugins implementing `PostRenderPlugin` can run some post-processing on nodes
+after they are rendered (might happen multiple times for a single node).
+
+```ts | --no-wmbar
+export interface PostRenderPlugin<Node, Renderer> extends Plugin<Node, Renderer> {
+  postRender(node: Node): void;
+}
+```
 
 > :ToCPrevNext

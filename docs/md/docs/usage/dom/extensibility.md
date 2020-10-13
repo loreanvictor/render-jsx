@@ -43,7 +43,7 @@ re-create it like the following:
 ```tsx | --no-wmbar
 import { LiveRendererLike } from 'render-jsx';
 import { LiveDOMRenderer } from 'render-jsx/dom';
-import { LiveComponentProcessor, ComponentPlugin } from 'render-jsx/component/plugins';
+import { LiveComponentProcessor, FunctionalComponentPlugin } from 'render-jsx/component/plugins';
 import { FragmentLifeCycleMarkerComponentProcessor } from 'render-jsx/dom/component';
 import { RefPlugin, ContentPropPlugin } from 'render-jsx/common/plugins';
 import { EventHandlerPlugin, InputStatePlugin, OptionObjectValuePlugin } from 'render-jsx/dom/plugins';
@@ -51,16 +51,16 @@ import { EventHandlerPlugin, InputStatePlugin, OptionObjectValuePlugin } from 'r
 
 function myCommonRenderer() {
   return new LiveDOMRenderer().plug(
-/*!*/    () => new ComponentPlugin<Node, LiveRendererLike<Node>>(),        // --> enables functional components
-/*!*/    () => new LiveComponentProcessor<Node>(),                         // --> enables life-cycle hooks for functional components
-/*!*/    () => new FragmentLifeCycleMarkerComponentProcessor(),            // --> enables specifying fragment life-cycle markers
+/*!*/    () => new FunctionalComponentPlugin<Node, LiveRendererLike<Node>>(), // --> enables functional components
+/*!*/    () => new LiveComponentProcessor<Node>(),                            // --> enables life-cycle hooks for functional components
+/*!*/    () => new FragmentLifeCycleMarkerComponentProcessor(),               // --> enables specifying fragment life-cycle markers
 
-/*!*/    () => new RefPlugin<Node>(),                                      // --> enables the `_ref` attribute
-/*!*/    () => new ContentPropPlugin<Node>(),                              // --> enables the `_content` attribute
+/*!*/    () => new RefPlugin<Node>(),                                         // --> enables the `_ref` attribute
+/*!*/    () => new ContentPropPlugin<Node>(),                                 // --> enables the `_content` attribute
 
-/*!*/    () => new EventHandlerPlugin(),                                   // --> enables functions as event handlers
-/*!*/    () => new InputStatePlugin(),                                     // --> enables `_state` attribute on inputs
-/*!*/    () => new OptionObjectValuePlugin(),                              // --> enables `_value` attribute on options
+/*!*/    () => new EventHandlerPlugin(),                                      // --> enables functions as event handlers
+/*!*/    () => new InputStatePlugin(),                                        // --> enables `_state` attribute on inputs
+/*!*/    () => new OptionObjectValuePlugin(),                                 // --> enables `_value` attribute on options
   );
 }
 ```
