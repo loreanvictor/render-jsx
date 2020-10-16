@@ -12,7 +12,7 @@
 # Render-JSX
 
 Tools and abstractions for building JSX-based libraries and frameworks,
-and a super thin (< 1kB) and super-fast JSX-based pure DOM renderer (no
+and a super thin and super-fast JSX-based pure DOM renderer (no
 layers between code and DOM, so no VirtualDOM, dirty model checking, etc.).
 
 ```bash
