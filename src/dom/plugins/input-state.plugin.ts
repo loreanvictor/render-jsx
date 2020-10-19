@@ -21,12 +21,14 @@ export class InputStatePlugin
       && typeof target === 'function'
     ) {
       const renderer = this.renderer();
-      if (node.nodeName === 'INPUT' && (node as HTMLInputElement).type === 'radio' && (node as HTMLInputElement).name) {
-        const i = node as HTMLInputElement;
-        renderer.hook(node, {
-          bind() {
-            // TODO: write in a more performant manner.
-            // TODO: this will not pick up input from radio buttons added later, fix that maybe?
+      renderer.hook(node, {
+        bind() {
+          if (
+              node.nodeName === 'INPUT' &&
+              (node as HTMLInputElement).type === 'radio' &&
+              (node as HTMLInputElement).name
+          ) {
+            const i = node as HTMLInputElement;
             (i.form || renderer.document)
             .querySelectorAll(`input[name="${i.name}"]`)
             .forEach(input => {
@@ -34,18 +36,13 @@ export class InputStatePlugin
                 input.addEventListener('input', () => target(getInputValue(i)));
               }
             });
+          } else {
+            node.addEventListener('input', () => target(getInputValue(node as any)));
+          }
 
-            target(getInputValue(i));
-          }
-        });
-      } else {
-        node.addEventListener('input', () => target(getInputValue(node as any)));
-        renderer.hook(node, {
-          bind() {
-            target(getInputValue(node as any));
-          }
-        });
-      }
+          target(getInputValue(node as any));
+        }
+      });
 
       return true;
     }

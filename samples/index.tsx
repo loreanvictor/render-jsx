@@ -1,22 +1,9 @@
-import { ref, RefPlugin } from '../src/common';
-import { FunctionalComponentPlugin, LiveComponentProcessor, LiveComponentThis } from '../src/component';
-import { EventHandlerPlugin, LiveDOMRenderer } from '../src/dom';
+import { CommonDOMRenderer } from '../src/dom';
 
-const renderer = new LiveDOMRenderer().plug(
-  () => new RefPlugin(),
-  () => new EventHandlerPlugin(),
-  () => new FunctionalComponentPlugin<Node, LiveDOMRenderer>(),
-  () => new LiveComponentProcessor(),
-);
+const renderer = new CommonDOMRenderer();
 
+renderer.render(<>
+  <input _state={console.log} type='radio' name='X'/> AA <br/>
+  <input type='radio' name='X'/> BB <br/>
+</>).on(document.body);
 
-function MyComp(this: LiveComponentThis) {
-  this.onBind(() => console.log('Bound!'));
-  this.onClear(() => console.log('Cleared!'));
-
-  const container = ref();
-
-  return <div _ref={container} onclick={() => renderer.remove(container.$)}>Hellow!</div>;
-}
-
-renderer.render(<button onclick={() => renderer.render(<MyComp/>).on(document.body)}>Add</button>).on(document.body);

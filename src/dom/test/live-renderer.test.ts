@@ -9,7 +9,7 @@ import { Plugin } from '../../renderer';
 
 
 describe('LiveDOMRenderer', () => {
-  describe('hook', () => {
+  describe.only('hook', () => {
     it('should attach given lifecycle hooks to given node.', done => {
       const dom = new JSDOM();
       global.MutationObserver = dom.window.MutationObserver;
@@ -26,7 +26,7 @@ describe('LiveDOMRenderer', () => {
       setTimeout(() => {
         cleared.should.be.true;
         done();
-      }, 2);
+      }, 10);
     });
 
     it('should also work for elements in fragments.', done => {
@@ -48,7 +48,7 @@ describe('LiveDOMRenderer', () => {
       setTimeout(() => {
         cleared.should.be.true;
         done();
-      }, 2);
+      }, 10);
     });
 
     it('should also work for fragments.', done => {
@@ -70,7 +70,7 @@ describe('LiveDOMRenderer', () => {
       setTimeout(() => {
         cleared.should.be.true;
         done();
-      }, 2);
+      }, 10);
     });
 
     it('should not trigger hook when element is not part of the document.', () => {
