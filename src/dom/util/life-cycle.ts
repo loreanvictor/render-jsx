@@ -83,11 +83,11 @@ export function lifeCycleBind(node: Node) {
     const observer = new MutationObserver(changes => {
       changes.forEach(change => {
         if (change.removedNodes) {
-          change.removedNodes.forEach(_node => setImmediate(() => {
+          change.removedNodes.forEach(_node => setTimeout(() => {
             if (node.ownerDocument && !node.ownerDocument.contains(_node)) {
               lifeCycleClear(_node);
             }
-          }));
+          }), 1);
         }
       });
     });
