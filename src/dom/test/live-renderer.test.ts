@@ -9,7 +9,7 @@ import { Plugin } from '../../renderer';
 
 
 describe('LiveDOMRenderer', () => {
-  describe.only('hook', () => {
+  describe('hook', () => {
     it('should attach given lifecycle hooks to given node.', done => {
       const dom = new JSDOM();
       global.MutationObserver = dom.window.MutationObserver;
