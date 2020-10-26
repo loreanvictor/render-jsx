@@ -18,9 +18,7 @@ jobs:
         run: npm test
       
       - name: Build
-        run: |
-          npm run build
-          npm run pack
+        run: npm run build
 
       - name: Publish
         uses: JS-DevTools/npm-publish@v1

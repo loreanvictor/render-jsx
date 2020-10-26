@@ -1,11 +1,11 @@
 <img src="/render-jsx-logo.svg" width="300"/>
 
 # Render-JSX
-[![Package Version](https://badgen.net/npm/v/render-jsx?cache=600)](https://www.npmjs.com/package/render-jsx)
-[![Build Status](https://travis-ci.org/loreanvictor/render-jsx.svg?branch=master)](https://travis-ci.org/loreanvictor/render-jsx)
-[![Code Coverage](https://app.codacy.com/project/badge/Coverage/32af4af651f345fca094a0d1ea2084fe)](https://www.codacy.com/gh/loreanvictor/render-jsx/dashboard?utm_source=github.com&utm_medium=referral&utm_content=loreanvictor/render-jsx&utm_campaign=Badge_Coverage)
-[![Bundle Size](https://badgen.net/bundlephobia/minzip/render-jsx?cache=300)](https://bundlephobia.com/result?p=render-jsx@latest)
-[![Codacy Quality](https://app.codacy.com/project/badge/Grade/32af4af651f345fca094a0d1ea2084fe)](https://www.codacy.com/gh/loreanvictor/render-jsx/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=loreanvictor/render-jsx&amp;utm_campaign=Badge_Grade)
+
+[![tests](https://img.shields.io/github/workflow/status/loreanvictor/render-jsx/Test%20and%20Report%20Coverage?label=tests&logo=mocha&logoColor=green&style=flat-square)](https://github.com/loreanvictor/render-jsx/actions?query=workflow%3A%22Test+and+Report+Coverage%22)
+[![coverage](https://img.shields.io/codecov/c/github/loreanvictor/render-jsx?logo=codecov&style=flat-square)](https://codecov.io/gh/loreanvictor/render-jsx)
+[![version](https://img.shields.io/npm/v/render-jsx?logo=npm&style=flat-square)](https://www.npmjs.com/package/render-jsx)
+
 
 Tools for building JSX-based libraries / frameworks, also a super-thin and fast pure DOM renderer.
 
