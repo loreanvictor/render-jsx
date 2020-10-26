@@ -22,6 +22,10 @@ export class LiveDOMRenderer extends DOMRenderer implements LiveRendererLike<Nod
     }
   }
 
+  plug(...plugins: PluginFactory<Node, RendererLike<Node>>[]) {
+    return super.plug(...plugins) as LiveDOMRenderer;
+  }
+
   clone(...plugins: PluginFactory<Node, RendererLike<Node>>[]) {
     return new LiveDOMRenderer(this.dom, ...plugins);
   }

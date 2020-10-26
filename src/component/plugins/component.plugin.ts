@@ -18,6 +18,7 @@ export abstract class ComponentPlugin<Node, Renderer extends RendererLike<Node>>
     super.plug(renderer);
     this.processors.forEach(p => p.plug(this.renderer()));
 
+    /*istanbul ignore else*/
     if (isRendererWithPlugins(renderer)) {
       renderer.plugins.forEach(p => {
         if (p instanceof ComponentProcessor) {

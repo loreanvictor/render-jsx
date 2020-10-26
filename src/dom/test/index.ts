@@ -12,11 +12,15 @@ import { testInputStateBinding } from '../plugins/test/spec/input-state.spec';
 import { testOptionObjectValueSupport } from '../plugins/test/spec/object-value.spec';
 import { testRefPropSupport } from '../../common/plugins/test/spec/ref.spec';
 import { testContentPropSupport } from '../../common/plugins/test/spec/content-prop.spec';
+import { testFragmentLCMarkerSupport } from '../component/test/spec/fragment-lcmarker.processor.spec';
+import { testComponentLifeCycleHooksSupport } from '../../component/plugins/test/spec/live-component.processor.spec';
 
 describe('dom', () => {
   require('./renderer.test');
   require('./live-renderer.test');
   require('../plugins/test');
+  require('../util/test');
+  require('../component/test');
 
   describe('CommonDOMRenderer', () => {
     testAppendExtensibility<Node, RendererLike<Node>>((...plugins) => new CommonDOMRenderer().plug(...plugins));
@@ -40,5 +44,11 @@ describe('dom', () => {
     testFunctionalEventHandlerSupport((dom, ...plugins) => new CommonDOMRenderer(dom).plug(...plugins));
     testInputStateBinding((dom, ...plugins) => new CommonDOMRenderer(dom).plug(...plugins));
     testOptionObjectValueSupport((dom, ...plugins) => new CommonDOMRenderer(dom).plug(...plugins));
+
+    testComponentLifeCycleHooksSupport<Node, CommonDOMRenderer>(
+      (...plugins) => new CommonDOMRenderer().plug(...plugins),
+      () => document.body,
+    );
+    testFragmentLCMarkerSupport((dom, ...plugins) => new CommonDOMRenderer(dom).plug(...plugins));
   });
 });
