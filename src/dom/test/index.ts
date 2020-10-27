@@ -14,6 +14,8 @@ import { testRefPropSupport } from '../../common/plugins/test/spec/ref.spec';
 import { testContentPropSupport } from '../../common/plugins/test/spec/content-prop.spec';
 import { testFragmentLCMarkerSupport } from '../component/test/spec/fragment-lcmarker.processor.spec';
 import { testComponentLifeCycleHooksSupport } from '../../component/plugins/test/spec/live-component.processor.spec';
+import { testStyleObjectSupport } from '../plugins/test/spec/style.spec';
+import { testClassObjectSupport } from '../plugins/test/spec/class.spec';
 
 describe('dom', () => {
   require('./renderer.test');
@@ -44,6 +46,8 @@ describe('dom', () => {
     testFunctionalEventHandlerSupport((dom, ...plugins) => new CommonDOMRenderer(dom).plug(...plugins));
     testInputStateBinding((dom, ...plugins) => new CommonDOMRenderer(dom).plug(...plugins));
     testOptionObjectValueSupport((dom, ...plugins) => new CommonDOMRenderer(dom).plug(...plugins));
+    testClassObjectSupport((dom, ...plugins) => new CommonDOMRenderer(dom).plug(...plugins));
+    testStyleObjectSupport((dom, ...plugins) => new CommonDOMRenderer(dom).plug(...plugins));
 
     testComponentLifeCycleHooksSupport<Node, CommonDOMRenderer>(
       (...plugins) => new CommonDOMRenderer().plug(...plugins),

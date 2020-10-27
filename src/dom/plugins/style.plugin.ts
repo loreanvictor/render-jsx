@@ -21,12 +21,12 @@ export class StylePlugin<R extends RendererLike<Node>>
       const renderer = this.renderer();
       Object.entries(target).forEach(([style, value]) => {
         if (isRendererWithPlugins(renderer) &&
-        renderer.plugins.some(p =>
-          isSetStylePlugin(p) &&
-          p.setStyle(node as HTMLElement, style, value, s => this.setStyle(node as HTMLElement, style, s))
-        )) {
-          return;
-        } else {
+          renderer.plugins.some(p =>
+            isSetStylePlugin(p) &&
+            p.setStyle(node as HTMLElement, style, value, s => this.setStyle(node as HTMLElement, style, s))
+          )
+        ) { return; }
+        else {
           this.setStyle(node as HTMLElement, style, value as any);
         }
       });
