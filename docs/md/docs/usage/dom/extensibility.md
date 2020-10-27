@@ -46,7 +46,13 @@ import { LiveDOMRenderer } from 'render-jsx/dom';
 import { LiveComponentProcessor, FunctionalComponentPlugin } from 'render-jsx/component/plugins';
 import { FragmentLifeCycleMarkerComponentProcessor } from 'render-jsx/dom/component';
 import { RefPlugin, ContentPropPlugin } from 'render-jsx/common/plugins';
-import { EventHandlerPlugin, InputStatePlugin, OptionObjectValuePlugin } from 'render-jsx/dom/plugins';
+import {
+  EventHandlerPlugin,
+  InputStatePlugin,
+  OptionObjectValuePlugin,
+  StylePlugin,
+  ClassPlugin
+} from 'render-jsx/dom/plugins';
 
 
 function myCommonRenderer() {
@@ -61,6 +67,8 @@ function myCommonRenderer() {
 /*!*/    () => new EventHandlerPlugin(),                                      // --> enables functions as event handlers
 /*!*/    () => new InputStatePlugin(),                                        // --> enables `_state` attribute on inputs
 /*!*/    () => new OptionObjectValuePlugin(),                                 // --> enables `_value` attribute on options
+/*!*/    () => new ClassPlugin(),                                             // --> enables arrays and toggle maps for classes
+/*!*/    () => new StylePlugin(),                                             // --> enables style objects
   );
 }
 ```
