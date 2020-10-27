@@ -177,6 +177,101 @@ Plugins implementing `PropPlugin` interface can affect how properties of nodes a
 > no need to try other plugins, `false` means the plugin could not set given property on given node
 > and other plugins should be tried.
 
+<br>
+
+### Styles and Classes
+
+Plugins implementing `SetStylePlugin` interface can affect how particular style values are set
+via [style objects](/docs/usage/dom/styles-and-classes#styles):
+
+> :Tabs
+> > :Tab title=Plugin
+> > ```ts | callbag-style.plugin.ts
+> > /*!*/import { Plugin } from 'render-jsx/plugin';
+> > /*!*/import { SetStylePlugin } from 'render-jsx/dom/plugins';
+> > import { LiveRendererLike } from 'render-jsx';
+> > 
+> > import pipe from 'callbag-pipe';
+> > import subscribe from 'callbag-subscribe';
+> > 
+> > 
+> > export class CallbagStylePlugin
+> >   extends Plugin<Node, LiveRendererLike<Node>> 
+> >   implements SetStylePlugin<LiveRendererLike<Node>> {
+> > 
+> >   priority() { return Plugin.PriorityFallback; }
+> > 
+> >   setStyle(
+> >     node: HTMLElement,
+> >     style: string,
+> >     target: any,
+> >     set: (value: string|object) => void
+> >   ): boolean {
+> >     if (typeof target === 'function') {
+> >       const renderer = this.renderer();
+> > 
+> >       renderer.hook(node, {
+> >         bind: () => pipe(
+> >           target,
+> >           subscribe(v => set(v?.toString()))
+> >         )
+> >       });
+> > 
+> >       return true;
+> >     }
+> > 
+> >     return false;
+> >   }
+> > }
+> > ```
+>
+> > :Tab title=Usage
+> > ```tsx | index.tsx
+> > import { CommonDOMRenderer } from 'render-jsx/dom';
+> > import interval from 'callbag-interval';
+> > import pipe from 'callbag-pipe';
+> > import map from 'callbag-map';
+> > 
+> > import { CallbagStylePlugin } from './callbag-style.plugin';
+> > 
+> > const renderer = new CommonDOMRenderer()
+> > .plug(() => new CallbagStylePlugin<Node>());
+> > 
+> > const color = pipe(
+> >   interval(1000),
+> >   map(v => v % 2 === 0 ? 'red' : 'blue')
+> > );
+> > 
+> > renderer.render(
+> >   <div style={{color: color}}>
+> >     Hellow There!
+> >   </div>
+> > ).on(document.body);
+> > ```
+
+> :Buttons
+> > :Button label=Try It!, url=https://stackblitz.com/edit/render-jsx-demo20?file=callbag-style.plugin.ts
+
+Similarly, plugins implementing `AddClassPlugin` or `ToggleClassPlugin` can affect how classes are set.
+Both of these plugins are also exported from `render-jsx/dom/plugins`.
+
+- Implementors of `AddClassPlugin` are utilizied when a custom value is provided in a [class array](/docs/usage/dom/styles-and-classes#classes).
+- Implementors of `ToggleClassPlugin` are used when custom values are provided in [class toggle maps](/docs/usage/dom/styles-and-classes#classes).
+
+> [info](:Icon (align=-6px)) **IMPORTANT**
+>
+> You **MUST** have `StylePlugin` plugged into your renderer for any `SetStylePlugin` to have any effect.
+> Similarly, you **MUST** have `ClassPlugin` plugged into your renderer for any `AddClassPlugin` or `ToggleClassPlugin`
+> to have any effect.
+
+<br>
+
+> [info](:Icon (align-6px)) **IMPORTANT**
+>
+> Similar to prop plugins, style and class plugins **MUST** return a `boolean` from their `.setStyle()`, `.addClass()`
+> or their `.addClassToggle()` methods, were `true` indicates that the plugin is handling setting the particular class/style
+> and `false` means other plugins should be attempted.
+
 ---
 
 ## Content Plugin

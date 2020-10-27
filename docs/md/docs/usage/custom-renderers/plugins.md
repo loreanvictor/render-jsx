@@ -112,6 +112,32 @@ import { OptionObjectValuePlugin } from 'render-jsx/dom/plugins';
 > :Buttons
 > > :Button label=Learn More, url=/docs/usage/dom/inputs-and-events#inputs
 
+### Style Plugin
+
+Allows setting element styles using objects. Also
+enables usage of custom plugins implementing [`SetStylePlugin`](/docs/usage/custom-renderers/custom-plugins#styles-and-classes).
+
+```tsx
+import { StylePlugin } from 'render-jsx/dom/plugins';
+```
+
+> :Buttons
+> > :Button label=Learn More, url=/docs/usage/dom/styles-and-classes#styles
+
+### Class Plugin
+
+Allows setting element classes using arrays or toggle maps. Also
+enables usage of custom plugins implementing [`AddClassPlugin`](/docs/usage/custom-renderers/custom-plugins#styles-and-classes)
+or
+[`ToggleClassPlugin`](/docs/usage/custom-renderers/custom-plugins#styles-and-classes).
+
+```tsx
+import { ClassPlugin } from 'render-jsx/dom/plugins';
+```
+
+> :Buttons
+> > :Button label=Learn More, url=/docs/usage/dom/styles-and-classes#classes
+
 ### Functional Component Plugin
 
 Allows use of functional components. Can be plugged into any renderer.
