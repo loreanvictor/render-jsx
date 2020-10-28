@@ -29,7 +29,9 @@ export function testOptionObjectValueSupport(
       r.create('option', { _value: B })
     );
     r.render(i).on(dom.document.body);
-    (i as HTMLSelectElement).options.item(1)!!.selected = true;
-    i.dispatchEvent(new Event('input'));
+    setTimeout(() => {
+      (i as HTMLSelectElement).options.item(1)!!.selected = true;
+      i.dispatchEvent(new Event('input'));
+    }, 10);
   });
 }

@@ -25,7 +25,9 @@ export function testComponentLifeCycleHooksSupport
     bound.should.be.false;
     const D = renderer.create(F);
     renderer.render(D).on(livelyRoot());
-    bound.should.be.true;
-    renderer.remove(D);
+    setTimeout(() => {
+      bound.should.be.true;
+      renderer.remove(D);
+    }, 10);
   });
 }

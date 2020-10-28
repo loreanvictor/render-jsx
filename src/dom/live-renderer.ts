@@ -14,7 +14,7 @@ export class LiveDOMRenderer extends DOMRenderer implements LiveRendererLike<Nod
     } else {
       return () => {
         if (this.document.contains(target)) {
-          lifeCycleBind(target);
+          setTimeout(() => lifeCycleBind(target), 1);
         }
 
         super.postRender(target)();

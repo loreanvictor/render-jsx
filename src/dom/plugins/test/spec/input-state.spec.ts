@@ -11,7 +11,6 @@ export function testInputStateBinding(
 ) {
   it('should pass values of the given input to given callback.', done => {
     const dom = new JSDOM().window;
-    global.MutationObserver = dom.window.MutationObserver;
     const res: string[] = [];
     const r = factory(dom);
     const i = r.create('input', {
@@ -26,13 +25,14 @@ export function testInputStateBinding(
       value: 'A'
     });
     r.render(i).on(dom.document.body);
-    (i as HTMLInputElement).value = 'B';
-    i.dispatchEvent(new Event('input'));
+    setTimeout(() => {
+      (i as HTMLInputElement).value = 'B';
+      i.dispatchEvent(new Event('input'));
+    }, 10);
   });
 
   it('should pass values of the given number input to given callback.', done => {
     const dom = new JSDOM().window;
-    global.MutationObserver = dom.window.MutationObserver;
     const res: number[] = [];
     const r = factory(dom);
     const i = r.create('input', {
@@ -47,13 +47,14 @@ export function testInputStateBinding(
       value: '42'
     });
     r.render(i).on(dom.document.body);
-    (i as HTMLInputElement).value = '84';
-    i.dispatchEvent(new Event('input'));
+    setTimeout(() => {
+      (i as HTMLInputElement).value = '84';
+      i.dispatchEvent(new Event('input'));
+    }, 10);
   });
 
   it('should pass values of the given checkbox to given callback.', done => {
     const dom = new JSDOM().window;
-    global.MutationObserver = dom.window.MutationObserver;
     const res: boolean[] = [];
     const r = factory(dom);
     const i = r.create('input', {
@@ -68,12 +69,13 @@ export function testInputStateBinding(
       checked: false
     });
     r.render(i).on(dom.document.body);
-    (i as HTMLInputElement).click();
+    setTimeout(() => {
+      (i as HTMLInputElement).click();
+    }, 10);
   });
 
   it('should pass values of the given textarea to given callback.', done => {
     const dom = new JSDOM().window;
-    global.MutationObserver = dom.window.MutationObserver;
     const res: string[] = [];
     const r = factory(dom);
     const i = r.create('textarea', {
@@ -86,13 +88,14 @@ export function testInputStateBinding(
       }
     });
     r.render(i).on(dom.document.body);
-    (i as HTMLTextAreaElement).value = 'B';
-    i.dispatchEvent(new Event('input'));
+    setTimeout(() => {
+      (i as HTMLTextAreaElement).value = 'B';
+      i.dispatchEvent(new Event('input'));
+    }, 10);
   });
 
   it('should pass values of the given select to given callback.', done => {
     const dom = new JSDOM().window;
-    global.MutationObserver = dom.window.MutationObserver;
     const res: string[] = [];
     const r = factory(dom);
     const i = r.create('select', {
@@ -108,13 +111,14 @@ export function testInputStateBinding(
       r.create('option', { value: 'B' })
     );
     r.render(i).on(dom.document.body);
-    (i as HTMLSelectElement).options.item(1)!!.selected = true;
-    i.dispatchEvent(new Event('input'));
+    setTimeout(() => {
+      (i as HTMLSelectElement).options.item(1)!!.selected = true;
+      i.dispatchEvent(new Event('input'));
+    }, 10);
   });
 
   it('should pass values of the given multiselect to given callback.', done => {
     const dom = new JSDOM().window;
-    global.MutationObserver = dom.window.MutationObserver;
     const res: string[][] = [];
     const r = factory(dom);
     const i = r.create('select', {
@@ -131,13 +135,14 @@ export function testInputStateBinding(
       r.create('option', { value: 'B' })
     );
     r.render(i).on(dom.document.body);
-    (i as HTMLSelectElement).options.item(1)!!.selected = true;
-    i.dispatchEvent(new Event('input'));
+    setTimeout(() => {
+      (i as HTMLSelectElement).options.item(1)!!.selected = true;
+      i.dispatchEvent(new Event('input'));
+    }, 10);
   });
 
   it('should pass values of given radio to given callback.', done => {
     const dom = new JSDOM().window;
-    global.MutationObserver = dom.window.MutationObserver;
     const res: boolean[] = [];
     const r = factory(dom);
     const f = r.create('form', {},
@@ -156,15 +161,17 @@ export function testInputStateBinding(
     );
     r.render(f).on(dom.document.body);
     r.render(r.create('input', {type: 'radio', name: 'X'})).on(document.body);
-    (f.firstChild as HTMLInputElement).click();
-    (f.lastChild as HTMLInputElement).click();
-    (f.lastChild?.previousSibling as HTMLInputElement).click();
-    (f.firstChild?.nextSibling as HTMLInputElement).click();
+
+    setTimeout(() => {
+      (f.firstChild as HTMLInputElement).click();
+      (f.lastChild as HTMLInputElement).click();
+      (f.lastChild?.previousSibling as HTMLInputElement).click();
+      (f.firstChild?.nextSibling as HTMLInputElement).click();
+    }, 10);
   });
 
   it('should pass values of given formless radio to given callback.', done => {
     const dom = new JSDOM().window;
-    global.MutationObserver = dom.window.MutationObserver;
     const res: boolean[] = [];
     const r = factory(dom);
     let r1: HTMLInputElement, r2: HTMLInputElement, r3: HTMLInputElement, r4: HTMLInputElement;
@@ -187,10 +194,12 @@ export function testInputStateBinding(
     );
     r.render(f).on(dom.document.body);
     r.render(f2).on(dom.document.body);
-    r1.click();
-    r2.click();
-    r4.click();
-    r3.click();
+    setTimeout(() => {
+      r1.click();
+      r2.click();
+      r4.click();
+      r3.click();
+    }, 10);
   });
 
 }

@@ -12,7 +12,6 @@ describe('LiveDOMRenderer', () => {
   describe('hook', () => {
     it('should attach given lifecycle hooks to given node.', done => {
       const dom = new JSDOM();
-      global.MutationObserver = dom.window.MutationObserver;
       let bound = false; let cleared = false;
       const r = new LiveDOMRenderer(dom.window);
       const n = dom.window.document.createElement('div');
@@ -21,17 +20,18 @@ describe('LiveDOMRenderer', () => {
         clear() { cleared = true; }
       });
       r.render(n).on(dom.window.document.body);
-      bound.should.be.true; cleared.should.be.false;
-      r.remove(n);
       setTimeout(() => {
-        cleared.should.be.true;
-        done();
+        bound.should.be.true; cleared.should.be.false;
+        r.remove(n);
+        setTimeout(() => {
+          cleared.should.be.true;
+          done();
+        }, 10);
       }, 10);
     });
 
     it('should also work for elements in fragments.', done => {
       const dom = new JSDOM();
-      global.MutationObserver = dom.window.MutationObserver;
       let bound = false; let cleared = false;
       const r = new LiveDOMRenderer(dom.window);
       const d = dom.window.document.createElement('div');
@@ -43,17 +43,18 @@ describe('LiveDOMRenderer', () => {
         clear() { cleared = true; }
       });
       r.render(f).on(d);
-      bound.should.be.true; cleared.should.be.false;
-      r.remove(d);
       setTimeout(() => {
-        cleared.should.be.true;
-        done();
+        bound.should.be.true; cleared.should.be.false;
+        r.remove(d);
+        setTimeout(() => {
+          cleared.should.be.true;
+          done();
+        }, 10);
       }, 10);
     });
 
     it('should also work for fragments.', done => {
       const dom = new JSDOM();
-      global.MutationObserver = dom.window.MutationObserver;
       let bound = false; let cleared = false;
       const r = new LiveDOMRenderer(dom.window);
       const d = dom.window.document.createElement('div');
@@ -65,17 +66,18 @@ describe('LiveDOMRenderer', () => {
         clear() { cleared = true; }
       });
       r.render(f).on(d);
-      bound.should.be.true; cleared.should.be.false;
-      r.remove(d);
       setTimeout(() => {
-        cleared.should.be.true;
-        done();
+        bound.should.be.true; cleared.should.be.false;
+        r.remove(d);
+        setTimeout(() => {
+          cleared.should.be.true;
+          done();
+        }, 10);
       }, 10);
     });
 
-    it('should not trigger hook when element is not part of the document.', () => {
+    it('should not trigger hook when element is not part of the document.', done => {
       const dom = new JSDOM();
-      global.MutationObserver = dom.window.MutationObserver;
       let bound = false;
       const r = new LiveDOMRenderer(dom.window);
       const n = dom.window.document.createElement('div');
@@ -83,7 +85,10 @@ describe('LiveDOMRenderer', () => {
         bind() { bound = true; }
       });
       r.render(n).on(dom.window.document.createElement('div'));
-      bound.should.be.false;
+      setTimeout(() => {
+        bound.should.be.false;
+        done();
+      }, 10);
     });
   });
 
