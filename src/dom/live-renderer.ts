@@ -14,7 +14,7 @@ export class LiveDOMRenderer extends DOMRenderer implements LiveRendererLike<Nod
     } else {
       return () => {
         if (this.document.contains(target)) {
-          setTimeout(() => lifeCycleBind(target), 1);
+          lifeCycleBind(target);
         }
 
         super.postRender(target)();
@@ -32,6 +32,6 @@ export class LiveDOMRenderer extends DOMRenderer implements LiveRendererLike<Nod
 
   remove(node: Node) {
     super.remove(node);
-    setTimeout(() => lifeCycleClear(node), 1);
+    setTimeout(() => lifeCycleClear(node), 0);
   }
 }
