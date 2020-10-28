@@ -1,6 +1,7 @@
 export interface ScanOptions {
   includeStart?: boolean;
   includeEnd?: boolean;
+  remove?: (n: Node) => void;
   callback?: (n: Node) => void;
 }
 
@@ -9,6 +10,7 @@ export function scanRemove(start: Node, end: Node, options?: ScanOptions) {
   const opts = {
     includeStart: false,
     includeEnd: false,
+    remove: (n: Node) => n.parentElement!!.removeChild(n),
     callback: undefined,
     ...options
   };
@@ -16,7 +18,7 @@ export function scanRemove(start: Node, end: Node, options?: ScanOptions) {
   let scanned : Node[] = [];
 
   const _remscan = (n: Node, cb: (n: Node) => void = _n => scanned.push(_n)) => {
-    (n.parentElement as HTMLElement).removeChild(n);
+    opts.remove(n);
     if (opts.callback) {
       opts.callback(n);
     }
