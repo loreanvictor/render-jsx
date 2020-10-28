@@ -23,7 +23,7 @@ export function testFragmentLCMarkerSupport(
     }
 
     renderer.render(<F/>).on(dom.document.body);
-    dom.document.getElementById('D')?.remove();
+    renderer.remove(dom.document.getElementById('D')!!);
   });
 
   it('should allow setting custom fragment lc markers using refs as well.', done => {
@@ -41,7 +41,7 @@ export function testFragmentLCMarkerSupport(
     }
 
     renderer.render(<F/>).on(dom.document.body);
-    dom.document.getElementById('D')?.remove();
+    renderer.remove(dom.document.getElementById('D')!!);
   });
 
   it('should still auto-create a marker in case no marker is set.', done => {
@@ -57,6 +57,6 @@ export function testFragmentLCMarkerSupport(
     }
 
     renderer.render(<div id='D'><F/></div>).on(dom.document.body);
-    dom.document.getElementById('D')?.remove();
+    renderer.remove(dom.document.getElementById('D')!!);
   });
 }

@@ -1,6 +1,6 @@
 import { LifeCycleHook, LiveRendererLike, PluginFactory, RendererLike } from '../renderer';
 import { DOMRenderer } from './renderer';
-import { attachLifeCycleHook, lifeCycleBind } from './util/life-cycle';
+import { attachLifeCycleHook, lifeCycleBind, lifeCycleClear } from './util/life-cycle';
 
 
 export class LiveDOMRenderer extends DOMRenderer implements LiveRendererLike<Node> {
@@ -28,5 +28,10 @@ export class LiveDOMRenderer extends DOMRenderer implements LiveRendererLike<Nod
 
   clone(...plugins: PluginFactory<Node, RendererLike<Node>>[]) {
     return new LiveDOMRenderer(this.dom, ...plugins);
+  }
+
+  remove(node: Node) {
+    super.remove(node);
+    setTimeout(() => lifeCycleClear(node), 1);
   }
 }

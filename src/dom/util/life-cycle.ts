@@ -56,6 +56,10 @@ export function getLifeCycleMarker(fragment: DocumentFragment) {
 
 
 export function lifeCycleClear(node: Node) {
+  // TODO: is it perhaps a good idea to track
+  //       whether life-cycle is already cleared
+  //       and avoid re-iterating over nodes again
+  //       and again?
   const lifecycle = lifeCycleInfo(node);
   if (lifecycle) {
     lifecycle.hooks?.forEach(c => c.clear ? c.clear() : undefined);
@@ -78,26 +82,6 @@ export function lifeCycleBind(node: Node) {
   }
 
   node.childNodes.forEach(lifeCycleBind);
-
-  if (node.parentNode && !(node.parentNode as any).childObserver) {
-    const observer = new MutationObserver(changes => {
-      changes.forEach(change => {
-        if (change.removedNodes) {
-          change.removedNodes.forEach(_node => setTimeout(() => {
-            if (node.ownerDocument && !node.ownerDocument.contains(_node)) {
-              lifeCycleClear(_node);
-            }
-          }), 1);
-        }
-      });
-    });
-
-    observer.observe(node.parentNode, { childList: true });
-    (node.parentNode as any).childObserver = observer;
-    attachLifeCycleHook({
-      clear() { observer.disconnect(); }
-    }, node.parentNode);
-  }
 }
 
 
