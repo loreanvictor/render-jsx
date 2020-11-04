@@ -1,6 +1,6 @@
 {
   "name": "render-jsx",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "render pure dom using JSX",
   "main": "dist/es5/index.js",
   "module": "dist/es6/index.js",

@@ -12,16 +12,24 @@ function isSetStylePlugin<R extends RendererLike<Node>>(p: Plugin<Node, R>): p i
 export class StylePlugin<R extends RendererLike<Node>>
   extends Plugin<Node, R>
   implements PropPlugin<Node> {
+
+  private stylePlugins: SetStylePlugin<RendererLike<Node>>[] | undefined;
+
+  plug(renderer: R) {
+    if (isRendererWithPlugins(renderer)) {
+      this.stylePlugins = renderer.plugins.filter(isSetStylePlugin);
+    }
+  }
+
   priority(): number {
     return Plugin.PriorityFallback;
   }
 
   setProp(node: Node, prop: string, target: any): boolean {
     if (prop === 'style' && target?.constructor === Object) {
-      const renderer = this.renderer();
       Object.entries(target).forEach(([style, value]) => {
-        if (isRendererWithPlugins(renderer) &&
-          renderer.plugins.some(p =>
+        if (this.stylePlugins &&
+          this.stylePlugins.some(p =>
             isSetStylePlugin(p) &&
             p.setStyle(node as HTMLElement, style, value, s => this.setStyle(node as HTMLElement, style, s))
           )

@@ -20,14 +20,23 @@ function isToggleClassPlugin<R extends RendererLike<Node>>(p: Plugin<Node, R>):p
 export class ClassPlugin<R extends RendererLike<Node>>
   extends Plugin<Node, R>
   implements PropPlugin<Node> {
+
+  private addClassPlugins: AddClassPlugin<RendererLike<Node>>[] | undefined;
+  private toggleClassPlugins: ToggleClassPlugin<RendererLike<Node>>[] | undefined;
+
+  plug(renderer: R) {
+    if (isRendererWithPlugins(renderer)) {
+      this.addClassPlugins = renderer.plugins.filter(isAddClassPlugin);
+      this.toggleClassPlugins = renderer.plugins.filter(isToggleClassPlugin);
+    }
+  }
+
   priority(): number {
     return Plugin.PriorityFallback;
   }
 
   setProp(node: Node, prop: string, target: any): boolean {
     if (prop === 'class') {
-      const renderer = this.renderer();
-
       if (Array.isArray(target)) {
         target.forEach(cl => {
           let prev = '';
@@ -39,8 +48,8 @@ export class ClassPlugin<R extends RendererLike<Node>>
             (node as HTMLElement).classList.add(prev = _cl);
           };
 
-          if (isRendererWithPlugins(renderer) &&
-              renderer.plugins.some(p => isAddClassPlugin(p) && p.addClass(node as HTMLElement, cl, sw))) {
+          if (this.addClassPlugins &&
+              this.addClassPlugins.some(p => isAddClassPlugin(p) && p.addClass(node as HTMLElement, cl, sw))) {
             return;
           } else if (typeof cl === 'string') {
             (node as HTMLElement).classList.add(cl);
@@ -61,10 +70,9 @@ export class ClassPlugin<R extends RendererLike<Node>>
   }
 
   setToggleMap(map: {[cl: string]: any}, node: HTMLElement) {
-    const renderer = this.renderer();
     Object.entries(map).forEach(([cl, clt]) => {
-      if (isRendererWithPlugins(renderer) &&
-        renderer.plugins.some(p => isToggleClassPlugin(p) && p.addClassToggle(node, cl, clt, v => {
+      if (this.toggleClassPlugins &&
+        this.toggleClassPlugins.some(p => isToggleClassPlugin(p) && p.addClassToggle(node, cl, clt, v => {
           if (v) { (node as HTMLElement).classList.add(cl); }
           else { (node as HTMLElement).classList.remove(cl); }
         }))) {
