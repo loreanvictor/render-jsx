@@ -16,6 +16,7 @@ export class StylePlugin<R extends RendererLike<Node>>
   private stylePlugins: SetStylePlugin<RendererLike<Node>>[] | undefined;
 
   plug(renderer: R) {
+    super.plug(renderer);
     if (isRendererWithPlugins(renderer)) {
       this.stylePlugins = renderer.plugins.filter(isSetStylePlugin);
     }

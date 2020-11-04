@@ -25,6 +25,7 @@ export class ClassPlugin<R extends RendererLike<Node>>
   private toggleClassPlugins: ToggleClassPlugin<RendererLike<Node>>[] | undefined;
 
   plug(renderer: R) {
+    super.plug(renderer);
     if (isRendererWithPlugins(renderer)) {
       this.addClassPlugins = renderer.plugins.filter(isAddClassPlugin);
       this.toggleClassPlugins = renderer.plugins.filter(isToggleClassPlugin);
