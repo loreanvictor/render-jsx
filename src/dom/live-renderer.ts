@@ -30,8 +30,10 @@ export class LiveDOMRenderer extends DOMRenderer implements LiveRendererLike<Nod
     return new LiveDOMRenderer(this.dom, ...plugins);
   }
 
-  remove(node: Node) {
+  remove(node: Node, temporary?: boolean) {
     super.remove(node);
-    setTimeout(() => lifeCycleClear(node), 0);
+    if (!temporary) {
+      lifeCycleClear(node);
+    }
   }
 }
